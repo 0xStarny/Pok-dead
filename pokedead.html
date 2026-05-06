@@ -252,7 +252,7 @@ const T_EN={
 'stat.hp':'Player HP','stat.hunger':'Hunger','stat.vaccines':'Vaccines','stat.day':'Day',
 'qp.title':'QUEST JOURNAL','qp.none':'No active quests',
 'btn.advance':'▼ Continue','btn.bag':'🎒 Bag','btn.team':'👥 Team (%alive%/%total%)','btn.menu':'☰ Menu','btn.rest':'🌙 Rest','btn.tile':'On: ',
-'tile.grass':'grass','tile.forest':'forest','tile.road':'road','tile.city':'city','tile.hospital':'hospital','tile.lab':'laboratory','tile.store':'store','tile.mountain':'mountain','tile.water':'water','tile.house':'house','tile.gate':'exit',
+'tile.grass':'grass','tile.forest':'forest','tile.road':'road','tile.city':'city','tile.hospital':'hospital','tile.lab':'laboratory','tile.store':'store','tile.mountain':'mountain','tile.water':'water','tile.house':'house','tile.gate':'exit','tile.pcenter':'Pokémon Center','tile.pmart':'Pokémart','tile.stairs':'stairs','tile.appart':'apartment',
 'log.locked_house':'The door is locked. Something growls inside.','log.mom_not_yet':'Mom... not yet.','log.lab_barricaded':'The lab is barricaded.','log.no_pass':'Blocked: %name%',
 'log.hungry':'You\'re starving... -2 HP','log.day':'Day %d%. The world deteriorates...','log.loot.food':'+%qty% ration(s) found.','log.loot.medkit':'+%qty% medkit(s) found.','log.loot.vaccine':'+%qty% vaccine(s) found.',
 'log.no_chen':'Not yet. Chen had something to tell you.','log.gate_chen':'Talk to Prof. Chen first','log.leave_palette':'You leave Pallet Town.','log.return_palette':'Back to Pallet Town.',
@@ -323,7 +323,7 @@ const T_EN={
 'horde.caught':'La horde vous rattrape !','horde.hidden':'Vous vous cachez dans la forêt... la horde perd votre trace. (3 tours)',
 'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%',
 'house.mom_locked':'The door is barricaded. Your mother is inside. You have to find a cure first.','house.mom_locked_short':'Barricaded. Mom is inside.',
-'house.enter':'You step inside carefully...','house.exit':'You step outside.','house.locked':'The door is locked.',
+'house.enter':'You step inside carefully...','house.exit':'You step outside.','house.locked':'The door is locked.','house.stairs_up':'You climb the stairs...','house.stairs_down':'You head back down.',
 'house.sleep':'You rest for a few hours. (+%hp% HP, +%hg% hunger)','house.sleep_no_clear':'The house isn\'t safe yet!',
 'house.shelf_empty':'Nothing left to take.',
 'house.lab_enter':'You enter the laboratory...','house.lab_formula':'Research notes! Chen\'s vaccine formula... incomplete, but useful.',
@@ -343,7 +343,7 @@ const T_FR={
 'stat.hp':'PV joueur','stat.hunger':'Faim','stat.vaccines':'Vaccins','stat.day':'Jour',
 'qp.title':'JOURNAL DE QUÊTES','qp.none':'Aucune quête active',
 'btn.advance':'▼ Continuer','btn.bag':'🎒 Sac','btn.team':'👥 Équipe (%alive%/%total%)','btn.menu':'☰ Menu','btn.rest':'🌙 Repos','btn.tile':'Sur : ',
-'tile.grass':'herbe','tile.forest':'forêt','tile.road':'route','tile.city':'ville','tile.hospital':'hôpital','tile.lab':'laboratoire','tile.store':'épicerie','tile.mountain':'montagne','tile.water':'eau','tile.house':'maison','tile.gate':'sortie',
+'tile.grass':'herbe','tile.forest':'forêt','tile.road':'route','tile.city':'ville','tile.hospital':'hôpital','tile.lab':'laboratoire','tile.store':'épicerie','tile.mountain':'montagne','tile.water':'eau','tile.house':'maison','tile.gate':'sortie','tile.pcenter':'Centre Pokémon','tile.pmart':'Pokémart','tile.stairs':'escaliers','tile.appart':'appartement',
 'log.locked_house':'La porte est verrouillée. Quelque chose grogne à l\'intérieur.','log.mom_not_yet':'Maman... pas encore.','log.lab_barricaded':'Le labo est barricadé.','log.no_pass':'Impossible : %name%',
 'log.hungry':'Tu meurs de faim... -2 PV','log.day':'Jour %d%. Le monde se dégrade...','log.loot.food':'+%qty% ration(s) récupérée(s).','log.loot.medkit':'+%qty% medkit(s) récupéré(s).','log.loot.vaccine':'+%qty% vaccin(s) récupéré(s).',
 'log.no_chen':'Pas encore. Chen avait quelque chose à te dire.','log.gate_chen':'Va parler au Pr. Chen d\'abord','log.leave_palette':'Tu quittes Bourg Palette.','log.return_palette':'De retour à Bourg Palette.',
@@ -414,7 +414,7 @@ const T_FR={
 'horde.caught':'La horde vous rattrape !','horde.hidden':'Vous vous cachez dans la forêt... la horde perd votre trace. (3 tours)',
 'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%',
 'house.mom_locked':'La porte est barricadée. Ta mère est à l\'intérieur. Trouve le remède d\'abord.','house.mom_locked_short':'Barricadée. Maman est dedans.',
-'house.enter':'Tu entres avec précaution...','house.exit':'Tu sors.','house.locked':'La porte est fermée à clé.',
+'house.enter':'Tu entres avec précaution...','house.exit':'Tu sors.','house.locked':'La porte est fermée à clé.','house.stairs_up':'Tu montes les escaliers...','house.stairs_down':'Tu redescends.',
 'house.sleep':'Tu dors quelques heures. (+%hp% PV, +%hg% faim)','house.sleep_no_clear':'La maison n\'est pas sécurisée !',
 'house.shelf_empty':'Il n\'y a plus rien à prendre.',
 'house.lab_enter':'Tu entres dans le laboratoire...','house.lab_formula':'Des notes de recherche ! La formule du vaccin... incomplète, mais utile.',
@@ -468,7 +468,11 @@ const TILES={
   's':{tkey:'shelf',c1:'#2a1a08',c2:'#4a3018',pass:0,loot:'house'},
   'S':{tkey:'shelf_lab',c1:'#152030',c2:'#253550',pass:0,loot:'lab_shelf'},
   'w':{tkey:'wall_in',c1:'#120e08',c2:'#1e1810',pass:0},
-  'e':{tkey:'equip',c1:'#0e1420',c2:'#1e2838',pass:0}
+  'e':{tkey:'equip',c1:'#0e1420',c2:'#1e2838',pass:0},
+  'P':{tkey:'pcenter',c1:'#0a1a2a',c2:'#1a3a5a',pass:0,interact:'home_locked'},
+  'Q':{tkey:'pmart',c1:'#1a0a2a',c2:'#3a1a5a',pass:0,interact:'home_locked'},
+  't':{tkey:'stairs',c1:'#2a1e0e',c2:'#5a4a30',pass:1,enc:0},
+  'A':{tkey:'appart',c1:'#1a1820',c2:'#2a2a38',pass:0,interact:'home_locked'}
 };
 const ZONES={
   bourg_palette:{name:'Bourg Palette',width:12,height:10,
@@ -481,18 +485,18 @@ const ZONES={
     gates:{'4,0':{zone:'jadielle',x:4,y:8},'4,7':{zone:'bourg_palette',x:5,y:1}},
     encounters:['z_rattata','z_pidgey','z_rattata']},
   jadielle:{name:'Jadielle',width:14,height:10,
-    map:["MMMMGMMMMMMMMM","MCC.R.....CCCM","ML..R......H.M","MCC.R......C.M","M..h.......h.M","M............M","MCC.R.....CCCM","MCX.......XCCM","MCC.R.....CCCM","MMMMGMMMMMMMMM"],
+    map:["MMMMGMMMMMMMMM","MCC.R.....CCCM","ML..R......P.M","MCC.R......C.M","M..h.......h.M","M............M","MCC.R.....CCCM","MCQ.......XCCM","MCC.R.....CCCM","MMMMGMMMMMMMMM"],
     gates:{'4,0':{zone:'route_2',x:4,y:6},'4,9':{zone:'route_1',x:4,y:1}},
-    houses:{'3,4':{zone:'h_house_b',id:'h_jad_1'},'11,4':{zone:'h_house_a',id:'h_jad_2'},'1,2':{zone:'h_lab',id:'h_jad_lab'}},
+    houses:{'3,4':{zone:'h_house_b',id:'h_jad_1'},'11,4':{zone:'h_house_a',id:'h_jad_2'},'1,2':{zone:'h_lab',id:'h_jad_lab'},'11,2':{zone:'h_pcenter_dmg',id:'h_jad_pc'},'2,7':{zone:'h_pshop_ok',id:'h_jad_ps'}},
     encounters:['z_rattata','z_pidgey','z_zubat']},
   route_2:{name:'Viridian Forest',width:10,height:8,
     map:["MMMMGMMMMM","MFFF.FFFFM","MFF..FFFFM","MF...FFFHM","M....F...M","MFF..FFFFM","MFFF.FFFFM","MMMMGMMMMM"],
     gates:{'4,0':{zone:'argenta',x:5,y:8},'4,7':{zone:'jadielle',x:4,y:1}},
     encounters:['z_pidgey','z_zubat','z_geodude']},
   argenta:{name:'Argenta',width:12,height:10,
-    map:["MMMMMGMMMMMM","MCC..R...CCM","MC..CR...CCM","M..hCR...h.M","M...CR....CM","M....R.....M","MCCX.R.XCCCM","M..H.R...H.M","MCC..R...CCM","MMMMMGMMMMMM"],
+    map:["MMMMMGMMMMMM","MCC..R...CCM","MC..CR...CCM","M..hCR...h.M","M...CR....CM","M....R.....M","MCCQ.R.XCCCM","M..P.R...H.M","MCC..R...CCM","MMMMMGMMMMMM"],
     gates:{'5,0':{zone:'mt_moon',x:4,y:8},'5,9':{zone:'route_2',x:4,y:1}},
-    houses:{'3,3':{zone:'h_medium',id:'h_arg_1'},'9,3':{zone:'h_ruined',id:'h_arg_2'}},
+    houses:{'3,3':{zone:'h_medium',id:'h_arg_1'},'9,3':{zone:'h_ruined',id:'h_arg_2'},'3,7':{zone:'h_pcenter_dmg',id:'h_arg_pc'},'3,6':{zone:'h_pshop_dmg',id:'h_arg_ps'}},
     encounters:['z_geodude','z_zubat','z_grimer']},
   mt_moon:{name:'Mt. Moon',width:10,height:10,
     map:["MMMMGMMMMM","MMFF.MFFMM","MFF..MMMFM","MF...M.FFM","M....M..FM","MF...M..FM","MFF..MMMFM","MMFF.FFFFM","MFFF.MMFFM","MMMMGMMMMM"],
@@ -503,16 +507,16 @@ const ZONES={
     gates:{'4,0':{zone:'azuria',x:4,y:8},'4,7':{zone:'mt_moon',x:4,y:1}},
     encounters:['z_pidgey','z_geodude','z_grimer']},
   azuria:{name:'Azuria',width:14,height:10,
-    map:["MMMMGMMMWWWWWM","MCCCCR...WWWWM","MCC..R...WWWWM","M..h.R....CCCM","M....R.....CCM","MCCXCR.X..CCCM","MCCCCR....CCCM","M..H.R...H.CCM","MCC..R.....CCM","MMMMGMMMMMMMMM"],
+    map:["MMMMGMMMWWWWWM","MCCCCR...WWWWM","MCC..R...WWWWM","M..h.R....CCCM","M....R.....CCM","MCCQCR.X..CCCM","MCCCCR....CCCM","M..P.R...H.CCM","MCC..R.....CCM","MMMMGMMMMMMMMM"],
     gates:{'4,0':{zone:'route_4',x:4,y:7},'4,9':{zone:'route_3',x:4,y:1}},
-    houses:{'3,3':{zone:'h_medium',id:'h_az_1'}},
+    houses:{'3,3':{zone:'h_medium',id:'h_az_1'},'3,7':{zone:'h_pcenter_ok',id:'h_az_pc'},'3,5':{zone:'h_pshop_dmg',id:'h_az_ps'}},
     encounters:['z_grimer','z_haunter','z_zubat','z_haunter']},
   route_4:{width:10,height:8,map:["MMMMGMMMMM","MMFF.MMFFM","MFF..FFFMM","MF...FFFHM","M....MFMFM","MFF..FFFMM","MFFF.FFFFM","MMMMGMMMMM"],gates:{'4,0':{zone:'lavandia',x:5,y:8},'4,7':{zone:'azuria',x:4,y:1}},encounters:['z_pidgey','z_zubat','z_grimer','z_haunter']},
-  lavandia:{width:12,height:10,map:["MMMMMGMMMMMM","MCCC.R...CCM","MLCC.R...CCM","MCC..R....CM","MhC..R.h..CM","M....R.....M","MCCH.R...HCM","MCC..R....CM","MCCC.R...CCM","MMMMMGMMMMMM"],gates:{'5,0':{zone:'route_8',x:4,y:7},'5,9':{zone:'route_4',x:4,y:1}},houses:{'1,4':{zone:'h_ruined',id:'h_lav_1'},'7,4':{zone:'h_house_a',id:'h_lav_2'},'1,2':{zone:'h_lab',id:'h_lav_lab'}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_zubat']},
+  lavandia:{width:12,height:10,map:["MMMMMGMMMMMM","MCCC.R...CCM","MLCC.R...CCM","MCC..R....CM","MhC..R.h..CM","M..Q.R.....M","MCCH.R...PCM","MCC..R....CM","MCCC.R...CCM","MMMMMGMMMMMM"],gates:{'5,0':{zone:'route_8',x:4,y:7},'5,9':{zone:'route_4',x:4,y:1}},houses:{'1,4':{zone:'h_ruined',id:'h_lav_1'},'7,4':{zone:'h_house_a',id:'h_lav_2'},'1,2':{zone:'h_lab',id:'h_lav_lab'},'9,6':{zone:'h_pcenter_dead',id:'h_lav_pc'},'3,5':{zone:'h_pshop_dead',id:'h_lav_ps'}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_zubat']},
   route_8:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..H.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'celadopole',x:5,y:8},'4,7':{zone:'lavandia',x:5,y:1}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_geodude']},
-  celadopole:{width:14,height:10,map:["MMMMMGMMMMMMMM","MCCC.R....CCCM","MCChCR...hCCCM","MCC.CR....CCCM","M...CR.....CCM","M....R.....CCM","MCXCXR.X.XCCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,0':{zone:'route_7',x:4,y:7},'5,9':{zone:'route_8',x:4,y:1}},houses:{'3,2':{zone:'h_house_b',id:'h_cel_1'},'9,2':{zone:'h_shop_in',id:'h_cel_2'}},encounters:['z_haunter_feral','z_tauros_roam','z_grimer','z_haunter']},
+  celadopole:{width:14,height:10,map:["MMMMMGMMMMMMMM","MACC.R....CCCM","MCChCR...hCCCM","MCC.CR....CCCM","M...CR.....CCM","M....R.....CCM","MCQCXR.X.XCCCM","M..P.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,0':{zone:'route_7',x:4,y:7},'5,9':{zone:'route_8',x:4,y:1}},houses:{'3,2':{zone:'h_house_b',id:'h_cel_1'},'9,2':{zone:'h_shop_in',id:'h_cel_2'},'3,7':{zone:'h_pcenter_dmg',id:'h_cel_pc'},'2,6':{zone:'h_pshop_ok',id:'h_cel_ps'},'1,1':{zone:'h_immeuble_g',id:'h_cel_imm'}},encounters:['z_haunter_feral','z_tauros_roam','z_grimer','z_haunter']},
   route_7:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R..C.M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'safrania',x:5,y:8},'4,7':{zone:'celadopole',x:5,y:1}},encounters:['z_tauros_roam','z_haunter_feral','z_grimer']},
-  safrania:{width:14,height:10,map:["MMMMMMMMMMMMMM","MCCCCR....CCCM","MLCCCR....CCCM","MCCChR...hCCCM","M....R.....CCM","M....R.....CCM","MCCX.R.X..CCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,9':{zone:'route_21',x:4,y:1}},houses:{'4,3':{zone:'h_house_b',id:'h_saf_1'},'9,3':{zone:'h_house_a',id:'h_saf_2'},'1,2':{zone:'h_lab',id:'h_saf_lab'}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam','z_grimer']},
+  safrania:{width:14,height:10,map:["MMMMMMMMMMMMMM","MACCCR....CCCM","MLCCCR....CCCM","MCCChR...hCCCM","M....R.....CCM","M....R.....CCM","MCCQ.R.X..CCCM","M..H.R...P.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,9':{zone:'route_21',x:4,y:1}},houses:{'4,3':{zone:'h_house_b',id:'h_saf_1'},'9,3':{zone:'h_house_a',id:'h_saf_2'},'1,2':{zone:'h_lab',id:'h_saf_lab'},'9,7':{zone:'h_pcenter_dead',id:'h_saf_pc'},'3,6':{zone:'h_pshop_dead',id:'h_saf_ps'},'1,1':{zone:'h_immeuble_g',id:'h_saf_imm'}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam','z_grimer']},
   route_21:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'cinnabar',x:4,y:7},'4,7':{zone:'safrania',x:5,y:8}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam']},
   cinnabar:{width:10,height:8,map:["MMMMMMMMMM","MCCCC.CCCM","ML.CC.CCCM","MCCCC.CCCM","M...H.CCCM","M...X.CCCM","MCCCC....M","MMMMGMMMMM"],gates:{'4,7':{zone:'route_21',x:4,y:1}},houses:{'1,2':{zone:'h_cinnabar_lab',id:'h_cin_lab'}},encounters:[]},
   kanto:{name:'Kanto',width:4,height:4,map:["MMMM","MMMM","MMMM","MMMM"],gates:{},encounters:[]},
@@ -526,7 +530,17 @@ const ZONES={
   h_house_a:{width:10,height:6,entry:[4,4],map:["wwwwwwwwww","wffffffffw","wfsffffsfw","wffffffffw","wfbfffffbw","wwwwdwwwww"],gates:{},encounters:[]},
   h_house_b:{width:8,height:8,entry:[3,6],map:["wwwwwwww","wffffffw","wfbffffw","wffffffw","wwwfwwww","wffffffw","wffsfffw","wwwdwwww"],gates:{},encounters:[]},
   h_ruined:{width:8,height:6,entry:[3,4],map:["wwwwwwww","wffwwffw","wffffffw","wffffffw","wffsfffw","wwwdwwww"],gates:{},encounters:[]},
-  h_shop_in:{width:10,height:6,entry:[4,4],map:["wwwwwwwwww","wsfsfsfsfw","wffffffffw","wffffffffw","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]}
+  h_shop_in:{width:10,height:6,entry:[4,4],map:["wwwwwwwwww","wsfsfsfsfw","wffffffffw","wffffffffw","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_pcenter_ok:{width:12,height:8,entry:[6,6],map:["wwwwwwwwwwww","weeeeeeeeeew","wSSSSSSSSSSw","wffffffffffw","weeeeeeeeeew","wffffffffffw","wfffSSSSfffw","wwwwwwdwwwww"],gates:{},encounters:[]},
+  h_pcenter_dmg:{width:12,height:8,entry:[6,6],map:["wwwwwwwwwwww","weeeewwweeew","wffffffffffw","wfffwwfffffw","wffffffffffw","wffSSffffffw","wffffffffffw","wwwwwwdwwwww"],gates:{},encounters:[]},
+  h_pcenter_dead:{width:10,height:6,entry:[4,4],map:["wwwwwwwwww","wffwwwwffw","wffffffffw","wffffffffw","wfffwwfffw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_pshop_ok:{width:10,height:8,entry:[4,6],map:["wwwwwwwwww","wssssssssw","wffffffffw","wssssssssw","wffffffffw","weeeeeeeew","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_pshop_dmg:{width:10,height:6,entry:[4,4],map:["wwwwwwwwww","wssswwssfw","wffffffffw","wfssfsfffw","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_pshop_dead:{width:8,height:6,entry:[3,4],map:["wwwwwwww","wffwwffw","wffffffw","wffffffw","wfwwwffw","wwwdwwww"],gates:{},encounters:[]},
+  h_house_c:{width:10,height:8,entry:[4,6],map:["wwwwwwwwww","wffffffffw","wfbffffbfw","wffffffffw","wfwwwwfffw","wfffssfffw","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_appart:{width:8,height:8,entry:[3,6],map:["wwwwwwww","wffffffw","wfbfffew","wffffffw","wwwfwwww","wffsfffw","wffffffw","wwwdwwww"],gates:{},encounters:[]},
+  h_immeuble_g:{width:10,height:8,entry:[4,6],stairs:{'3,3':{zone:'h_immeuble_1',entry:[3,6]}},map:["wwwwwwwwww","wfsffffSfw","wffffffffw","wfftfffffw","wffffffffw","weeeeeeeew","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_immeuble_1:{width:10,height:8,parent:'h_immeuble_g',entry:[3,6],entry_parent:[3,3],map:["wwwwwwwwww","wfbffffffw","wffffffsfw","wffffffffw","wffwwwfffw","wfbffsfffw","wffffffffw","wwwwwdwwww"],gates:{},encounters:[]}
 };
 function S(a){return a}
 const SPRITES={
@@ -628,6 +642,10 @@ else if(ch==='s'){ctx.fillStyle='#4a3018';ctx.fillRect(px+2,py+6,20,12);ctx.fill
 else if(ch==='S'){ctx.fillStyle='#253550';ctx.fillRect(px+2,py+6,20,12);ctx.fillStyle='#152030';ctx.fillRect(px+2,py+12,20,1);ctx.fillStyle='#40c0a0';ctx.fillRect(px+4,py+7,4,4);ctx.fillRect(px+10,py+7,4,4);ctx.fillRect(px+16,py+7,4,4)}
 else if(ch==='w'){ctx.fillStyle='#1e1810';ctx.fillRect(px+2,py+2,20,20);ctx.fillStyle='#120e08';ctx.fillRect(px+2,py+8,20,1);ctx.fillRect(px+2,py+15,20,1)}
 else if(ch==='e'){ctx.fillStyle='#1e2838';ctx.fillRect(px+2,py+4,20,16);ctx.fillStyle='#204060';ctx.fillRect(px+4,py+6,6,5);ctx.fillRect(px+14,py+6,6,5);ctx.fillStyle='#40e060';ctx.fillRect(px+5,py+7,2,2);ctx.fillStyle='#e04040';ctx.fillRect(px+15,py+7,2,2)}
+else if(ch==='P'){ctx.fillStyle='#1a3a5a';ctx.fillRect(px+2,py+6,20,16);ctx.fillStyle='#d04040';ctx.fillRect(px+9,py+2,6,6);ctx.fillStyle='#7fb0d0';ctx.fillRect(px+4,py+10,6,6);ctx.fillRect(px+14,py+10,6,6);ctx.fillStyle='#1a3a5a';ctx.fillRect(px+8,py+16,8,6)}
+else if(ch==='Q'){ctx.fillStyle='#3a1a5a';ctx.fillRect(px+2,py+6,20,16);ctx.fillStyle='#e0c050';ctx.fillRect(px+4,py+8,16,3);ctx.fillStyle='#d0d0d0';ctx.fillRect(px+5,py+13,5,5);ctx.fillRect(px+14,py+13,5,5)}
+else if(ch==='t'){ctx.fillStyle='#5a4a30';ctx.fillRect(px+2,py+4,20,4);ctx.fillRect(px+2,py+10,20,4);ctx.fillRect(px+2,py+16,20,4);ctx.fillStyle='#2a1e0e';ctx.fillRect(px+2,py+8,2,2);ctx.fillRect(px+20,py+14,2,2)}
+else if(ch==='A'){ctx.fillStyle='#2a2a38';ctx.fillRect(px+2,py+2,20,20);ctx.fillStyle='#1a1820';ctx.fillRect(px+2,py+9,20,1);ctx.fillRect(px+2,py+16,20,1);ctx.fillStyle='#3a3a50';ctx.fillRect(px+4,py+4,4,4);ctx.fillRect(px+10,py+4,4,4);ctx.fillRect(px+16,py+4,4,4);ctx.fillRect(px+4,py+11,4,4);ctx.fillRect(px+16,py+11,4,4)}
 ctx.restore()}
 function drawHouseSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#15100a';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#3a2520';ctx.fillRect(px+2,py+8,20,14);ctx.fillStyle='#5a2818';ctx.beginPath();ctx.moveTo(px,py+8);ctx.lineTo(px+12,py+1);ctx.lineTo(px+24,py+8);ctx.fill();ctx.fillStyle='#15100a';ctx.fillRect(px+5,py+11,6,5);ctx.fillRect(px+13,py+11,6,5);ctx.strokeStyle='#5a2018';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px+5,py+13);ctx.lineTo(px+11,py+15);ctx.moveTo(px+13,py+11);ctx.lineTo(px+19,py+16);ctx.stroke();ctx.fillStyle='#1a0a05';ctx.fillRect(px+10,py+17,4,5);ctx.fillStyle='#5a0808';ctx.fillRect(px+15,py+18,1,4);ctx.fillRect(px+9,py+19,1,3);ctx.restore()}
 function drawLabSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#1a1025';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#352040';ctx.fillRect(px+1,py+4,22,18);ctx.fillStyle='#a040d0';ctx.fillRect(px+11,py-2,2,8);ctx.fillRect(px+9,py-1,6,2);ctx.fillStyle='#7fb0d0';ctx.fillRect(px+5,py+8,5,5);ctx.fillRect(px+14,py+8,5,5);ctx.fillStyle='#5a3a30';ctx.fillRect(px+10,py+15,4,7);ctx.fillStyle='#e0c050';ctx.fillRect(px+9,py+5,6,1);ctx.restore()}
@@ -683,9 +701,24 @@ function handleHouseDoor(nx,ny){
   if(house.id==='h_cin_lab')setTimeout(()=>{const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:t('cinnabar_lab.synth')}],()=>{G.inv.vaccine+=5;logMsg(t('cinnabar_lab.done'),'log-good');showToast(t('cinnabar_lab.done'));refresh()})},300);
   drawMap();refresh();renderControls();autoSave()}
 function handleHouseExit(){
+  const zone=getZone();
+  if(zone.parent){
+    G.zone=zone.parent;
+    const ep=zone.entry_parent||[4,6];
+    G.player.x=ep[0];G.player.y=ep[1];
+    logMsg(t('house.stairs_down'),'log-line');
+    drawMap();refresh();renderControls();autoSave();return;
+  }
   if(!G.player.prevZone){G.zone='bourg_palette';G.player.x=5;G.player.y=1;logMsg(t('house.exit'),'log-line');drawMap();refresh();renderControls();return}
   G.zone=G.player.prevZone;G.player.x=G.player.prevX;G.player.y=G.player.prevY;
   G.player.prevZone=null;logMsg(t('house.exit'),'log-line');drawMap();refresh();renderControls();autoSave()}
+function handleStairs(nx,ny){
+  const zone=getZone();
+  const dest=zone.stairs&&zone.stairs[nx+','+ny];
+  if(!dest)return;
+  G.zone=dest.zone;G.player.x=dest.entry[0];G.player.y=dest.entry[1];
+  logMsg(t('house.stairs_up'),'log-line');
+  drawMap();refresh();renderControls();autoSave()}
 function handleBed(){
   const houseId=getHouseId();
   if(G.zone!=='h_player'&&houseId&&G.houses[houseId]&&!G.houses[houseId].cleared){logMsg(t('house.sleep_no_clear'),'log-bad');return}
@@ -698,7 +731,7 @@ function getHouseId(){const z=ZONES[G.zone];if(!z)return null;for(const[k,v] of 
 function updateHordeAlert(){const el=$('horde-alert');if(!el)return;const chase=G.hordeChase;const active=chase&&chase.zoneId===G.zone&&chase.hideTurnsLeft===0;el.style.display=active?'block':'none';if(active){const h=(G.hordes[G.zone]||[]).find(h=>h.id===chase.hordeId);el.className=h&&h.enraged?'enraged':''}}
 function triggerHordeCombat(h){h.defeated=true;G.hordeChase=null;updateHordeAlert();logMsg(t('horde.caught'),'log-bad');const zone=getZone();const pool=zone.encounters&&zone.encounters.length?zone.encounters:['z_rattata'];const zk=pool[Math.floor(Math.random()*pool.length)];const zd=ZOMBIES[zk];if(!zd)return;const e={key:zk,name:t('horde.enemy',{name:zd.name}),type:zd.type,mhp:Math.floor(zd.mhp*1.2),hp:0,atk:Math.floor(zd.atk*1.1),sprite:zd.sprite,isZombie:true,base:zd.base};e.hp=e.mhp;startCombat(e)}
 function updateHordes(px,py){if(!G.hordes)return;const hordes=G.hordes[G.zone]||[];const chase=G.hordeChase;if(chase&&chase.zoneId===G.zone){const h=hordes.find(h=>h.id===chase.hordeId&&!h.defeated);if(!h){G.hordeChase=null;updateHordeAlert();return}if(chase.hideTurnsLeft>0){chase.hideTurnsLeft--;if(chase.hideTurnsLeft===0){logMsg(t('horde.found_again'),'log-bad');showToast(t('horde.found_again'))}updateHordeAlert();return}if(!h.enraged&&Math.random()<0.2)h.enraged=true;const steps=h.enraged&&Math.random()<0.4?2:1;for(let s=0;s<steps;s++){const dx=px-h.x,dy=py-h.y;if(dx===0&&dy===0)break;if(Math.abs(dx)>=Math.abs(dy)){h.x+=dx>0?1:-1}else{h.y+=dy>0?1:-1}}if(h.x===px&&h.y===py){triggerHordeCombat(h);return}updateHordeAlert();return}let closest=null,closestDist=999;for(const h of hordes){if(h.defeated)continue;const dist=Math.abs(px-h.x)+Math.abs(py-h.y);if(dist<=5&&dist<closestDist){closest=h;closestDist=dist}}if(closest){G.hordeChase={hordeId:closest.id,zoneId:G.zone,hideTurnsLeft:0};logMsg(t('horde.detected'),'log-bad');showToast(t('horde.detected'));updateHordeAlert()}}
-function move(dx,dy){if(G.mode!=='exploring')return;const nx=G.player.x+dx,ny=G.player.y+dy,z=getZone();if(nx<0||nx>=z.width||ny<0||ny>=z.height)return;const npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}const ch=z.map[ny][nx],ti=TILES[ch];if(!ti.pass){if(ch==='h'||ch==='L'){handleHouseDoor(nx,ny);return}if(ch==='s'||ch==='S'){G.looted[G.zone]=G.looted[G.zone]||{};const lk2=nx+','+ny;if(!G.looted[G.zone][lk2]){tryLoot(ti.loot||'house',lk2)}else logMsg(t('house.shelf_empty'),'log-line');return}logMsg(t('log.no_pass',{name:t('tile.'+ti.tkey)}),'log-line');return}if(ch==='G'){handleGate(nx,ny);return}G.player.x=nx;G.player.y=ny;G.steps++;if(ch==='d'){handleHouseExit();return}if(ch==='b'){handleBed();return}
+function move(dx,dy){if(G.mode!=='exploring')return;const nx=G.player.x+dx,ny=G.player.y+dy,z=getZone();if(nx<0||nx>=z.width||ny<0||ny>=z.height)return;const npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}const ch=z.map[ny][nx],ti=TILES[ch];if(!ti.pass){if(ch==='h'||ch==='L'||ch==='P'||ch==='Q'||ch==='A'){handleHouseDoor(nx,ny);return}if(ch==='s'||ch==='S'){G.looted[G.zone]=G.looted[G.zone]||{};const lk2=nx+','+ny;if(!G.looted[G.zone][lk2]){tryLoot(ti.loot||'house',lk2)}else logMsg(t('house.shelf_empty'),'log-line');return}logMsg(t('log.no_pass',{name:t('tile.'+ti.tkey)}),'log-line');return}if(ch==='G'){handleGate(nx,ny);return}G.player.x=nx;G.player.y=ny;G.steps++;if(ch==='d'){handleHouseExit();return}if(ch==='b'){handleBed();return}if(ch==='t'){handleStairs(nx,ny);return}
 if(G.steps%3===0){G.player.hunger=Math.max(0,G.player.hunger-1);if(G.player.hunger===0){G.player.hp=Math.max(0,G.player.hp-2);logMsg(t('log.hungry'),'log-bad');if(G.player.hp<=0){gameOver(t('gameover.reason.starved'));return}}}
 if(G.steps%30===0){G.day++;logMsg(t('log.day',{d:G.day}),'log-event')}drawMap();refresh();const lk=G.zone;G.looted[lk]=G.looted[lk]||{};const lk2=nx+','+ny;if(ti.loot&&!G.looted[lk][lk2]){if(Math.random()<0.65){tryLoot(ti.loot,lk2);autoSave();return}}if(G.hordeChase&&G.hordeChase.zoneId===G.zone&&G.hordeChase.hideTurnsLeft===0&&ch==='F'){G.hordeChase.hideTurnsLeft=3;logMsg(t('horde.hidden'),'log-event');showToast(t('horde.hidden'));updateHordeAlert();drawMap();refresh();renderControls();autoSave();return}updateHordes(nx,ny);if(G.mode!=='exploring')return;if(G.flags.introDone&&Math.random()<ti.enc){triggerEncounter();return}renderControls();autoSave()}
 function handleGate(nx,ny){if(!G.flags.introDone){logMsg(t('log.no_chen'),'log-event');showToast(t('toast.chen_first'));return}const zone=getZone(),gateKey=nx+','+ny,gate=zone.gates&&zone.gates[gateKey];if(!gate)return;const prev=G.zone;G.zone=gate.zone;G.player.x=gate.x;G.player.y=gate.y;
