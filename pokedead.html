@@ -322,6 +322,7 @@ const T_EN={
 'horde.detected':'⚠ Horde détectée ! Fuyez ou cachez-vous dans la forêt !',
 'horde.caught':'La horde vous rattrape !','horde.hidden':'Vous vous cachez dans la forêt... la horde perd votre trace. (3 tours)',
 'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%',
+'house.mom_locked':'The door is barricaded. Your mother is inside. You have to find a cure first.','house.mom_locked_short':'Barricaded. Mom is inside.',
 'house.enter':'You step inside carefully...','house.exit':'You step outside.','house.locked':'The door is locked.',
 'house.sleep':'You rest for a few hours. (+%hp% HP, +%hg% hunger)','house.sleep_no_clear':'The house isn\'t safe yet!',
 'house.shelf_empty':'Nothing left to take.',
@@ -412,6 +413,7 @@ const T_FR={
 'horde.detected':'⚠ Horde détectée ! Fuyez ou cachez-vous dans la forêt !',
 'horde.caught':'La horde vous rattrape !','horde.hidden':'Vous vous cachez dans la forêt... la horde perd votre trace. (3 tours)',
 'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%',
+'house.mom_locked':'La porte est barricadée. Ta mère est à l\'intérieur. Trouve le remède d\'abord.','house.mom_locked_short':'Barricadée. Maman est dedans.',
 'house.enter':'Tu entres avec précaution...','house.exit':'Tu sors.','house.locked':'La porte est fermée à clé.',
 'house.sleep':'Tu dors quelques heures. (+%hp% PV, +%hg% faim)','house.sleep_no_clear':'La maison n\'est pas sécurisée !',
 'house.shelf_empty':'Il n\'y a plus rien à prendre.',
@@ -481,7 +483,7 @@ const ZONES={
   jadielle:{name:'Jadielle',width:14,height:10,
     map:["MMMMGMMMMMMMMM","MCC.R.....CCCM","ML..R......H.M","MCC.R......C.M","M..h.......h.M","M............M","MCC.R.....CCCM","MCX.......XCCM","MCC.R.....CCCM","MMMMGMMMMMMMMM"],
     gates:{'4,0':{zone:'route_2',x:4,y:6},'4,9':{zone:'route_1',x:4,y:1}},
-    houses:{'3,4':{zone:'h_small',id:'h_jad_1'},'11,4':{zone:'h_small',id:'h_jad_2'},'1,2':{zone:'h_lab',id:'h_jad_lab'}},
+    houses:{'3,4':{zone:'h_house_b',id:'h_jad_1'},'11,4':{zone:'h_house_a',id:'h_jad_2'},'1,2':{zone:'h_lab',id:'h_jad_lab'}},
     encounters:['z_rattata','z_pidgey','z_zubat']},
   route_2:{name:'Viridian Forest',width:10,height:8,
     map:["MMMMGMMMMM","MFFF.FFFFM","MFF..FFFFM","MF...FFFHM","M....F...M","MFF..FFFFM","MFFF.FFFFM","MMMMGMMMMM"],
@@ -490,7 +492,7 @@ const ZONES={
   argenta:{name:'Argenta',width:12,height:10,
     map:["MMMMMGMMMMMM","MCC..R...CCM","MC..CR...CCM","M..hCR...h.M","M...CR....CM","M....R.....M","MCCX.R.XCCCM","M..H.R...H.M","MCC..R...CCM","MMMMMGMMMMMM"],
     gates:{'5,0':{zone:'mt_moon',x:4,y:8},'5,9':{zone:'route_2',x:4,y:1}},
-    houses:{'3,3':{zone:'h_medium',id:'h_arg_1'},'9,3':{zone:'h_small',id:'h_arg_2'}},
+    houses:{'3,3':{zone:'h_medium',id:'h_arg_1'},'9,3':{zone:'h_ruined',id:'h_arg_2'}},
     encounters:['z_geodude','z_zubat','z_grimer']},
   mt_moon:{name:'Mt. Moon',width:10,height:10,
     map:["MMMMGMMMMM","MMFF.MFFMM","MFF..MMMFM","MF...M.FFM","M....M..FM","MF...M..FM","MFF..MMMFM","MMFF.FFFFM","MFFF.MMFFM","MMMMGMMMMM"],
@@ -506,11 +508,11 @@ const ZONES={
     houses:{'3,3':{zone:'h_medium',id:'h_az_1'}},
     encounters:['z_grimer','z_haunter','z_zubat','z_haunter']},
   route_4:{width:10,height:8,map:["MMMMGMMMMM","MMFF.MMFFM","MFF..FFFMM","MF...FFFHM","M....MFMFM","MFF..FFFMM","MFFF.FFFFM","MMMMGMMMMM"],gates:{'4,0':{zone:'lavandia',x:5,y:8},'4,7':{zone:'azuria',x:4,y:1}},encounters:['z_pidgey','z_zubat','z_grimer','z_haunter']},
-  lavandia:{width:12,height:10,map:["MMMMMGMMMMMM","MCCC.R...CCM","MLCC.R...CCM","MCC..R....CM","MhC..R.h..CM","M....R.....M","MCCH.R...HCM","MCC..R....CM","MCCC.R...CCM","MMMMMGMMMMMM"],gates:{'5,0':{zone:'route_8',x:4,y:7},'5,9':{zone:'route_4',x:4,y:1}},houses:{'1,4':{zone:'h_small',id:'h_lav_1'},'7,4':{zone:'h_small',id:'h_lav_2'},'1,2':{zone:'h_lab',id:'h_lav_lab'}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_zubat']},
+  lavandia:{width:12,height:10,map:["MMMMMGMMMMMM","MCCC.R...CCM","MLCC.R...CCM","MCC..R....CM","MhC..R.h..CM","M....R.....M","MCCH.R...HCM","MCC..R....CM","MCCC.R...CCM","MMMMMGMMMMMM"],gates:{'5,0':{zone:'route_8',x:4,y:7},'5,9':{zone:'route_4',x:4,y:1}},houses:{'1,4':{zone:'h_ruined',id:'h_lav_1'},'7,4':{zone:'h_house_a',id:'h_lav_2'},'1,2':{zone:'h_lab',id:'h_lav_lab'}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_zubat']},
   route_8:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..H.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'celadopole',x:5,y:8},'4,7':{zone:'lavandia',x:5,y:1}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_geodude']},
-  celadopole:{width:14,height:10,map:["MMMMMGMMMMMMMM","MCCC.R....CCCM","MCChCR...hCCCM","MCC.CR....CCCM","M...CR.....CCM","M....R.....CCM","MCXCXR.X.XCCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,0':{zone:'route_7',x:4,y:7},'5,9':{zone:'route_8',x:4,y:1}},houses:{'3,2':{zone:'h_medium',id:'h_cel_1'},'9,2':{zone:'h_small',id:'h_cel_2'}},encounters:['z_haunter_feral','z_tauros_roam','z_grimer','z_haunter']},
+  celadopole:{width:14,height:10,map:["MMMMMGMMMMMMMM","MCCC.R....CCCM","MCChCR...hCCCM","MCC.CR....CCCM","M...CR.....CCM","M....R.....CCM","MCXCXR.X.XCCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,0':{zone:'route_7',x:4,y:7},'5,9':{zone:'route_8',x:4,y:1}},houses:{'3,2':{zone:'h_house_b',id:'h_cel_1'},'9,2':{zone:'h_shop_in',id:'h_cel_2'}},encounters:['z_haunter_feral','z_tauros_roam','z_grimer','z_haunter']},
   route_7:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R..C.M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'safrania',x:5,y:8},'4,7':{zone:'celadopole',x:5,y:1}},encounters:['z_tauros_roam','z_haunter_feral','z_grimer']},
-  safrania:{width:14,height:10,map:["MMMMMMMMMMMMMM","MCCCCR....CCCM","MLCCCR....CCCM","MCCChR...hCCCM","M....R.....CCM","M....R.....CCM","MCCX.R.X..CCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,9':{zone:'route_21',x:4,y:1}},houses:{'4,3':{zone:'h_medium',id:'h_saf_1'},'9,3':{zone:'h_small',id:'h_saf_2'},'1,2':{zone:'h_lab',id:'h_saf_lab'}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam','z_grimer']},
+  safrania:{width:14,height:10,map:["MMMMMMMMMMMMMM","MCCCCR....CCCM","MLCCCR....CCCM","MCCChR...hCCCM","M....R.....CCM","M....R.....CCM","MCCX.R.X..CCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,9':{zone:'route_21',x:4,y:1}},houses:{'4,3':{zone:'h_house_b',id:'h_saf_1'},'9,3':{zone:'h_house_a',id:'h_saf_2'},'1,2':{zone:'h_lab',id:'h_saf_lab'}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam','z_grimer']},
   route_21:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'cinnabar',x:4,y:7},'4,7':{zone:'safrania',x:5,y:8}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam']},
   cinnabar:{width:10,height:8,map:["MMMMMMMMMM","MCCCC.CCCM","ML.CC.CCCM","MCCCC.CCCM","M...H.CCCM","M...X.CCCM","MCCCC....M","MMMMGMMMMM"],gates:{'4,7':{zone:'route_21',x:4,y:1}},houses:{'1,2':{zone:'h_cinnabar_lab',id:'h_cin_lab'}},encounters:[]},
   kanto:{name:'Kanto',width:4,height:4,map:["MMMM","MMMM","MMMM","MMMM"],gates:{},encounters:[]},
@@ -520,7 +522,11 @@ const ZONES={
   h_small:{width:8,height:6,entry:[3,4],map:["wwwwwwww","wffffffw","wfbffffw","wffffffw","wffsfffw","wwwdwwww"],gates:{},encounters:[]},
   h_medium:{width:10,height:8,entry:[4,6],map:["wwwwwwwwww","wffffffffw","wfbffffsfw","wffffffffw","wffwwwfffw","wfffffssfw","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]},
   h_lab:{width:10,height:8,entry:[4,6],map:["wwwwwwwwww","weeeeeeeew","wffffffffw","wffeeeeffw","wffffffffw","wffwwwfffw","wffffffSfw","wwwwdwwwww"],gates:{},encounters:[]},
-  h_cinnabar_lab:{width:12,height:10,entry:[6,8],map:["wwwwwwwwwwww","weeeeeeeeeew","wffffffffffw","wffeeeeeeffw","wffffffffffw","wfwwwwfffffw","wffSSSSffffw","wffffffffffw","wffffffeeefw","wwwwwwdwwwww"],gates:{},encounters:[]}
+  h_cinnabar_lab:{width:12,height:10,entry:[6,8],map:["wwwwwwwwwwww","weeeeeeeeeew","wffffffffffw","wffeeeeeeffw","wffffffffffw","wfwwwwfffffw","wffSSSSffffw","wffffffffffw","wffffffeeefw","wwwwwwdwwwww"],gates:{},encounters:[]},
+  h_house_a:{width:10,height:6,entry:[4,4],map:["wwwwwwwwww","wffffffffw","wfsffffsfw","wffffffffw","wfbfffffbw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_house_b:{width:8,height:8,entry:[3,6],map:["wwwwwwww","wffffffw","wfbffffw","wffffffw","wwwfwwww","wffffffw","wffsfffw","wwwdwwww"],gates:{},encounters:[]},
+  h_ruined:{width:8,height:6,entry:[3,4],map:["wwwwwwww","wffwwffw","wffffffw","wffffffw","wffsfffw","wwwdwwww"],gates:{},encounters:[]},
+  h_shop_in:{width:10,height:6,entry:[4,4],map:["wwwwwwwwww","wsfsfsfsfw","wffffffffw","wffffffffw","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]}
 };
 function S(a){return a}
 const SPRITES={
@@ -555,7 +561,7 @@ const QUEST_DEFS={
 function qTitle(qid){return t('quest.'+qid+'.title')}
 function qDesc(qid){return t('quest.'+qid+'.desc')}
 function qObj(qid,oid){return t('quest.'+qid+'.'+oid)}
-const G={mode:'launcher',player:{name:'',gender:'boy',x:6,y:6,hp:50,mhp:50,hunger:100,mhunger:100,prevZone:null,prevX:0,prevY:0},zone:'bourg_palette',inv:{food:3,medkit:2,vaccine:1},team:[],active:0,combat:null,day:1,steps:0,looted:{},flags:{},quests:{},log:[],npcs:{},houses:{}};
+const G={mode:'launcher',player:{name:'',gender:'boy',x:9,y:3,hp:50,mhp:50,hunger:100,mhunger:100,prevZone:null,prevX:0,prevY:0},zone:'bourg_palette',inv:{food:3,medkit:2,vaccine:1},team:[],active:0,combat:null,day:1,steps:0,looted:{},flags:{},quests:{},log:[],npcs:{},houses:{}};
 function initNPCs(){G.npcs={
   bourg_palette:[{id:'chen',x:9,y:2,sprite:'chen',visible:true},{id:'bertrand',x:7,y:5,sprite:'bertrand',visible:true}],
   route_1:[],
@@ -666,7 +672,7 @@ $('dialog-box').addEventListener('click',nextDialogLine);
 function handleHouseDoor(nx,ny){
   const zone=getZone();const key=nx+','+ny;const house=zone.houses&&zone.houses[key];
   if(!house){logMsg(t('log.lab_barricaded'),'log-line');return}
-  if(house.id==='h_bourg_player'&&!G.flags.introDone){logMsg(t('log.locked_house'),'log-bad');showToast(t('toast.mom'));return}
+  if(house.id==='h_bourg_player'&&!G.flags.motherSaved){logMsg(t('house.mom_locked'),'log-bad');showToast(t('house.mom_locked_short'));return}
   G.player.prevZone=G.zone;G.player.prevX=G.player.x;G.player.prevY=G.player.y;
   if(!G.houses[house.id])G.houses[house.id]={cleared:false,lootTaken:{}};
   const interior=ZONES[house.zone];if(!interior)return;
