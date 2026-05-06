@@ -299,7 +299,14 @@ const T_EN={
 'zone.route_3':'Route 3','zone.azuria':'Cerulean City',
 'log.enter_zone':'You enter %zone%.','log.reach_jadielle':'Viridian City. Find Chen\'s lab.',
 'sophie.notstarted':'I don\'t know what you\'re looking for...','sophie.formula1':'You\'re looking for Chen\'s notes? I found them in the east wing. Behind the aquarium.',
-'sophie.formula2':'Chen was brilliant. I hope his formula works... for all our sakes.','sophie.after':'The formula... I hope it helps your mother.'
+'sophie.formula2':'Chen was brilliant. I hope his formula works... for all our sakes.','sophie.after':'The formula... I hope it helps your mother.',
+'zone.route_4':'Rock Tunnel','zone.lavandia':'Lavender Town','zone.route_8':'Route 8',
+'zone.celadopole':'Celadon City','zone.route_7':'Route 7','zone.safrania':'Saffron City',
+'zone.route_21':'Route 21','zone.cinnabar':'Cinnabar Island',
+'marc.intro1':'I was Dr. Mortimer\'s assistant. This place... it all started here.','marc.intro2':'The first infected Pokémon appeared at the tower. Mortimer tried to contain it. He failed.',
+'marc.intro3':'His real lab is underground. Beneath the tower. He never told anyone. Just me.','marc.after':'Go carefully. What\'s down there... it\'s not easy to look at.',
+'quest.q_mortimer.title':'Mortimer\'s Legacy','quest.q_mortimer.desc':'Marc was Mortimer\'s assistant. He knows what happened in Lavender Town.',
+'quest.q_mortimer.talk_marc':'Hear Marc\'s account'
 };
 const T_FR={
 'menu.subtitle':'— ÉDITION APOCALYPSE —','menu.lore':'L\'épidémie a tout ravagé. Quelques Pokémon ont été épargnés. Tu es l\'un des derniers survivants.',
@@ -364,7 +371,14 @@ const T_FR={
 'zone.route_3':'Route 3','zone.azuria':'Azuria',
 'log.enter_zone':'Tu entres dans %zone%.','log.reach_jadielle':'Jadielle. Trouve le labo de Chen.',
 'sophie.notstarted':'Je sais pas ce que tu cherches...','sophie.formula1':'Tu cherches les notes de Chen ? Je les ai trouvées dans l\'aile est. Derrière l\'aquarium.',
-'sophie.formula2':'Chen était brillant. J\'espère que sa formule fonctionne... pour nous tous.','sophie.after':'La formule... J\'espère que ça aidera ta mère.'
+'sophie.formula2':'Chen était brillant. J\'espère que sa formule fonctionne... pour nous tous.','sophie.after':'La formule... J\'espère que ça aidera ta mère.',
+'zone.route_4':'Tunnel Sombre','zone.lavandia':'Lavandia','zone.route_8':'Route 8',
+'zone.celadopole':'Céladopole','zone.route_7':'Route 7','zone.safrania':'Safrania',
+'zone.route_21':'Route 21','zone.cinnabar':'Cramoisile',
+'marc.intro1':'J\'étais l\'assistant du Dr. Mortimer. Cet endroit... tout a commencé ici.','marc.intro2':'Les premiers Pokémon infectés ont été trouvés à la tour. Mortimer a essayé d\'endiguer ça. Il a échoué.',
+'marc.intro3':'Son vrai labo est souterrain. Sous la tour. Il ne l\'a jamais dit à personne. Sauf à moi.','marc.after':'Fais attention. Ce qu\'il y a là-dedans... c\'est pas beau à voir.',
+'quest.q_mortimer.title':'L\'Héritage de Mortimer','quest.q_mortimer.desc':'Marc était l\'assistant de Mortimer. Il sait ce qui s\'est passé à Lavandia.',
+'quest.q_mortimer.talk_marc':'Écouter le témoignage de Marc'
 };
 let LANG=(()=>{try{return localStorage.getItem('pokedead_lang')||'en'}catch(e){return 'en'}})();
 function t(key,p){const T=LANG==='fr'?T_FR:T_EN;let s=T[key]||T_EN[key]||key;if(p)Object.keys(p).forEach(k=>{s=s.replace(new RegExp('%'+k+'%','g'),p[k])});return s}
@@ -405,8 +419,8 @@ const TILES={
 };
 const ZONES={
   bourg_palette:{name:'Bourg Palette',width:12,height:10,
-    map:["MMMMMGMMMMMM","MFF......FFM","MF.......L.M","MF........FM","MF........FM","M..........M","M..h.......M","MF.........M","MFFFFFFFFFFM","MMMMMMMMMMMM"],
-    gates:{'5,0':{zone:'route_1',x:4,y:6}},
+    map:["MMMMMGMMMMMM","MFF......FFM","MF.......L.M","MF........FM","MF........FM","M..........M","M..h.......M","MF.........M","MFFFFFFFFFFM","MMMMMGMMMMMM"],
+    gates:{'5,0':{zone:'route_1',x:4,y:6},'5,9':{zone:'route_21',x:4,y:6}},
     encounters:['z_rattata','z_pidgey']},
   route_1:{name:'Route 1',width:10,height:8,
     map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],
@@ -433,9 +447,17 @@ const ZONES={
     gates:{'4,0':{zone:'azuria',x:4,y:8},'4,7':{zone:'mt_moon',x:4,y:1}},
     encounters:['z_pidgey','z_geodude','z_grimer']},
   azuria:{name:'Azuria',width:14,height:10,
-    map:["MMMMMMMMWWWWWM","MCCCCR...WWWWM","MCC..R...WWWWM","M..h.R....CCCM","M....R.....CCM","MCCXCR.X..CCCM","MCCCCR....CCCM","M..H.R...H.CCM","MCC..R.....CCM","MMMMGMMMMMMMMM"],
-    gates:{'4,9':{zone:'route_3',x:4,y:1}},
+    map:["MMMMGMMMWWWWWM","MCCCCR...WWWWM","MCC..R...WWWWM","M..h.R....CCCM","M....R.....CCM","MCCXCR.X..CCCM","MCCCCR....CCCM","M..H.R...H.CCM","MCC..R.....CCM","MMMMGMMMMMMMMM"],
+    gates:{'4,0':{zone:'route_4',x:4,y:7},'4,9':{zone:'route_3',x:4,y:1}},
     encounters:['z_grimer','z_haunter','z_zubat','z_haunter']},
+  route_4:{width:10,height:8,map:["MMMMGMMMMM","MMFF.MMFFM","MFF..FFFMM","MF...FFFHM","M....MFMFM","MFF..FFFMM","MFFF.FFFFM","MMMMGMMMMM"],gates:{'4,0':{zone:'lavandia',x:5,y:8},'4,7':{zone:'azuria',x:4,y:1}},encounters:['z_pidgey','z_zubat','z_grimer','z_haunter']},
+  lavandia:{width:12,height:10,map:["MMMMMGMMMMMM","MCCC.R...CCM","MLCC.R...CCM","MCC..R....CM","MhC..R.h..CM","M....R.....M","MCCH.R...HCM","MCC..R....CM","MCCC.R...CCM","MMMMMGMMMMMM"],gates:{'5,0':{zone:'route_8',x:4,y:7},'5,9':{zone:'route_4',x:4,y:1}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_zubat']},
+  route_8:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..H.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'celadopole',x:5,y:8},'4,7':{zone:'lavandia',x:5,y:1}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_geodude']},
+  celadopole:{width:14,height:10,map:["MMMMMGMMMMMMMM","MCCC.R....CCCM","MCC.CR....CCCM","MCC.CR....CCCM","M...CR.....CCM","M....R.....CCM","MCXCXR.X.XCCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,0':{zone:'route_7',x:4,y:7},'5,9':{zone:'route_8',x:4,y:1}},encounters:['z_haunter_feral','z_tauros_roam','z_grimer','z_haunter']},
+  route_7:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R..C.M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'safrania',x:5,y:8},'4,7':{zone:'celadopole',x:5,y:1}},encounters:['z_tauros_roam','z_haunter_feral','z_grimer']},
+  safrania:{width:14,height:10,map:["MMMMMMMMMMMMMM","MCCCCR....CCCM","MLCCCR....CCCM","MCCCCR....CCCM","M....R.....CCM","M....R.....CCM","MCCX.R.X..CCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,9':{zone:'route_21',x:4,y:1}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam','z_grimer']},
+  route_21:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'cinnabar',x:4,y:7},'4,7':{zone:'safrania',x:5,y:8}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam']},
+  cinnabar:{width:10,height:8,map:["MMMMMMMMMM","MCCCC.CCCM","ML.CC.CCCM","MCCCC.CCCM","M...H.CCCM","M...X.CCCM","MCCCC....M","MMMMGMMMMM"],gates:{'4,7':{zone:'route_21',x:4,y:1}},encounters:[]},
   kanto:{name:'Kanto',width:4,height:4,map:["MMMM","MMMM","MMMM","MMMM"],gates:{},encounters:[]}
 };
 function S(a){return a}
@@ -458,14 +480,15 @@ chen_zombie:{p:S(["................","....HHHHHHHH....","...HHRHHHRHHH...","...H
 bertrand:{p:S(["................",".....BBBBB......","....BBBBBBB.....","....1ssssss1....","....1ee.ee.1....","....1.--.1......","....111111......","...4444444444...","..44444444444...","..4444YYYY44....","..44444444444...","..4444444444....","..4444444444....","...4.4..4.4.....","...J.J..J.J.....","...K.K..K.K....."]),pal:{'B':'#3a2010','1':'#c8a888','s':'#c8a888','e':'#222','-':'#444','4':'#4a5a3a','Y':'#8a7030','J':'#5a3a20','K':'#2a1810'}},
 mother_zombie:{p:S(["................","....HHHHHHH.....","...HHHHHHHHH....","..1ggggggggg1...","..1eR.eRgggg1...","....1RRR.1......","...1RRRRRR1.....","..PPPPPPPPPPP...","..PPPPPPPPPPP...","..PPPPPPPPPPP...","................","................","................","................","................","................"]),pal:{'H':'#aaaaaa','1':'#5a7050','g':'#5a7050','e':'#fff','R':'#a01010','P':'#7a3060'}}};
 const STARTERS={bulbasaur:{name:'Bulbizarre',type:'plante',mhp:62,atk:13,sprite:'bulbasaur',desc:'Le bulbe résistant aux infections.'},charmander:{name:'Salamèche',type:'feu',mhp:52,atk:17,sprite:'charmander',desc:'Sa flamme purifie les contaminés.'},squirtle:{name:'Carapuce',type:'eau',mhp:58,atk:14,sprite:'squirtle',desc:'Sa carapace résiste aux morsures.'}};
-const ZOMBIES={z_chen_bulbi:{name:'Bulbi-Z (Chen)',type:'plante',mhp:38,atk:11,sprite:'bulbasaur',tier:0,base:'bulbasaur',introBoss:1},z_rattata:{name:'Z-Rattata',type:'normal',mhp:24,atk:8,sprite:'rattata',tier:1,base:'rattata'},z_pidgey:{name:'Z-Roucool',type:'vol',mhp:28,atk:9,sprite:'pidgey',tier:1,base:'pidgey'},z_zubat:{name:'Z-Nosferapti',type:'poison',mhp:26,atk:10,sprite:'zubat',tier:1,base:'zubat'},z_geodude:{name:'Z-Racaillou',type:'roche',mhp:46,atk:13,sprite:'geodude',tier:2,base:'geodude'},z_grimer:{name:'Z-Tadmorv',type:'poison',mhp:60,atk:15,sprite:'grimer',tier:2,base:'grimer'},z_haunter:{name:'Z-Spectrum',type:'spectre',mhp:55,atk:18,sprite:'haunter',tier:3,base:'haunter'},z_tauros:{name:'Z-Tauros',type:'normal',mhp:120,atk:24,sprite:'tauros',tier:4,base:'tauros',boss:1}};
+const ZOMBIES={z_chen_bulbi:{name:'Bulbi-Z (Chen)',type:'plante',mhp:38,atk:11,sprite:'bulbasaur',tier:0,base:'bulbasaur',introBoss:1},z_rattata:{name:'Z-Rattata',type:'normal',mhp:24,atk:8,sprite:'rattata',tier:1,base:'rattata'},z_pidgey:{name:'Z-Roucool',type:'vol',mhp:28,atk:9,sprite:'pidgey',tier:1,base:'pidgey'},z_zubat:{name:'Z-Nosferapti',type:'poison',mhp:26,atk:10,sprite:'zubat',tier:1,base:'zubat'},z_geodude:{name:'Z-Racaillou',type:'roche',mhp:46,atk:13,sprite:'geodude',tier:2,base:'geodude'},z_grimer:{name:'Z-Tadmorv',type:'poison',mhp:60,atk:15,sprite:'grimer',tier:2,base:'grimer'},z_haunter:{name:'Z-Spectrum',type:'spectre',mhp:55,atk:18,sprite:'haunter',tier:3,base:'haunter'},z_haunter_feral:{name:'Z-Spectrum Sauvage',type:'spectre',mhp:70,atk:22,sprite:'haunter',tier:3,base:'haunter'},z_tauros_roam:{name:'Z-Tauros',type:'normal',mhp:85,atk:19,sprite:'tauros',tier:3,base:'tauros'},z_tauros:{name:'Z-Tauros (Boss)',type:'normal',mhp:120,atk:24,sprite:'tauros',tier:4,base:'tauros',boss:1}};
 const CURED={bulbasaur:{name:'Bulbizarre',type:'plante',mhp:62,atk:13,sprite:'bulbasaur'},rattata:{name:'Rattata',type:'normal',mhp:34,atk:11,sprite:'rattata'},pidgey:{name:'Roucool',type:'vol',mhp:38,atk:12,sprite:'pidgey'},zubat:{name:'Nosferapti',type:'poison',mhp:36,atk:13,sprite:'zubat'},geodude:{name:'Racaillou',type:'roche',mhp:56,atk:16,sprite:'geodude'},grimer:{name:'Tadmorv',type:'poison',mhp:70,atk:18,sprite:'grimer'},haunter:{name:'Spectrum',type:'spectre',mhp:65,atk:21,sprite:'haunter'},tauros:{name:'Tauros',type:'normal',mhp:130,atk:27,sprite:'tauros'}};
 const TYPECHART={feu:{plante:2,eau:0.5,roche:0.5,vol:1.5},eau:{feu:2,plante:0.5,roche:2},plante:{eau:2,feu:0.5,roche:2,vol:0.5,poison:0.5},normal:{roche:0.5,spectre:0},vol:{plante:2,roche:0.5},poison:{plante:2,roche:0.5},roche:{vol:2,feu:2,plante:0.5},spectre:{normal:0,spectre:2}};
 function effectiveness(a,d){return TYPECHART[a]?.[d]??1}
 const QUEST_DEFS={
   q_awakening:{type:'main',objectives:['talk_chen','choose_starter','fight_chen']},
   q_journey:{type:'main',objectives:['leave_palette','reach_lab','find_formula','save_mom']},
-  q_bertrand:{type:'side',objectives:['bring_food']}
+  q_bertrand:{type:'side',objectives:['bring_food']},
+  q_mortimer:{type:'side',objectives:['talk_marc']}
 };
 function qTitle(qid){return t('quest.'+qid+'.title')}
 function qDesc(qid){return t('quest.'+qid+'.desc')}
@@ -480,6 +503,14 @@ function initNPCs(){G.npcs={
   mt_moon:[],
   route_3:[],
   azuria:[],
+  route_4:[],
+  lavandia:[{id:'marc',x:2,y:4,sprite:'bertrand',visible:true}],
+  route_8:[],
+  celadopole:[],
+  route_7:[],
+  safrania:[],
+  route_21:[],
+  cinnabar:[],
   kanto:[]
 }}
 function $(id){return document.getElementById(id)}
@@ -503,7 +534,7 @@ else if(ch==='G'){ctx.fillStyle='#7fb069';ctx.fillRect(px+2,py+4,20,16);ctx.fill
 function drawHouseSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#15100a';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#3a2520';ctx.fillRect(px+2,py+8,20,14);ctx.fillStyle='#5a2818';ctx.beginPath();ctx.moveTo(px,py+8);ctx.lineTo(px+12,py+1);ctx.lineTo(px+24,py+8);ctx.fill();ctx.fillStyle='#15100a';ctx.fillRect(px+5,py+11,6,5);ctx.fillRect(px+13,py+11,6,5);ctx.strokeStyle='#5a2018';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px+5,py+13);ctx.lineTo(px+11,py+15);ctx.moveTo(px+13,py+11);ctx.lineTo(px+19,py+16);ctx.stroke();ctx.fillStyle='#1a0a05';ctx.fillRect(px+10,py+17,4,5);ctx.fillStyle='#5a0808';ctx.fillRect(px+15,py+18,1,4);ctx.fillRect(px+9,py+19,1,3);ctx.restore()}
 function drawLabSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#1a1025';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#352040';ctx.fillRect(px+1,py+4,22,18);ctx.fillStyle='#a040d0';ctx.fillRect(px+11,py-2,2,8);ctx.fillRect(px+9,py-1,6,2);ctx.fillStyle='#7fb0d0';ctx.fillRect(px+5,py+8,5,5);ctx.fillRect(px+14,py+8,5,5);ctx.fillStyle='#5a3a30';ctx.fillRect(px+10,py+15,4,7);ctx.fillStyle='#e0c050';ctx.fillRect(px+9,py+5,6,1);ctx.restore()}
 function drawQuestMark(x,y,type){const c=type==='main'?'#e08020':type==='progress'?'#7a7868':'#e0c050';const b=Math.sin(Date.now()/250)*1.5;ctx.fillStyle='#000';ctx.fillRect(x-3,y-2+b,8,12);ctx.fillStyle=c;ctx.fillRect(x-1,y+b,4,7);ctx.fillRect(x-1,y+b+8,4,2)}
-function getNpcQuestMark(npc){if(npc.id==='chen'){if(G.flags.introDone)return null;return 'main'}if(npc.id==='bertrand'){if(G.quests.q_bertrand?.completed)return null;if(G.quests.q_bertrand?.active&&G.inv.food>=2)return 'progress';if(G.quests.q_bertrand?.active)return null;return 'side'}if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq||jq.objDone?.find_formula)return null;if(jq.active)return 'main';return null}return null}
+function getNpcQuestMark(npc){if(npc.id==='chen'){if(G.flags.introDone)return null;return 'main'}if(npc.id==='bertrand'){if(G.quests.q_bertrand?.completed)return null;if(G.quests.q_bertrand?.active&&G.inv.food>=2)return 'progress';if(G.quests.q_bertrand?.active)return null;return 'side'}if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq||jq.objDone?.find_formula)return null;if(jq.active)return 'main';return null}if(npc.id==='marc'){if(G.quests.q_mortimer?.completed)return null;if(G.quests.q_mortimer?.active&&!G.quests.q_mortimer.objDone.talk_marc)return 'progress';if(G.quests.q_mortimer?.active)return null;return 'side'}return null}
 function drawMap(){const z=getZone();canvas.width=z.width*TILE_SIZE;canvas.height=z.height*TILE_SIZE;ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);for(let y=0;y<z.height;y++){for(let x=0;x<z.width;x++){const ch=z.map[y][x],t=TILES[ch];if(!t)continue;ctx.fillStyle=t.c1;ctx.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);ctx.fillStyle=t.c2;drawTileDetail(ch,x,y)}}
 const lk=G.zone;if(G.looted[lk]){for(const k of Object.keys(G.looted[lk])){const[x,y]=k.split(',').map(Number);ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);ctx.fillStyle='#5a5a55';ctx.fillRect(x*TILE_SIZE+9,y*TILE_SIZE+9,6,1);ctx.fillRect(x*TILE_SIZE+9,y*TILE_SIZE+12,6,1)}}
 if(G.zone==='bourg_palette'){drawHouseSpecial(3,6);drawLabSpecial(9,2);if(!G.flags.motherSaved)drawSprite(ctx,'mother_zombie',3*TILE_SIZE,6*TILE_SIZE,2)}
@@ -530,7 +561,8 @@ if(!G.npcs[G.zone])G.npcs[G.zone]=[];drawMap();refresh();renderControls();autoSa
 function tryLoot(type,key){G.looted[G.zone][key]=1;let item,qty;if(type==='hospital'){const r=Math.random();if(r<0.5){item='medkit';qty=1+Math.floor(Math.random()*2)}else if(r<0.85){item='vaccine';qty=1}else{item='food';qty=1}}else if(type==='store'){item='food';qty=2+Math.floor(Math.random()*3)}else if(type==='city'){const r=Math.random();if(r<0.6){item='food';qty=1}else if(r<0.9){item='medkit';qty=1}else{item='vaccine';qty=1}}G.inv[item]=(G.inv[item]||0)+qty;logMsg(t('log.loot.'+item,{qty}),'log-good');refresh();drawMap();renderControls()}
 function interactNPC(npc){if(npc.id==='chen'){const n=G.player.name;if(!G.flags.introStarted){G.flags.introStarted=true;startQuest('q_awakening');showDialog([{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro1',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro2')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro3')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro4',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro5')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro6')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro7')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro8')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro9'),shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro10')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro11',{name:n})}],()=>{completeObjective('q_awakening','talk_chen');showStarterSelect()})}else if(!G.flags.introDone){showDialog([{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.remind',{name:n}),shake:true}],()=>{if(G.team.length>0)startChenFight()})}}
 else if(npc.id==='bertrand'){if(!G.quests.q_bertrand){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.ask')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.deal')}],()=>startQuest('q_bertrand'))}else if(!G.quests.q_bertrand.completed&&G.inv.food>=2){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.thanks')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.trade')}],()=>{G.inv.food-=2;G.inv.vaccine+=3;completeObjective('q_bertrand','bring_food');refresh();drawMap()})}else if(!G.quests.q_bertrand.completed){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.wait')}])}else{showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.tip')}])}}
-else if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.notstarted')}])}else if(!jq.objDone.find_formula){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula1')},{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula2')}],()=>completeObjective('q_journey','find_formula'))}else{showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.after')}])}}}
+else if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.notstarted')}])}else if(!jq.objDone.find_formula){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula1')},{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula2')}],()=>completeObjective('q_journey','find_formula'))}else{showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.after')}])}}
+else if(npc.id==='marc'){if(!G.quests.q_mortimer){showDialog([{speaker:'Marc',portrait:'bertrand',text:t('marc.intro1')},{speaker:'Marc',portrait:'bertrand',text:t('marc.intro2')}],()=>{startQuest('q_mortimer')})}else if(G.quests.q_mortimer.active&&!G.quests.q_mortimer.objDone.talk_marc){showDialog([{speaker:'Marc',portrait:'bertrand',text:t('marc.quest1')},{speaker:'Marc',portrait:'bertrand',text:t('marc.quest2')}],()=>{G.inv.vaccine+=2;logMsg(t('log.marc_vaccines'),'log-good');completeObjective('q_mortimer','talk_marc')})}else{showDialog([{speaker:'Marc',portrait:'bertrand',text:t('marc.after')}])}}}
 function showStarterSelect(){G.mode='starter';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>${t('starter.title')}</h2><p class="lore">${t('starter.lore')}</p><div class="starters">${Object.keys(STARTERS).map(k=>`<div class="starter" onclick="pickStarter('${k}')"><canvas id="sc-${k}" width="64" height="64"></canvas><h3>${STARTERS[k].name}</h3><div class="stype">${STARTERS[k].type}</div><p>${STARTERS[k].desc}</p><p style="color:#7fb069">HP ${STARTERS[k].mhp} · ATK ${STARTERS[k].atk}</p></div>`).join('')}</div></div>`;setTimeout(()=>{Object.keys(STARTERS).forEach(k=>{const cv=$('sc-'+k);if(cv){const cc=cv.getContext('2d');cc.imageSmoothingEnabled=false;cc.fillStyle='#0a0a08';cc.fillRect(0,0,cv.width,cv.height);drawSprite(cc,STARTERS[k].sprite,0,0,4,false)}})},10)}
 window.pickStarter=function(k){const s=STARTERS[k];G.team.push({key:k,name:s.name,type:s.type,mhp:s.mhp,hp:s.mhp,atk:s.atk,sprite:s.sprite,isZombie:false,cured:false});$('overlay').style.display='none';completeObjective('q_awakening','choose_starter');const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:t('pl.thanks')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'HRRRGGHHH...',shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'AAAARRRGHHH—',shake:true}],()=>startChenFight())};
 function startChenFight(){const z=ZOMBIES.z_chen_bulbi;startCombat({key:'z_chen_bulbi',name:'Bulbi de Chen (infecté)',type:z.type,mhp:z.mhp,hp:z.mhp,atk:z.atk,sprite:z.sprite,isZombie:true,base:z.base,introBoss:1})}
@@ -570,7 +602,7 @@ const SAVE_KEY='pokedead_save';
 function autoSave(){if(!G.player.name)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify(G))}catch(e){}}
 function hasContinue(){try{return localStorage.getItem(SAVE_KEY)!==null}catch(e){return false}}
 function loadFromLS(){try{return JSON.parse(localStorage.getItem(SAVE_KEY))}catch(e){return null}}
-function applySaveData(d){Object.keys(G).forEach(k=>delete G[k]);Object.assign(G,d);if(!G.npcs||!G.npcs.bourg_palette)initNPCs();if(!G.npcs.jadielle)G.npcs.jadielle=[{id:'sophie',x:2,y:3,sprite:'bertrand',visible:true}];['route_1','route_2','argenta','mt_moon','route_3','azuria'].forEach(z=>{if(!G.npcs[z])G.npcs[z]=[]});if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1}if(!ZONES[G.zone])G.zone='bourg_palette';if(G.flags.introDone){const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false}}
+function applySaveData(d){Object.keys(G).forEach(k=>delete G[k]);Object.assign(G,d);if(!G.npcs||!G.npcs.bourg_palette)initNPCs();if(!G.npcs.jadielle)G.npcs.jadielle=[{id:'sophie',x:2,y:3,sprite:'bertrand',visible:true}];if(!G.npcs.lavandia)G.npcs.lavandia=[{id:'marc',x:2,y:4,sprite:'bertrand',visible:true}];['route_1','route_2','argenta','mt_moon','route_3','azuria','route_4','route_8','celadopole','route_7','safrania','route_21','cinnabar'].forEach(z=>{if(!G.npcs[z])G.npcs[z]=[]});if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1}if(!ZONES[G.zone])G.zone='bourg_palette';if(G.flags.introDone){const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false}}
 window.exportSave=function(){if(!G.player.name)return;const blob=new Blob([JSON.stringify(G)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokedead_'+G.player.name+'_day'+G.day+'.save';a.click();URL.revokeObjectURL(url);showToast(t('toast.save_done'));closeOverlay()};
 function bootLauncher(){if(hasContinue())$('btn-continue').disabled=false;renderLangUI();setTimeout(()=>{const cb=$('cc-boy').querySelector('canvas'),cg=$('cc-girl').querySelector('canvas');if(cb){const c=cb.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_boy',8,8,4)}if(cg){const c=cg.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_girl',8,8,4)}},50)}
 $('btn-new').onclick=()=>{$('launcher').style.display='none';$('char-creation').classList.add('show');$('cc-name').focus()};
