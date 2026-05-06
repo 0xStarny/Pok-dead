@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
@@ -149,8 +149,12 @@ button.good{background:#1f3a25;border-color:#3a6a45}
 <body>
 
 <div id="launcher">
+  <div style="position:absolute;top:12px;right:16px;display:flex;gap:6px">
+    <button id="lang-en" onclick="setLanguage('en')" style="padding:4px 10px;font-size:12px;letter-spacing:1px;background:#1f1d18;border:2px solid #c92a2a;color:#d4d0c8;font-weight:bold">EN</button>
+    <button id="lang-fr" onclick="setLanguage('fr')" style="padding:4px 10px;font-size:12px;letter-spacing:1px;background:#1f1d18;border:2px solid #3a382f;color:#d4d0c8">FR</button>
+  </div>
   <div class="title-art">POKÉDEAD</div>
-  <div class="subtitle">— APOCALYPSE EDITION —</div>
+  <div class="subtitle" id="launcher-subtitle">— APOCALYPSE EDITION —</div>
   <div class="ascii">     ▄████████▄
    ▄██▀░░░░░░▀██▄
   ██▀░░░░▄▄░░░░▀██
@@ -160,36 +164,36 @@ button.good{background:#1f3a25;border-color:#3a6a45}
   ██▄░░░░▀▀░░░░▄██
    ▀██▄░░░░░░▄██▀
      ▀████████▀</div>
-  <div class="lore">L'épidémie a tout dévasté. Quelques Pokémon sont restés indemnes. Tu fais partie des derniers survivants.</div>
+  <div class="lore" id="launcher-lore">The epidemic devastated everything. A few Pokémon were spared. You are one of the last survivors.</div>
   <div class="menu">
-    <button id="btn-new">⚔ Nouvelle partie</button>
-    <button id="btn-continue" disabled>► Continuer</button>
-    <button id="btn-import">📁 Importer une sauvegarde</button>
+    <button id="btn-new">⚔ New Game</button>
+    <button id="btn-continue" disabled>► Continue</button>
+    <button id="btn-import">📁 Import Save</button>
   </div>
   <input type="file" id="import-file" accept=".save,.json,application/json" style="display:none">
-  <div class="version">v0.2 · KANTO POST-OUTBREAK</div>
+  <div class="version" id="launcher-version">v0.3 · KANTO POST-OUTBREAK</div>
 </div>
 
 <div id="char-creation">
-  <h2>QUI ES-TU ?</h2>
+  <h2 id="cc-title">WHO ARE YOU?</h2>
   <div class="cc-section">
-    <div class="cc-label">Apparence</div>
+    <div class="cc-label" id="cc-label-gender">Appearance</div>
     <div class="cc-genders">
       <div class="cc-gender selected" data-g="boy" id="cc-boy">
-        <canvas width="104" height="104"></canvas><div class="label">Garçon</div>
+        <canvas width="104" height="104"></canvas><div class="label" id="cc-boy-label">Boy</div>
       </div>
       <div class="cc-gender" data-g="girl" id="cc-girl">
-        <canvas width="104" height="104"></canvas><div class="label">Fille</div>
+        <canvas width="104" height="104"></canvas><div class="label" id="cc-girl-label">Girl</div>
       </div>
     </div>
   </div>
   <div class="cc-section">
-    <div class="cc-label">Prénom</div>
-    <input type="text" class="cc-name-input" id="cc-name" maxlength="12" placeholder="Ton prénom" autocomplete="off">
+    <div class="cc-label" id="cc-label-name">Name</div>
+    <input type="text" class="cc-name-input" id="cc-name" maxlength="12" placeholder="Your name" autocomplete="off">
   </div>
   <div class="cc-buttons">
-    <button id="cc-back">← Retour</button>
-    <button class="primary" id="cc-start">Commencer →</button>
+    <button id="cc-back">← Back</button>
+    <button class="primary" id="cc-start">Start →</button>
   </div>
 </div>
 
@@ -199,14 +203,14 @@ button.good{background:#1f3a25;border-color:#3a6a45}
   <div id="game">
     <div id="header">
       <h1>POKÉDEAD</h1>
-      <div class="sub">— APOCALYPSE · GÉN. I —</div>
+      <div class="sub" id="header-sub">— APOCALYPSE · GEN. I —</div>
       <div class="zone" id="zone-name">—</div>
     </div>
     <div id="stats">
-      <div><span class="stat-label">PV joueur</span><div class="bar"><div id="hp-fill" style="background:#d04040;width:100%"></div></div><span class="stat-val" id="hp-text">50/50</span></div>
-      <div><span class="stat-label">Faim</span><div class="bar"><div id="hg-fill" style="background:#e0a040;width:100%"></div></div><span class="stat-val" id="hg-text">100/100</span></div>
-      <div><span class="stat-label">Vaccins</span><span class="big-val" id="vc-text">0</span></div>
-      <div><span class="stat-label">Jour</span><span class="big-val" id="dy-text" style="color:#d4d0c8">1</span></div>
+      <div><span class="stat-label" id="stat-hp-label">Player HP</span><div class="bar"><div id="hp-fill" style="background:#d04040;width:100%"></div></div><span class="stat-val" id="hp-text">50/50</span></div>
+      <div><span class="stat-label" id="stat-hg-label">Hunger</span><div class="bar"><div id="hg-fill" style="background:#e0a040;width:100%"></div></div><span class="stat-val" id="hg-text">100/100</span></div>
+      <div><span class="stat-label" id="stat-vc-label">Vaccines</span><span class="big-val" id="vc-text">0</span></div>
+      <div><span class="stat-label" id="stat-dy-label">Day</span><span class="big-val" id="dy-text" style="color:#d4d0c8">1</span></div>
     </div>
     <div id="main">
       <canvas id="canvas" width="384" height="288"></canvas>
@@ -216,7 +220,7 @@ button.good{background:#1f3a25;border-color:#3a6a45}
         <div class="dcontent">
           <div class="speaker" id="dialog-speaker">—</div>
           <div class="text" id="dialog-text"></div>
-          <div class="advance">▼ Continuer</div>
+          <div class="advance" id="dialog-advance">▼ Continue</div>
         </div>
       </div>
     </div>
@@ -224,26 +228,168 @@ button.good{background:#1f3a25;border-color:#3a6a45}
     <div id="controls"></div>
   </div>
   <div id="quest-panel">
-    <div class="qph"><span style="color:#e0c050;font-size:14px">📜</span><h3>JOURNAL DE QUÊTES</h3></div>
-    <div class="qpl" id="quest-list"><div class="no-quests">Aucune quête active</div></div>
+    <div class="qph"><span style="color:#e0c050;font-size:14px">📜</span><h3 id="qp-title">QUEST JOURNAL</h3></div>
+    <div class="qpl" id="quest-list"><div class="no-quests">No active quests</div></div>
   </div>
 </div>
 
 <script id="game-script">
 "use strict";
+// ============ TRANSLATIONS ============
+const T_EN={
+'menu.subtitle':'— APOCALYPSE EDITION —','menu.lore':'The epidemic devastated everything. A few Pokémon were spared. You are one of the last survivors.',
+'menu.new':'⚔ New Game','menu.continue':'► Continue','menu.import':'📁 Import Save','menu.version':'v0.3 · KANTO POST-OUTBREAK',
+'cc.title':'WHO ARE YOU?','cc.gender':'Appearance','cc.name_label':'Name','cc.boy':'Boy','cc.girl':'Girl','cc.name_placeholder':'Your name','cc.back':'← Back','cc.start':'Start →','cc.no_name':'Choose a name',
+'hd.sub':'— APOCALYPSE · GEN. I —',
+'stat.hp':'Player HP','stat.hunger':'Hunger','stat.vaccines':'Vaccines','stat.day':'Day',
+'qp.title':'QUEST JOURNAL','qp.none':'No active quests',
+'btn.advance':'▼ Continue','btn.bag':'🎒 Bag','btn.team':'👥 Team (%alive%/%total%)','btn.menu':'☰ Menu','btn.rest':'🌙 Rest','btn.tile':'On: ',
+'tile.grass':'grass','tile.forest':'forest','tile.road':'road','tile.city':'city','tile.hospital':'hospital','tile.lab':'laboratory','tile.store':'store','tile.mountain':'mountain','tile.water':'water','tile.house':'house','tile.gate':'exit',
+'log.locked_house':'The door is locked. Something growls inside.','log.mom_not_yet':'Mom... not yet.','log.lab_barricaded':'The lab is barricaded.','log.no_pass':'Blocked: %name%',
+'log.hungry':'You\'re starving... -2 HP','log.day':'Day %d%. The world deteriorates...','log.loot.food':'+%qty% ration(s) found.','log.loot.medkit':'+%qty% medkit(s) found.','log.loot.vaccine':'+%qty% vaccine(s) found.',
+'log.no_chen':'Not yet. Chen had something to tell you.','log.gate_chen':'Talk to Prof. Chen first','log.leave_palette':'You leave Pallet Town.','log.return_palette':'Back to Pallet Town.',
+'log.player_eat':'You eat. +30 hunger.','log.player_heal':'You heal yourself. +25 HP.','log.pkm_heal':'%name% healed (+%hp% HP).',
+'log.rest':'You rest. HP recovered, +1 day, -20 hunger.','log.rest_hungry':'Too hungry to sleep.','log.rest_attack':'A zombie attacks during the night!',
+'log.set_active':'%name% is now leading.','log.night_door':'North gate open. Head to Viridian City.',
+'log.player_attacks':'%name% attacks. %dmg% damage.','log.crit':' ★ CRIT!','log.super':' Super effective!','log.no_effect':' No effect','log.weak':' Not very effective...',
+'log.enemy_attacks':'%name% attacks. %dmg% damage.','log.enemy_crit':' CRIT!',
+'log.fainted':'%name% fainted!','log.no_team':'Your entire team is K.O.','log.switch':'You send out %name%!','log.next':'%name% steps in!','log.flee_ok':'You flee!','log.flee_fail':'Can\'t flee!',
+'log.zombie_attack':'The zombie attacks you! -10 HP','log.zombie_slain':'The zombie is defeated.','log.pushed':'You are pushed back hard.',
+'log.vaccine_ok':'The vaccine takes effect... %name% calms down!','log.vaccine_fail':'The vaccine fails! (%pct%%)','log.unique_cured':'Unique specimen. Vaccinated!',
+'log.captured':'%name% joins your team!','log.team_full':'Team full. %name% freed.',
+'log.loot_drop.food':'+1 ration on site.','log.loot_drop.medkit':'+1 medkit on site.','log.loot_drop.vaccine':'+1 vaccine on site.',
+'toast.new_quest':'New quest: %title%','toast.obj_done':'✓ %text%','toast.quest_done':'Quest complete: %title%',
+'toast.no_save':'No valid save','toast.save_loaded':'Save loaded','toast.save_done':'Save downloaded','toast.invalid':'Invalid file',
+'toast.mom':'Mom... not yet.','toast.chen_first':'Talk to Prof. Chen first','toast.name_required':'Choose a name',
+'combat.title.boss':'BOSS FIGHT','combat.title.intro':'FINISH IT','combat.title.normal':'COMBAT',
+'combat.attack':'⚔ ATTACK','combat.vaccinate':'💉 VACCINATE (%n%)','combat.heal':'+ HEAL (%n%)','combat.flee':'↩ FLEE',
+'combat.eff.crit':'CRITICAL HIT!','combat.eff.super':'SUPER EFFECTIVE!','combat.eff.no':'NO EFFECT','combat.eff.weak':'not very effective...','combat.eff.enemy_crit':'ENEMY CRIT!','combat.eff.vaccine_ok':'VACCINE SUCCESS!','combat.eff.vaccine_fail':'failure...',
+'inv.title':'BAG','inv.food':'Ration','inv.food_desc':'+30 hunger','inv.food_btn':'Eat','inv.medkit':'Medkit','inv.medkit_desc':'+25 player HP','inv.medkit_btn':'Heal','inv.vaccine':'Vaccine','inv.vaccine_desc':'Capture in combat','inv.pkm_heal':'Pokémon Heal','inv.pkm_heal_desc':'Uses a medkit (+15 HP)','inv.pkm_heal_btn':'Heal %name%','inv.close':'CLOSE',
+'team.title':'TEAM','team.activate':'Activate','team.close':'CLOSE',
+'menu.title_modal':'MENU','menu.save_file':'💾 Save to file','menu.rest_btn':'🌙 Rest','menu.quit':'⚠ Back to main menu','menu.close':'↩ Close',
+'gameover.title':'END OF SURVIVAL','gameover.body':'%reason%. The world continues to rot, without you.','gameover.days':'Days survived: %d%','gameover.restart':'RESTART',
+'starter.title':'THE LAST HOPE','starter.lore':'Prof. Chen opens his case. Three Pokéballs. His hand trembles.',
+'quest.q_awakening.title':'The Awakening','quest.q_awakening.desc':'Prof. Chen has something important to tell you.',
+'quest.q_awakening.talk_chen':'Talk to Prof. Chen','quest.q_awakening.choose_starter':'Choose a Pokémon','quest.q_awakening.fight_chen':'Put Chen\'s Pokémon to rest',
+'quest.q_journey.title':'The Human Antidote','quest.q_journey.desc':'Chen\'s formula is in his Viridian lab. The only chance to save mom.',
+'quest.q_journey.leave_palette':'Leave Pallet Town to the north','quest.q_journey.reach_lab':'Reach the Viridian lab','quest.q_journey.find_formula':'Retrieve Prof. Chen\'s formula','quest.q_journey.save_mom':'Synthesize the vaccine and save your mother',
+'quest.q_bertrand.title':'Bertrand\'s Hunger','quest.q_bertrand.desc':'Old Bertrand is starving.','quest.q_bertrand.bring_food':'Bring 2 rations to Bertrand',
+'chen.intro1':'%name%... you finally woke up. God, I thought we\'d lost you.',
+'chen.intro2':'You were in a coma for three days. When we found you in the forest, you were... in bad shape.',
+'chen.intro3':'The epidemic ravaged everything in two weeks. A viral mutation that started in Pokémon.',
+'chen.intro4':'%name%... your mother. She was infected before we could evacuate her. She\'s still at your place, right next door.',
+'chen.intro5':'But it\'s not her anymore. Don\'t go see her. Not like this.',
+'chen.intro6':'I developed a vaccine. It works. But only on Pokémon. For humans, we need a purer formula.',
+'chen.intro7':'All my equipment is at my main lab, in Viridian. Too far for me now.',
+'chen.intro8':'Listen. I was bitten bringing you here.',
+'chen.intro9':'I can feel it coming. A few minutes, maybe less.',
+'chen.intro10':'I have three immune Pokémon left. Choose one.',
+'chen.intro11':'And... %name%. When I turn, don\'t let me become like them.',
+'chen.remind':'...HRRRGH... %name%... end it for me...',
+'chen.post1':'...','chen.post2':'I\'m sorry, Professor.','chen.post3':'Thank you, child... Go to Viridian. The formula... behind the aquarium...','chen.post4':'I will. I promise you.',
+'pl.thanks':'Thank you, Professor.',
+'open.blur':'*Your vision blurs. A voice calls you from the darkness.*','open.call':'%name%... %name%, can you hear me?','open.lying':'*You open your eyes. You\'re lying on a couch. Prof. Chen leans over you. Everything smells of antiseptic and blood.*',
+'open.hint':'Walk toward the orange ! (Prof. Chen)',
+'bertrand.ask':'Hey, kid. Got any food?','bertrand.deal':'Give me two rations and I\'ll give you my three vaccines.',
+'bertrand.thanks':'Ah, you brought food! Bless you.','bertrand.trade':'Here, three vaccines as promised.',
+'bertrand.wait':'Come back when you have food.','bertrand.tip':'Watch out for the Haunters in labs.',
+'gameover.reason.starved':'Died of hunger','gameover.reason.devoured':'Devoured'
+};
+const T_FR={
+'menu.subtitle':'— ÉDITION APOCALYPSE —','menu.lore':'L\'épidémie a tout ravagé. Quelques Pokémon ont été épargnés. Tu es l\'un des derniers survivants.',
+'menu.new':'⚔ Nouvelle Partie','menu.continue':'► Continuer','menu.import':'📁 Importer Sauvegarde','menu.version':'v0.3 · KANTO APRÈS L\'ÉPIDÉMIE',
+'cc.title':'QUI ES-TU ?','cc.gender':'Apparence','cc.name_label':'Prénom','cc.boy':'Garçon','cc.girl':'Fille','cc.name_placeholder':'Ton prénom','cc.back':'← Retour','cc.start':'Commencer →','cc.no_name':'Choisis un prénom',
+'hd.sub':'— APOCALYPSE · GÉN. I —',
+'stat.hp':'PV joueur','stat.hunger':'Faim','stat.vaccines':'Vaccins','stat.day':'Jour',
+'qp.title':'JOURNAL DE QUÊTES','qp.none':'Aucune quête active',
+'btn.advance':'▼ Continuer','btn.bag':'🎒 Sac','btn.team':'👥 Équipe (%alive%/%total%)','btn.menu':'☰ Menu','btn.rest':'🌙 Repos','btn.tile':'Sur : ',
+'tile.grass':'herbe','tile.forest':'forêt','tile.road':'route','tile.city':'ville','tile.hospital':'hôpital','tile.lab':'laboratoire','tile.store':'épicerie','tile.mountain':'montagne','tile.water':'eau','tile.house':'maison','tile.gate':'sortie',
+'log.locked_house':'La porte est verrouillée. Quelque chose grogne à l\'intérieur.','log.mom_not_yet':'Maman... pas encore.','log.lab_barricaded':'Le labo est barricadé.','log.no_pass':'Impossible : %name%',
+'log.hungry':'Tu meurs de faim... -2 PV','log.day':'Jour %d%. Le monde se dégrade...','log.loot.food':'+%qty% ration(s) récupérée(s).','log.loot.medkit':'+%qty% medkit(s) récupéré(s).','log.loot.vaccine':'+%qty% vaccin(s) récupéré(s).',
+'log.no_chen':'Pas encore. Chen avait quelque chose à te dire.','log.gate_chen':'Va parler au Pr. Chen d\'abord','log.leave_palette':'Tu quittes Bourg Palette.','log.return_palette':'De retour à Bourg Palette.',
+'log.player_eat':'Tu manges. +30 faim.','log.player_heal':'Tu te soignes. +25 PV.','log.pkm_heal':'%name% soigné (+%hp% PV).',
+'log.rest':'Tu te reposes. PV récup, +1 jour, -20 faim.','log.rest_hungry':'Trop faim pour dormir.','log.rest_attack':'Un zombie attaque pendant la nuit !',
+'log.set_active':'%name% est en tête.','log.night_door':'Porte nord ouverte. Direction : Jadielle.',
+'log.player_attacks':'%name% attaque. %dmg% dégâts.','log.crit':' ★ CRIT !','log.super':' Super efficace !','log.no_effect':' Aucun effet','log.weak':' Peu efficace...',
+'log.enemy_attacks':'%name% attaque. %dmg% dégâts.','log.enemy_crit':' CRIT !',
+'log.fainted':'%name% est K.O. !','log.no_team':'Toute ton équipe est K.O.','log.switch':'Tu envoies %name% !','log.next':'%name% prend le relais !','log.flee_ok':'Tu fuis !','log.flee_fail':'Impossible de fuir !',
+'log.zombie_attack':'Le zombie t\'attaque ! -10 PV','log.zombie_slain':'Le zombie est terrassé.','log.pushed':'Tu es repoussé brutalement.',
+'log.vaccine_ok':'Le vaccin pénètre... %name% se calme !','log.vaccine_fail':'Le vaccin échoue ! (%pct%%)','log.unique_cured':'Spécimen unique. Vacciné !',
+'log.captured':'%name% rejoint ton équipe !','log.team_full':'Équipe pleine. %name% libéré.',
+'log.loot_drop.food':'+1 ration sur place.','log.loot_drop.medkit':'+1 medkit sur place.','log.loot_drop.vaccine':'+1 vaccin sur place.',
+'toast.new_quest':'Nouvelle quête : %title%','toast.obj_done':'✓ %text%','toast.quest_done':'Quête terminée : %title%',
+'toast.no_save':'Pas de sauvegarde valide','toast.save_loaded':'Sauvegarde chargée','toast.save_done':'Sauvegarde téléchargée','toast.invalid':'Fichier invalide',
+'toast.mom':'Maman... pas encore.','toast.chen_first':'Va parler au Pr. Chen d\'abord','toast.name_required':'Choisis un prénom',
+'combat.title.boss':'COMBAT DE BOSS','combat.title.intro':'IL FAUT EN FINIR','combat.title.normal':'COMBAT',
+'combat.attack':'⚔ ATTAQUER','combat.vaccinate':'💉 VACCINER (%n%)','combat.heal':'+ SOIGNER (%n%)','combat.flee':'↩ FUIR',
+'combat.eff.crit':'COUP CRITIQUE !','combat.eff.super':'SUPER EFFICACE !','combat.eff.no':'AUCUN EFFET','combat.eff.weak':'peu efficace...','combat.eff.enemy_crit':'CRIT ENNEMI !','combat.eff.vaccine_ok':'VACCIN RÉUSSI !','combat.eff.vaccine_fail':'échec...',
+'inv.title':'SAC','inv.food':'Ration','inv.food_desc':'+30 faim','inv.food_btn':'Manger','inv.medkit':'Medkit','inv.medkit_desc':'+25 PV joueur','inv.medkit_btn':'Soigner','inv.vaccine':'Vaccin','inv.vaccine_desc':'Capture en combat','inv.pkm_heal':'Soins Pokémon','inv.pkm_heal_desc':'Utilise un medkit (+15 PV)','inv.pkm_heal_btn':'Soigner %name%','inv.close':'FERMER',
+'team.title':'ÉQUIPE','team.activate':'Activer','team.close':'FERMER',
+'menu.title_modal':'MENU','menu.save_file':'💾 Sauvegarder dans un fichier','menu.rest_btn':'🌙 Se reposer','menu.quit':'⚠ Retour au menu principal','menu.close':'↩ Fermer',
+'gameover.title':'FIN DE LA SURVIE','gameover.body':'%reason%. Le monde continue de pourrir, sans toi.','gameover.days':'Jours survécus : %d%','gameover.restart':'RECOMMENCER',
+'starter.title':'LE DERNIER ESPOIR','starter.lore':'Pr. Chen ouvre sa malette. Trois Pokéballs. Sa main tremble.',
+'quest.q_awakening.title':'Le Réveil','quest.q_awakening.desc':'Le Pr. Chen a quelque chose à te dire. Quelque chose d\'important.',
+'quest.q_awakening.talk_chen':'Parler au Pr. Chen','quest.q_awakening.choose_starter':'Choisir un Pokémon','quest.q_awakening.fight_chen':'Achever le Pokémon de Chen',
+'quest.q_journey.title':'L\'antidote humain','quest.q_journey.desc':'La formule de Chen est dans son labo de Jadielle. La seule chance de sauver maman.',
+'quest.q_journey.leave_palette':'Quitter Bourg Palette par le nord','quest.q_journey.reach_lab':'Atteindre le labo de Jadielle','quest.q_journey.find_formula':'Récupérer la formule du Pr. Chen','quest.q_journey.save_mom':'Synthétiser le vaccin et sauver ta mère',
+'quest.q_bertrand.title':'La faim de Bertrand','quest.q_bertrand.desc':'Le vieux Bertrand crève de faim.','quest.q_bertrand.bring_food':'Apporter 2 rations à Bertrand',
+'chen.intro1':'%name%... tu es enfin réveillé. Bon dieu, j\'ai cru qu\'on t\'avait perdu.',
+'chen.intro2':'Tu es resté trois jours dans le coma. Quand on t\'a trouvé dans la forêt, tu étais... mal en point.',
+'chen.intro3':'L\'épidémie a tout ravagé en deux semaines. Une mutation virale partie des Pokémon.',
+'chen.intro4':'%name%... ta mère. Elle a été contaminée avant qu\'on puisse l\'évacuer. Elle est encore chez toi, juste à côté.',
+'chen.intro5':'Mais ce n\'est plus elle. Ne va pas la voir. Pas comme ça.',
+'chen.intro6':'J\'ai mis au point un vaccin. Il fonctionne. Mais seulement sur les Pokémon. Pour les humains, il faut une formule plus pure.',
+'chen.intro7':'Tout mon matériel est resté à mon labo principal, à Jadielle. Trop loin pour moi maintenant.',
+'chen.intro8':'Écoute. J\'ai été mordu en te ramenant ici.',
+'chen.intro9':'Je sens ça monter. Quelques minutes, peut-être moins.',
+'chen.intro10':'Il me reste trois Pokémon immunisés. Choisis-en un.',
+'chen.intro11':'Et... %name%. Quand je tournerai, ne me laisse pas devenir comme eux.',
+'chen.remind':'...HRRRGH... %name%... finis-en avec moi...',
+'chen.post1':'...','chen.post2':'Pardon, professeur.','chen.post3':'Merci, mon enfant... Va à Jadielle. La formule... derrière l\'aquarium...','chen.post4':'Je le ferai. Je vous le promets.',
+'pl.thanks':'Merci, professeur.',
+'open.blur':'*Ta vision se trouble. Une voix t\'appelle dans la pénombre.*','open.call':'%name%... %name%, tu m\'entends ?','open.lying':'*Tu ouvres les yeux. Tu es allongé sur un canapé. Le Pr. Chen est penché sur toi. Tout sent l\'antiseptique et le sang.*',
+'open.hint':'Marche vers le ! orange (Pr. Chen)',
+'bertrand.ask':'Eh, gamin. T\'aurais pas un peu de bouffe ?','bertrand.deal':'File-moi deux rations et je te donne mes trois vaccins.',
+'bertrand.thanks':'Ah, t\'as ramené à manger ! Bénis sois-tu.','bertrand.trade':'Tiens, trois vaccins comme promis.',
+'bertrand.wait':'Reviens quand t\'auras de la bouffe.','bertrand.tip':'Méfie-toi des Spectrum dans les labos.',
+'gameover.reason.starved':'Mort de faim','gameover.reason.devoured':'Dévoré'
+};
+let LANG=(()=>{try{return localStorage.getItem('pokedead_lang')||'en'}catch(e){return 'en'}})();
+function t(key,p){const T=LANG==='fr'?T_FR:T_EN;let s=T[key]||T_EN[key]||key;if(p)Object.keys(p).forEach(k=>{s=s.replace(new RegExp('%'+k+'%','g'),p[k])});return s}
+function setLanguage(lang){LANG=lang;try{localStorage.setItem('pokedead_lang',lang)}catch(e){}renderLangUI()}
+function renderLangUI(){
+  const E=(id,tx)=>{const el=$(id);if(el)el.textContent=tx};
+  E('launcher-subtitle',t('menu.subtitle'));E('launcher-lore',t('menu.lore'));E('launcher-version',t('menu.version'));
+  const bn=$('btn-new');if(bn)bn.textContent=t('menu.new');
+  const bc=$('btn-continue');if(bc)bc.textContent=t('menu.continue');
+  const bi=$('btn-import');if(bi)bi.textContent=t('menu.import');
+  const len=$('lang-en'),lfr=$('lang-fr');
+  if(len){len.style.borderColor=LANG==='en'?'#c92a2a':'#3a382f';len.style.fontWeight=LANG==='en'?'bold':'normal'}
+  if(lfr){lfr.style.borderColor=LANG==='fr'?'#c92a2a':'#3a382f';lfr.style.fontWeight=LANG==='fr'?'bold':'normal'}
+  E('cc-title',t('cc.title'));E('cc-label-gender',t('cc.gender'));E('cc-label-name',t('cc.name_label'));
+  E('cc-boy-label',t('cc.boy'));E('cc-girl-label',t('cc.girl'));
+  const cni=$('cc-name');if(cni)cni.placeholder=t('cc.name_placeholder');
+  E('cc-back',t('cc.back'));E('cc-start',t('cc.start'));
+  E('header-sub',t('hd.sub'));
+  E('stat-hp-label',t('stat.hp'));E('stat-hg-label',t('stat.hunger'));E('stat-vc-label',t('stat.vaccines'));E('stat-dy-label',t('stat.day'));
+  E('qp-title',t('qp.title'));E('dialog-advance',t('btn.advance'));
+  if(typeof G!=='undefined'&&G.mode==='exploring')renderControls();
+  if(typeof G!=='undefined')refreshQuests();
+}
+// ============ TILES & ZONES ============
 const TILE_SIZE=32;
 const TILES={
-  '.':{name:'herbe',c1:'#2a3520',c2:'#3a4530',pass:1,enc:0.18},
-  'F':{name:'forêt',c1:'#15201a',c2:'#1f2a18',pass:1,enc:0.32},
-  'R':{name:'route',c1:'#3a3530',c2:'#4a4540',pass:1,enc:0.05},
-  'C':{name:'ville',c1:'#252018',c2:'#3a3025',pass:1,enc:0.40,loot:'city'},
-  'H':{name:'hôpital',c1:'#251015',c2:'#3a2025',pass:1,enc:0.20,loot:'hospital'},
-  'L':{name:'laboratoire',c1:'#1a1025',c2:'#352040',pass:0,interact:'lab'},
-  'X':{name:'épicerie',c1:'#251a10',c2:'#403525',pass:1,enc:0.08,loot:'store'},
-  'M':{name:'montagne',c1:'#0a0808',c2:'#1a1815',pass:0},
-  'W':{name:'eau',c1:'#0c1a25',c2:'#1a2a3a',pass:0},
-  'h':{name:'maison',c1:'#15100a',c2:'#251810',pass:0,interact:'home_locked'},
-  'G':{name:'sortie',c1:'#3a3530',c2:'#5a5045',pass:1,interact:'gate'}
+  '.':{tkey:'grass',c1:'#2a3520',c2:'#3a4530',pass:1,enc:0.18},
+  'F':{tkey:'forest',c1:'#15201a',c2:'#1f2a18',pass:1,enc:0.32},
+  'R':{tkey:'road',c1:'#3a3530',c2:'#4a4540',pass:1,enc:0.05},
+  'C':{tkey:'city',c1:'#252018',c2:'#3a3025',pass:1,enc:0.40,loot:'city'},
+  'H':{tkey:'hospital',c1:'#251015',c2:'#3a2025',pass:1,enc:0.20,loot:'hospital'},
+  'L':{tkey:'lab',c1:'#1a1025',c2:'#352040',pass:0,interact:'lab'},
+  'X':{tkey:'store',c1:'#251a10',c2:'#403525',pass:1,enc:0.08,loot:'store'},
+  'M':{tkey:'mountain',c1:'#0a0808',c2:'#1a1815',pass:0},
+  'W':{tkey:'water',c1:'#0c1a25',c2:'#1a2a3a',pass:0},
+  'h':{tkey:'house',c1:'#15100a',c2:'#251810',pass:0,interact:'home_locked'},
+  'G':{tkey:'gate',c1:'#3a3530',c2:'#5a5045',pass:1,interact:'gate'}
 };
 const ZONES={
   bourg_palette:{name:'Bourg Palette',width:12,height:10,map:["MMMMMGMMMMMM","MFF......FFM","MF.......L.M","MF........FM","MF........FM","M..........M","M..h.......M","MF.........M","MFFFFFFFFFFM","MMMMMMMMMMMM"]},
@@ -274,10 +420,13 @@ const CURED={bulbasaur:{name:'Bulbizarre',type:'plante',mhp:62,atk:13,sprite:'bu
 const TYPECHART={feu:{plante:2,eau:0.5,roche:0.5,vol:1.5},eau:{feu:2,plante:0.5,roche:2},plante:{eau:2,feu:0.5,roche:2,vol:0.5,poison:0.5},normal:{roche:0.5,spectre:0},vol:{plante:2,roche:0.5},poison:{plante:2,roche:0.5},roche:{vol:2,feu:2,plante:0.5},spectre:{normal:0,spectre:2}};
 function effectiveness(a,d){return TYPECHART[a]?.[d]??1}
 const QUEST_DEFS={
-  q_awakening:{title:'Le Réveil',type:'main',desc:'Le Pr. Chen a quelque chose à te dire. Quelque chose d\'important.',objectives:[{id:'talk_chen',text:'Parler au Pr. Chen'},{id:'choose_starter',text:'Choisir un Pokémon'},{id:'fight_chen',text:'Achever le Pokémon de Chen'}]},
-  q_journey:{title:'L\'antidote humain',type:'main',desc:'La formule de Chen est dans son labo de Jadielle. La seule chance de sauver maman.',objectives:[{id:'leave_palette',text:'Quitter Bourg Palette par le nord'},{id:'reach_lab',text:'Atteindre le labo de Jadielle'},{id:'find_formula',text:'Récupérer la formule du Pr. Chen'},{id:'save_mom',text:'Synthétiser le vaccin et sauver ta mère'}]},
-  q_bertrand:{title:'La faim de Bertrand',type:'side',desc:'Le vieux Bertrand crève de faim.',objectives:[{id:'bring_food',text:'Apporter 2 rations à Bertrand'}]}
+  q_awakening:{type:'main',objectives:['talk_chen','choose_starter','fight_chen']},
+  q_journey:{type:'main',objectives:['leave_palette','reach_lab','find_formula','save_mom']},
+  q_bertrand:{type:'side',objectives:['bring_food']}
 };
+function qTitle(qid){return t('quest.'+qid+'.title')}
+function qDesc(qid){return t('quest.'+qid+'.desc')}
+function qObj(qid,oid){return t('quest.'+qid+'.'+oid)}
 const G={mode:'launcher',player:{name:'',gender:'boy',x:6,y:6,hp:50,mhp:50,hunger:100,mhunger:100},zone:'bourg_palette',inv:{food:3,medkit:2,vaccine:1},team:[],active:0,combat:null,day:1,steps:0,looted:{},flags:{},quests:{},log:[],npcs:{}};
 function initNPCs(){G.npcs={bourg_palette:[{id:'chen',x:9,y:2,sprite:'chen',visible:true},{id:'bertrand',x:7,y:5,sprite:'bertrand',visible:true}],kanto:[]}}
 function $(id){return document.getElementById(id)}
@@ -308,55 +457,55 @@ if(G.zone==='bourg_palette'){drawHouseSpecial(3,6);drawLabSpecial(9,2);if(!G.fla
 const npcs=G.npcs[G.zone]||[];for(const n of npcs){if(!n.visible)continue;drawSprite(ctx,n.sprite,n.x*TILE_SIZE,n.y*TILE_SIZE,2);const qm=getNpcQuestMark(n);if(qm)drawQuestMark(n.x*TILE_SIZE+16,n.y*TILE_SIZE-10,qm)}
 const ps=G.player.gender==='girl'?'player_girl':'player_boy';drawSprite(ctx,ps,G.player.x*TILE_SIZE,G.player.y*TILE_SIZE,2);ctx.strokeStyle='rgba(208,64,64,0.6)';ctx.lineWidth=1;ctx.strokeRect(G.player.x*TILE_SIZE+0.5,G.player.y*TILE_SIZE+0.5,TILE_SIZE-1,TILE_SIZE-1)}
 function refresh(){$('hp-fill').style.width=(G.player.hp/G.player.mhp)*100+'%';$('hp-text').textContent=G.player.hp+'/'+G.player.mhp;$('hg-fill').style.width=(G.player.hunger/G.player.mhunger)*100+'%';$('hg-text').textContent=G.player.hunger+'/'+G.player.mhunger;$('vc-text').textContent=G.inv.vaccine;$('dy-text').textContent=G.day;$('zone-name').textContent=getZone().name;refreshQuests()}
-function refreshQuests(){const list=$('quest-list');const active=Object.keys(G.quests).filter(k=>G.quests[k].active&&!G.quests[k].completed);if(active.length===0){list.innerHTML='<div class="no-quests">Aucune quête active</div>';return}active.sort((a,b)=>(QUEST_DEFS[a].type==='main'?0:1)-(QUEST_DEFS[b].type==='main'?0:1));list.innerHTML=active.map(qid=>{const def=QUEST_DEFS[qid],s=G.quests[qid],cls=def.type==='main'?'main':'',ic=def.type==='main'?'!':'?';return `<div class="quest-card ${cls}"><div class="qt"><span class="qicon">${ic}</span>${def.title}</div><div class="qd">${def.desc}</div>${def.objectives.map(o=>{const d=s.objDone[o.id];return `<div class="qobj ${d?'done':''}"><span style="width:10px;flex-shrink:0">${d?'✓':'○'}</span>${o.text}</div>`}).join('')}</div>`}).join('')}
-function startQuest(qid){if(G.quests[qid])return;G.quests[qid]={active:true,completed:false,objDone:{}};refreshQuests();showToast('Nouvelle quête : '+QUEST_DEFS[qid].title);logMsg('📜 Quête : '+QUEST_DEFS[qid].title,'log-event');autoSave()}
-function completeObjective(qid,oid){const q=G.quests[qid];if(!q||q.completed||q.objDone[oid])return;q.objDone[oid]=true;const def=QUEST_DEFS[qid],obj=def.objectives.find(o=>o.id===oid);if(obj){showToast('✓ '+obj.text);logMsg('✓ '+obj.text,'log-good')}if(def.objectives.every(o=>q.objDone[o.id])){q.completed=true;showToast('Quête terminée : '+def.title);logMsg('🏆 Quête terminée : '+def.title,'log-event')}refreshQuests();autoSave()}
+function refreshQuests(){const list=$('quest-list');const active=Object.keys(G.quests).filter(k=>G.quests[k].active&&!G.quests[k].completed);if(active.length===0){list.innerHTML='<div class="no-quests">'+t('qp.none')+'</div>';return}active.sort((a,b)=>(QUEST_DEFS[a].type==='main'?0:1)-(QUEST_DEFS[b].type==='main'?0:1));list.innerHTML=active.map(qid=>{const def=QUEST_DEFS[qid],s=G.quests[qid],cls=def.type==='main'?'main':'',ic=def.type==='main'?'!':'?';return `<div class="quest-card ${cls}"><div class="qt"><span class="qicon">${ic}</span>${qTitle(qid)}</div><div class="qd">${qDesc(qid)}</div>${def.objectives.map(oid=>{const d=s.objDone[oid];return `<div class="qobj ${d?'done':''}"><span style="width:10px;flex-shrink:0">${d?'✓':'○'}</span>${qObj(qid,oid)}</div>`}).join('')}</div>`}).join('')}
+function startQuest(qid){if(G.quests[qid])return;G.quests[qid]={active:true,completed:false,objDone:{}};refreshQuests();showToast(t('toast.new_quest',{title:qTitle(qid)}));logMsg('📜 '+t('toast.new_quest',{title:qTitle(qid)}),'log-event');autoSave()}
+function completeObjective(qid,oid){const q=G.quests[qid];if(!q||q.completed||q.objDone[oid])return;q.objDone[oid]=true;const def=QUEST_DEFS[qid],objTxt=qObj(qid,oid);showToast(t('toast.obj_done',{text:objTxt}));logMsg('✓ '+objTxt,'log-good');if(def.objectives.every(o=>q.objDone[o])){q.completed=true;showToast(t('toast.quest_done',{title:qTitle(qid)}));logMsg('🏆 '+t('toast.quest_done',{title:qTitle(qid)}),'log-event')}refreshQuests();autoSave()}
 let dialogQueue=[],dialogCallback=null,dialogTyping=false,dialogFinishCurrent=null;
 function showDialog(q,cb){dialogQueue=q.slice();dialogCallback=cb;$('dialog-box').classList.add('show');G.mode='dialog';nextDialogLine()}
 function nextDialogLine(){if(dialogTyping){if(dialogFinishCurrent)dialogFinishCurrent();return}if(dialogQueue.length===0){closeDialog();return}const l=dialogQueue.shift();$('dialog-speaker').textContent=l.speaker;drawPortrait($('portrait-cv'),l.portrait);if(l.shake){$('dialog-box').classList.add('shake');setTimeout(()=>$('dialog-box').classList.remove('shake'),300)}typeText(l.text,$('dialog-text'))}
 function typeText(text,el){dialogTyping=true;el.textContent='';let i=0;const iv=setInterval(()=>{el.textContent=text.substring(0,++i);if(i>=text.length){clearInterval(iv);dialogTyping=false;dialogFinishCurrent=null}},22);dialogFinishCurrent=()=>{clearInterval(iv);el.textContent=text;dialogTyping=false;dialogFinishCurrent=null}}
 function closeDialog(){$('dialog-box').classList.remove('show');G.mode='exploring';const cb=dialogCallback;dialogCallback=null;if(cb)cb();renderControls()}
 $('dialog-box').addEventListener('click',nextDialogLine);
-function move(dx,dy){if(G.mode!=='exploring')return;const nx=G.player.x+dx,ny=G.player.y+dy,z=getZone();if(nx<0||nx>=z.width||ny<0||ny>=z.height)return;const npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}const ch=z.map[ny][nx],t=TILES[ch];if(!t.pass){if(t.interact==='home_locked'&&G.zone==='bourg_palette'){logMsg('La porte est verrouillée. Quelque chose grogne à l\'intérieur.','log-bad');showToast('Maman... pas encore.')}else if(t.interact==='lab'){logMsg('Le labo est barricadé.','log-line')}else logMsg('Impossible : '+t.name,'log-line');return}if(ch==='G'){handleGate(nx,ny);return}G.player.x=nx;G.player.y=ny;G.steps++;
-if(G.steps%3===0){G.player.hunger=Math.max(0,G.player.hunger-1);if(G.player.hunger===0){G.player.hp=Math.max(0,G.player.hp-2);logMsg('Tu meurs de faim... -2 PV','log-bad');if(G.player.hp<=0){gameOver('Mort de faim');return}}}
-if(G.steps%30===0){G.day++;logMsg('Jour '+G.day+'. Le monde se dégrade...','log-event')}drawMap();refresh();const lk=G.zone;G.looted[lk]=G.looted[lk]||{};const lk2=nx+','+ny;if(t.loot&&!G.looted[lk][lk2]){if(Math.random()<0.65){tryLoot(t.loot,lk2);autoSave();return}}if(G.flags.introDone&&Math.random()<t.enc){triggerEncounter();return}renderControls();autoSave()}
-function handleGate(){if(!G.flags.introDone){logMsg('Pas encore. Chen avait quelque chose à te dire.','log-event');showToast('Va parler au Pr. Chen d\'abord');return}if(G.zone==='bourg_palette'){G.zone='kanto';G.player.x=5;G.player.y=11;completeObjective('q_journey','leave_palette');logMsg('Tu quittes Bourg Palette.','log-event')}else if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1;logMsg('De retour à Bourg Palette.','log-line')}drawMap();refresh();renderControls();autoSave()}
-function tryLoot(type,key){G.looted[G.zone][key]=1;let item,qty;if(type==='hospital'){const r=Math.random();if(r<0.5){item='medkit';qty=1+Math.floor(Math.random()*2)}else if(r<0.85){item='vaccine';qty=1}else{item='food';qty=1}}else if(type==='store'){item='food';qty=2+Math.floor(Math.random()*3)}else if(type==='city'){const r=Math.random();if(r<0.6){item='food';qty=1}else if(r<0.9){item='medkit';qty=1}else{item='vaccine';qty=1}}G.inv[item]=(G.inv[item]||0)+qty;const lab={food:'ration(s)',medkit:'medkit(s)',vaccine:'vaccin(s)'};logMsg('+'+qty+' '+lab[item]+' récupéré(s).','log-good');refresh();drawMap();renderControls()}
-function interactNPC(npc){if(npc.id==='chen'){if(!G.flags.introStarted){G.flags.introStarted=true;startQuest('q_awakening');const n=G.player.name;showDialog([{speaker:'Pr. Chen',portrait:'chen',text:n+'... tu es enfin réveillé. Bon dieu, j\'ai cru qu\'on t\'avait perdu.'},{speaker:'Pr. Chen',portrait:'chen',text:'Tu es resté trois jours dans le coma. Quand on t\'a trouvé dans la forêt, tu étais... mal en point.'},{speaker:'Pr. Chen',portrait:'chen',text:'L\'épidémie a tout ravagé en deux semaines. Une mutation virale partie des Pokémon.'},{speaker:'Pr. Chen',portrait:'chen',text:n+'... ta mère. Elle a été contaminée avant qu\'on puisse l\'évacuer. Elle est encore chez toi, juste à côté.'},{speaker:'Pr. Chen',portrait:'chen',text:'Mais ce n\'est plus elle. Ne va pas la voir. Pas comme ça.'},{speaker:'Pr. Chen',portrait:'chen',text:'J\'ai mis au point un vaccin. Il fonctionne. Mais seulement sur les Pokémon. Pour les humains, il faut une formule plus pure.'},{speaker:'Pr. Chen',portrait:'chen',text:'Tout mon matériel est resté à mon labo principal, à Jadielle. Trop loin pour moi maintenant.'},{speaker:'Pr. Chen',portrait:'chen',text:'Écoute. J\'ai été mordu en te ramenant ici.'},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'Je sens ça monter. Quelques minutes, peut-être moins.',shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'Il me reste trois Pokémon immunisés. Choisis-en un.'},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'Et... '+n+'. Quand je tournerai, ne me laisse pas devenir comme eux.'}],()=>{completeObjective('q_awakening','talk_chen');showStarterSelect()})}else if(!G.flags.introDone){showDialog([{speaker:'Pr. Chen',portrait:'chen_zombie',text:'...HRRRGH... '+G.player.name+'... finis-en avec moi...',shake:true}],()=>{if(G.team.length>0)startChenFight()})}}
-else if(npc.id==='bertrand'){if(!G.quests.q_bertrand){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:'Eh, gamin. T\'aurais pas un peu de bouffe ?'},{speaker:'Bertrand',portrait:'bertrand',text:'File-moi deux rations et je te donne mes trois vaccins.'}],()=>startQuest('q_bertrand'))}else if(!G.quests.q_bertrand.completed&&G.inv.food>=2){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:'Ah, t\'as ramené à manger ! Bénis sois-tu.'},{speaker:'Bertrand',portrait:'bertrand',text:'Tiens, trois vaccins comme promis.'}],()=>{G.inv.food-=2;G.inv.vaccine+=3;completeObjective('q_bertrand','bring_food');refresh();drawMap()})}else if(!G.quests.q_bertrand.completed){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:'Reviens quand t\'auras de la bouffe.'}])}else{showDialog([{speaker:'Bertrand',portrait:'bertrand',text:'Méfie-toi des Spectrum dans les labos.'}])}}}
-function showStarterSelect(){G.mode='starter';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>LE DERNIER ESPOIR</h2><p class="lore">Pr. Chen ouvre sa malette. Trois Pokéballs. Sa main tremble.</p><div class="starters">${Object.keys(STARTERS).map(k=>`<div class="starter" onclick="pickStarter('${k}')"><canvas id="sc-${k}" width="64" height="64"></canvas><h3>${STARTERS[k].name}</h3><div class="stype">${STARTERS[k].type}</div><p>${STARTERS[k].desc}</p><p style="color:#7fb069">PV ${STARTERS[k].mhp} · ATK ${STARTERS[k].atk}</p></div>`).join('')}</div></div>`;setTimeout(()=>{Object.keys(STARTERS).forEach(k=>{const cv=$('sc-'+k);if(cv){const cc=cv.getContext('2d');cc.imageSmoothingEnabled=false;cc.fillStyle='#0a0a08';cc.fillRect(0,0,cv.width,cv.height);drawSprite(cc,STARTERS[k].sprite,0,0,4,false)}})},10)}
-window.pickStarter=function(k){const s=STARTERS[k];G.team.push({key:k,name:s.name,type:s.type,mhp:s.mhp,hp:s.mhp,atk:s.atk,sprite:s.sprite,isZombie:false,cured:false});$('overlay').style.display='none';completeObjective('q_awakening','choose_starter');const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:'Merci, professeur.'},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'HRRRGGHHH...',shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'AAAARRRGHHH—',shake:true}],()=>startChenFight())};
+function move(dx,dy){if(G.mode!=='exploring')return;const nx=G.player.x+dx,ny=G.player.y+dy,z=getZone();if(nx<0||nx>=z.width||ny<0||ny>=z.height)return;const npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}const ch=z.map[ny][nx],ti=TILES[ch];if(!ti.pass){if(ti.interact==='home_locked'&&G.zone==='bourg_palette'){logMsg(t('log.locked_house'),'log-bad');showToast(t('toast.mom'))}else if(ti.interact==='lab'){logMsg(t('log.lab_barricaded'),'log-line')}else logMsg(t('log.no_pass',{name:t('tile.'+ti.tkey)}),'log-line');return}if(ch==='G'){handleGate(nx,ny);return}G.player.x=nx;G.player.y=ny;G.steps++;
+if(G.steps%3===0){G.player.hunger=Math.max(0,G.player.hunger-1);if(G.player.hunger===0){G.player.hp=Math.max(0,G.player.hp-2);logMsg(t('log.hungry'),'log-bad');if(G.player.hp<=0){gameOver(t('gameover.reason.starved'));return}}}
+if(G.steps%30===0){G.day++;logMsg(t('log.day',{d:G.day}),'log-event')}drawMap();refresh();const lk=G.zone;G.looted[lk]=G.looted[lk]||{};const lk2=nx+','+ny;if(ti.loot&&!G.looted[lk][lk2]){if(Math.random()<0.65){tryLoot(ti.loot,lk2);autoSave();return}}if(G.flags.introDone&&Math.random()<ti.enc){triggerEncounter();return}renderControls();autoSave()}
+function handleGate(){if(!G.flags.introDone){logMsg(t('log.no_chen'),'log-event');showToast(t('toast.chen_first'));return}if(G.zone==='bourg_palette'){G.zone='kanto';G.player.x=5;G.player.y=11;completeObjective('q_journey','leave_palette');logMsg(t('log.leave_palette'),'log-event')}else if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1;logMsg(t('log.return_palette'),'log-line')}drawMap();refresh();renderControls();autoSave()}
+function tryLoot(type,key){G.looted[G.zone][key]=1;let item,qty;if(type==='hospital'){const r=Math.random();if(r<0.5){item='medkit';qty=1+Math.floor(Math.random()*2)}else if(r<0.85){item='vaccine';qty=1}else{item='food';qty=1}}else if(type==='store'){item='food';qty=2+Math.floor(Math.random()*3)}else if(type==='city'){const r=Math.random();if(r<0.6){item='food';qty=1}else if(r<0.9){item='medkit';qty=1}else{item='vaccine';qty=1}}G.inv[item]=(G.inv[item]||0)+qty;logMsg(t('log.loot.'+item,{qty}),'log-good');refresh();drawMap();renderControls()}
+function interactNPC(npc){if(npc.id==='chen'){const n=G.player.name;if(!G.flags.introStarted){G.flags.introStarted=true;startQuest('q_awakening');showDialog([{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro1',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro2')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro3')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro4',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro5')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro6')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro7')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro8')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro9'),shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro10')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro11',{name:n})}],()=>{completeObjective('q_awakening','talk_chen');showStarterSelect()})}else if(!G.flags.introDone){showDialog([{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.remind',{name:n}),shake:true}],()=>{if(G.team.length>0)startChenFight()})}}
+else if(npc.id==='bertrand'){if(!G.quests.q_bertrand){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.ask')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.deal')}],()=>startQuest('q_bertrand'))}else if(!G.quests.q_bertrand.completed&&G.inv.food>=2){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.thanks')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.trade')}],()=>{G.inv.food-=2;G.inv.vaccine+=3;completeObjective('q_bertrand','bring_food');refresh();drawMap()})}else if(!G.quests.q_bertrand.completed){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.wait')}])}else{showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.tip')}])}}}
+function showStarterSelect(){G.mode='starter';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>${t('starter.title')}</h2><p class="lore">${t('starter.lore')}</p><div class="starters">${Object.keys(STARTERS).map(k=>`<div class="starter" onclick="pickStarter('${k}')"><canvas id="sc-${k}" width="64" height="64"></canvas><h3>${STARTERS[k].name}</h3><div class="stype">${STARTERS[k].type}</div><p>${STARTERS[k].desc}</p><p style="color:#7fb069">HP ${STARTERS[k].mhp} · ATK ${STARTERS[k].atk}</p></div>`).join('')}</div></div>`;setTimeout(()=>{Object.keys(STARTERS).forEach(k=>{const cv=$('sc-'+k);if(cv){const cc=cv.getContext('2d');cc.imageSmoothingEnabled=false;cc.fillStyle='#0a0a08';cc.fillRect(0,0,cv.width,cv.height);drawSprite(cc,STARTERS[k].sprite,0,0,4,false)}})},10)}
+window.pickStarter=function(k){const s=STARTERS[k];G.team.push({key:k,name:s.name,type:s.type,mhp:s.mhp,hp:s.mhp,atk:s.atk,sprite:s.sprite,isZombie:false,cured:false});$('overlay').style.display='none';completeObjective('q_awakening','choose_starter');const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:t('pl.thanks')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'HRRRGGHHH...',shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'AAAARRRGHHH—',shake:true}],()=>startChenFight())};
 function startChenFight(){const z=ZOMBIES.z_chen_bulbi;startCombat({key:'z_chen_bulbi',name:'Bulbi de Chen (infecté)',type:z.type,mhp:z.mhp,hp:z.mhp,atk:z.atk,sprite:z.sprite,isZombie:true,base:z.base,introBoss:1})}
 function triggerEncounter(){const tier=Math.min(3,1+Math.floor(G.steps/25));const cands=Object.keys(ZOMBIES).filter(k=>{const z=ZOMBIES[k];return !z.boss&&!z.introBoss&&z.tier>0&&z.tier<=tier});const zk=cands[Math.floor(Math.random()*cands.length)];const z=ZOMBIES[zk];startCombat({key:zk,name:z.name,type:z.type,mhp:z.mhp,hp:z.mhp,atk:z.atk,sprite:z.sprite,isZombie:true,base:z.base,boss:z.boss})}
 function getActive(){return G.team[G.active]}function getAliveTeam(){return G.team.filter(p=>p.hp>0)}
-function startCombat(e){if(getAliveTeam().length===0){gameOver('Toute ton équipe est K.O.');return}if(getActive()&&getActive().hp<=0)G.active=G.team.findIndex(p=>p.hp>0);G.mode='combat';G.combat={enemy:e,turn:'player',locked:false};logMsg('Un '+e.name+' surgit !','log-bad');showCombatScreen()}
-function showCombatScreen(){const ov=$('overlay');ov.style.display='flex';const a=getActive(),e=G.combat.enemy,iIntro=e.introBoss,tc=e.boss?'#d04040':iIntro?'#e08020':'#c92a2a',tt=e.boss?'COMBAT DE BOSS':iIntro?'IL FAUT EN FINIR':'COMBAT';
-ov.innerHTML=`<div class="modal" style="width:480px"><h2 style="color:${tc}">${tt}</h2><div class="combat-stage" id="combat-stage"><canvas id="cv-enemy" class="cs-enemy" width="96" height="96"></canvas><canvas id="cv-ally" class="cs-ally" width="96" height="96"></canvas><div class="info-card ic-enemy"><div class="iname">${e.name}</div><div class="itype">${e.type}</div><div class="ihp"><div class="hpbar"><div id="ehp-bar" style="width:${(e.hp/e.mhp)*100}%"></div></div><span id="ehp-txt">${e.hp}/${e.mhp}</span></div></div><div class="info-card ic-ally"><div class="iname">${a.name}${a.cured?' ★':''}</div><div class="itype">${a.type}</div><div class="ihp"><div class="hpbar"><div id="ahp-bar" style="width:${(a.hp/a.mhp)*100}%"></div></div><span id="ahp-txt">${a.hp}/${a.mhp}</span></div></div></div><div class="actions combat"><button class="danger" onclick="combatAttack()">⚔ ATTAQUER</button><button class="good" onclick="combatVaccinate()" ${G.inv.vaccine>0&&!iIntro?'':'disabled'}>💉 VACCINER (${G.inv.vaccine})</button><button onclick="combatItem()" ${G.inv.medkit>0?'':'disabled'}>+ SOIGNER (${G.inv.medkit})</button><button onclick="combatRun()" ${e.boss||iIntro?'disabled':''}>↩ FUIR</button></div>${G.team.length>1?`<div style="margin-top:6px;font-size:10px;color:#888">Équipe : ${G.team.map((p,i)=>`<button onclick="combatSwitch(${i})" ${i===G.active||p.hp<=0?'disabled':''} style="padding:3px 6px;font-size:9px">${p.name}</button>`).join(' ')}</div>`:''}</div>`;
+function startCombat(e){if(getAliveTeam().length===0){gameOver(t('log.no_team'));return}if(getActive()&&getActive().hp<=0)G.active=G.team.findIndex(p=>p.hp>0);G.mode='combat';G.combat={enemy:e,turn:'player',locked:false};logMsg('Un '+e.name+' surgit !','log-bad');showCombatScreen()}
+function showCombatScreen(){const ov=$('overlay');ov.style.display='flex';const a=getActive(),e=G.combat.enemy,iIntro=e.introBoss,tc=e.boss?'#d04040':iIntro?'#e08020':'#c92a2a',tt=e.boss?t('combat.title.boss'):iIntro?t('combat.title.intro'):t('combat.title.normal');
+ov.innerHTML=`<div class="modal" style="width:480px"><h2 style="color:${tc}">${tt}</h2><div class="combat-stage" id="combat-stage"><canvas id="cv-enemy" class="cs-enemy" width="96" height="96"></canvas><canvas id="cv-ally" class="cs-ally" width="96" height="96"></canvas><div class="info-card ic-enemy"><div class="iname">${e.name}</div><div class="itype">${e.type}</div><div class="ihp"><div class="hpbar"><div id="ehp-bar" style="width:${(e.hp/e.mhp)*100}%"></div></div><span id="ehp-txt">${e.hp}/${e.mhp}</span></div></div><div class="info-card ic-ally"><div class="iname">${a.name}${a.cured?' ★':''}</div><div class="itype">${a.type}</div><div class="ihp"><div class="hpbar"><div id="ahp-bar" style="width:${(a.hp/a.mhp)*100}%"></div></div><span id="ahp-txt">${a.hp}/${a.mhp}</span></div></div></div><div class="actions combat"><button class="danger" onclick="combatAttack()">${t('combat.attack')}</button><button class="good" onclick="combatVaccinate()" ${G.inv.vaccine>0&&!iIntro?'':'disabled'}>${t('combat.vaccinate',{n:G.inv.vaccine})}</button><button onclick="combatItem()" ${G.inv.medkit>0?'':'disabled'}>${t('combat.heal',{n:G.inv.medkit})}</button><button onclick="combatRun()" ${e.boss||iIntro?'disabled':''}>${t('combat.flee')}</button></div>${G.team.length>1?`<div style="margin-top:6px;font-size:10px;color:#888">${G.team.map((p,i)=>`<button onclick="combatSwitch(${i})" ${i===G.active||p.hp<=0?'disabled':''} style="padding:3px 6px;font-size:9px">${p.name}</button>`).join(' ')}</div>`:''}</div>`;
 setTimeout(()=>{const ce=$('cv-enemy'),ca=$('cv-ally');if(ce)drawSprite(ce.getContext('2d'),e.sprite,0,0,6,true);if(ca)drawSprite(ca.getContext('2d'),a.sprite,0,0,6,a.isZombie&&!a.cured)},10)}
 function spawnDmg(target,v,type){const st=$('combat-stage');if(!st)return;const sr=st.getBoundingClientRect(),te=$(target==='enemy'?'cv-enemy':'cv-ally');if(!te)return;const tr=te.getBoundingClientRect(),x=tr.left-sr.left+tr.width/2-10,y=tr.top-sr.top+20,el=document.createElement('div');el.className='dmg-num';if(type==='crit')el.classList.add('crit');else if(type==='super')el.classList.add('super');else if(type==='weak')el.classList.add('weak');else if(type==='heal')el.classList.add('heal');el.textContent=(type==='heal'?'+':'')+v;el.style.left=x+'px';el.style.top=y+'px';st.appendChild(el);setTimeout(()=>el.remove(),1000)}
 function spawnEff(t,c){const st=$('combat-stage');if(!st)return;const e=document.createElement('div');e.className='eff-banner '+(c||'');e.textContent=t;st.appendChild(e);setTimeout(()=>e.remove(),900)}
 function shake(target){const st=$('combat-stage');if(st){st.classList.add('shake');setTimeout(()=>st.classList.remove('shake'),300)}const e=$(target==='enemy'?'cv-enemy':'cv-ally');if(e){e.classList.add('hit');setTimeout(()=>e.classList.remove('hit'),250)}}
 function refreshHP(){const a=getActive(),e=G.combat.enemy,eh=$('ehp-bar'),ah=$('ahp-bar');if(!eh||!ah)return;eh.style.width=(e.hp/e.mhp)*100+'%';ah.style.width=(a.hp/a.mhp)*100+'%';const ep=e.hp/e.mhp,ap=a.hp/a.mhp;eh.className=ep<0.25?'crit':ep<0.5?'low':'';ah.className=ap<0.25?'crit':ap<0.5?'low':'';$('ehp-txt').textContent=e.hp+'/'+e.mhp;$('ahp-txt').textContent=a.hp+'/'+a.mhp}
-window.combatAttack=function(){if(G.combat.turn!=='player'||G.combat.locked)return;G.combat.locked=true;const a=getActive(),e=G.combat.enemy,ef=effectiveness(a.type,e.type),crit=Math.random()<0.08,base=a.atk+Math.floor(Math.random()*5)-2;let dmg=Math.max(1,Math.round(base*ef));if(crit)dmg=Math.round(dmg*1.7);e.hp=Math.max(0,e.hp-dmg);shake('enemy');let dt='normal';if(crit)dt='crit';else if(ef>=2)dt='super';else if(ef>0&&ef<1)dt='weak';spawnDmg('enemy',dmg,dt);if(crit)spawnEff('COUP CRITIQUE !','crit');else if(ef>=2)spawnEff('SUPER EFFICACE !','super');else if(ef===0)spawnEff('AUCUN EFFET','weak');else if(ef<1)spawnEff('peu efficace...','weak');logMsg(a.name+' attaque. '+dmg+' dégâts.'+(crit?' ★ CRIT !':'')+(ef>=2?' Super efficace !':ef===0?' Aucun effet':ef<1?' Peu efficace...':''),crit?'log-event':ef>=2?'log-good':'log-line');setTimeout(refreshHP,200);if(e.hp<=0){setTimeout(()=>endCombat('victory'),700);return}G.combat.turn='enemy';setTimeout(enemyTurn,900)};
-window.combatVaccinate=function(){if(G.combat.turn!=='player'||G.combat.locked||G.inv.vaccine<=0)return;if(G.combat.enemy.introBoss)return;G.combat.locked=true;const e=G.combat.enemy;G.inv.vaccine--;refresh();const hp=e.hp/e.mhp,sr=e.boss?Math.max(0,0.5-hp):(1-hp)*0.9+0.1;if(Math.random()<sr){spawnEff('VACCIN RÉUSSI !','super');logMsg('Le vaccin pénètre... '+e.name+' se calme !','log-good');setTimeout(capture,600)}else{spawnEff('échec...','weak');logMsg('Le vaccin échoue ! ('+Math.round(sr*100)+'%)','log-bad');G.combat.turn='enemy';setTimeout(enemyTurn,800)}};
-function capture(){const e=G.combat.enemy,c=CURED[e.base];if(!c){logMsg('Spécimen unique. Vacciné !','log-event');setTimeout(()=>endCombat('captured'),600);return}const np={key:'cured_'+e.base,name:c.name,type:c.type,mhp:c.mhp,hp:c.mhp,atk:c.atk,sprite:c.sprite,isZombie:false,cured:true};if(G.team.length<4){G.team.push(np);logMsg(c.name+' rejoint ton équipe !','log-good')}else logMsg('Équipe pleine. '+c.name+' libéré.','log-event');setTimeout(()=>endCombat('captured'),600)}
-window.combatItem=function(){if(G.combat.turn!=='player'||G.combat.locked||G.inv.medkit<=0)return;G.combat.locked=true;const a=getActive();G.inv.medkit--;const h=Math.min(a.mhp-a.hp,25);a.hp+=h;spawnDmg('ally',h,'heal');logMsg(a.name+' soigné (+'+h+' PV).','log-good');refresh();setTimeout(refreshHP,200);G.combat.turn='enemy';setTimeout(enemyTurn,800)};
-window.combatRun=function(){if(G.combat.turn!=='player'||G.combat.locked)return;if(G.combat.enemy.boss||G.combat.enemy.introBoss)return;G.combat.locked=true;if(Math.random()<0.6){logMsg('Tu fuis !','log-line');endCombat('flee')}else{logMsg('Impossible de fuir !','log-bad');G.combat.turn='enemy';setTimeout(enemyTurn,800)}};
-window.combatSwitch=function(i){if(G.combat.turn!=='player'||G.combat.locked)return;if(i===G.active||G.team[i].hp<=0)return;G.combat.locked=true;G.active=i;logMsg('Tu envoies '+getActive().name+' !','log-line');showCombatScreen();G.combat.turn='enemy';setTimeout(enemyTurn,800)};
-function enemyTurn(){if(G.mode!=='combat')return;const a=getActive(),e=G.combat.enemy;if(e.hp<=0)return;const ef=effectiveness(e.type,a.type),crit=Math.random()<0.05,base=e.atk+Math.floor(Math.random()*4)-1;let dmg=Math.max(1,Math.round(base*ef));if(crit)dmg=Math.round(dmg*1.6);a.hp=Math.max(0,a.hp-dmg);shake('ally');let dt='normal';if(crit)dt='crit';else if(ef>=2)dt='super';else if(ef>0&&ef<1)dt='weak';spawnDmg('ally',dmg,dt);if(crit)spawnEff('CRIT ENNEMI !','crit');logMsg(e.name+' attaque. '+dmg+' dégâts.'+(crit?' CRIT !':'')+(ef>=2?' Super efficace !':ef===0?' Aucun effet':ef<1?' Peu efficace...':''),'log-bad');setTimeout(refreshHP,200);if(a.hp<=0){logMsg(a.name+' est K.O. !','log-bad');const al=getAliveTeam();if(al.length===0){G.player.hp=Math.max(0,G.player.hp-10);refresh();logMsg('Le zombie t\'attaque ! -10 PV','log-bad');if(G.player.hp<=0){gameOver('Dévoré');return}setTimeout(()=>endCombat('defeat'),1000);return}G.active=G.team.findIndex(p=>p.hp>0);setTimeout(()=>{logMsg(getActive().name+' prend le relais !','log-event');showCombatScreen();G.combat.turn='player';G.combat.locked=false},800);return}G.combat.turn='player';G.combat.locked=false}
-function endCombat(r){const wasIntro=G.combat?.enemy?.introBoss;G.combat=null;$('overlay').style.display='none';if(wasIntro&&r==='victory'){G.flags.introDone=true;completeObjective('q_awakening','fight_chen');const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false;const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:'...'},{speaker:G.player.name,portrait:ps,text:'Pardon, professeur.'},{speaker:'Pr. Chen',portrait:'chen',text:'Merci, mon enfant... Va à Jadielle. La formule... derrière l\'aquarium...'},{speaker:G.player.name,portrait:ps,text:'Je le ferai. Je vous le promets.'}],()=>{startQuest('q_journey');logMsg('La porte nord est maintenant ouverte. Direction : Jadielle.','log-event');drawMap();refresh();renderControls();autoSave()});return}G.mode='exploring';if(r==='victory'){logMsg('Le zombie est terrassé.','log-good');if(Math.random()<0.3){const x=Math.random();if(x<0.5){G.inv.food++;logMsg('+1 ration sur place.','log-good')}else if(x<0.8){G.inv.medkit++;logMsg('+1 medkit sur place.','log-good')}else{G.inv.vaccine++;logMsg('+1 vaccin sur place.','log-event')}}}else if(r==='defeat')logMsg('Tu es repoussé brutalement.','log-bad');refresh();drawMap();renderControls();autoSave()}
-function gameOver(reason){G.mode='gameover';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2 style="color:#d04040">FIN DE LA SURVIE</h2><p class="lore">${reason}. Le monde continue de pourrir, sans toi.</p><p>Jours survécus : ${G.day}</p><button class="danger" onclick="resetGame()" style="margin-top:12px;width:100%;padding:12px">RECOMMENCER</button></div>`;try{localStorage.removeItem('pokedead_save')}catch(e){}}
+window.combatAttack=function(){if(G.combat.turn!=='player'||G.combat.locked)return;G.combat.locked=true;const a=getActive(),e=G.combat.enemy,ef=effectiveness(a.type,e.type),crit=Math.random()<0.08,base=a.atk+Math.floor(Math.random()*5)-2;let dmg=Math.max(1,Math.round(base*ef));if(crit)dmg=Math.round(dmg*1.7);e.hp=Math.max(0,e.hp-dmg);shake('enemy');let dt='normal';if(crit)dt='crit';else if(ef>=2)dt='super';else if(ef>0&&ef<1)dt='weak';spawnDmg('enemy',dmg,dt);if(crit)spawnEff(t('combat.eff.crit'),'crit');else if(ef>=2)spawnEff(t('combat.eff.super'),'super');else if(ef===0)spawnEff(t('combat.eff.no'),'weak');else if(ef<1)spawnEff(t('combat.eff.weak'),'weak');logMsg(t('log.player_attacks',{name:a.name,dmg})+(crit?t('log.crit'):'')+(ef>=2?t('log.super'):ef===0?t('log.no_effect'):ef<1?t('log.weak'):''),crit?'log-event':ef>=2?'log-good':'log-line');setTimeout(refreshHP,200);if(e.hp<=0){setTimeout(()=>endCombat('victory'),700);return}G.combat.turn='enemy';setTimeout(enemyTurn,900)};
+window.combatVaccinate=function(){if(G.combat.turn!=='player'||G.combat.locked||G.inv.vaccine<=0)return;if(G.combat.enemy.introBoss)return;G.combat.locked=true;const e=G.combat.enemy;G.inv.vaccine--;refresh();const hp=e.hp/e.mhp,sr=e.boss?Math.max(0,0.5-hp):(1-hp)*0.9+0.1;if(Math.random()<sr){spawnEff(t('combat.eff.vaccine_ok'),'super');logMsg(t('log.vaccine_ok',{name:e.name}),'log-good');setTimeout(capture,600)}else{spawnEff(t('combat.eff.vaccine_fail'),'weak');logMsg(t('log.vaccine_fail',{pct:Math.round(sr*100)}),'log-bad');G.combat.turn='enemy';setTimeout(enemyTurn,800)}};
+function capture(){const e=G.combat.enemy,c=CURED[e.base];if(!c){logMsg(t('log.unique_cured'),'log-event');setTimeout(()=>endCombat('captured'),600);return}const np={key:'cured_'+e.base,name:c.name,type:c.type,mhp:c.mhp,hp:c.mhp,atk:c.atk,sprite:c.sprite,isZombie:false,cured:true};if(G.team.length<4){G.team.push(np);logMsg(t('log.captured',{name:c.name}),'log-good')}else logMsg(t('log.team_full',{name:c.name}),'log-event');setTimeout(()=>endCombat('captured'),600)}
+window.combatItem=function(){if(G.combat.turn!=='player'||G.combat.locked||G.inv.medkit<=0)return;G.combat.locked=true;const a=getActive();G.inv.medkit--;const h=Math.min(a.mhp-a.hp,25);a.hp+=h;spawnDmg('ally',h,'heal');logMsg(t('log.pkm_heal',{name:a.name,hp:h}),'log-good');refresh();setTimeout(refreshHP,200);G.combat.turn='enemy';setTimeout(enemyTurn,800)};
+window.combatRun=function(){if(G.combat.turn!=='player'||G.combat.locked)return;if(G.combat.enemy.boss||G.combat.enemy.introBoss)return;G.combat.locked=true;if(Math.random()<0.6){logMsg(t('log.flee_ok'),'log-line');endCombat('flee')}else{logMsg(t('log.flee_fail'),'log-bad');G.combat.turn='enemy';setTimeout(enemyTurn,800)}};
+window.combatSwitch=function(i){if(G.combat.turn!=='player'||G.combat.locked)return;if(i===G.active||G.team[i].hp<=0)return;G.combat.locked=true;G.active=i;logMsg(t('log.switch',{name:getActive().name}),'log-line');showCombatScreen();G.combat.turn='enemy';setTimeout(enemyTurn,800)};
+function enemyTurn(){if(G.mode!=='combat')return;const a=getActive(),e=G.combat.enemy;if(e.hp<=0)return;const ef=effectiveness(e.type,a.type),crit=Math.random()<0.05,base=e.atk+Math.floor(Math.random()*4)-1;let dmg=Math.max(1,Math.round(base*ef));if(crit)dmg=Math.round(dmg*1.6);a.hp=Math.max(0,a.hp-dmg);shake('ally');let dt='normal';if(crit)dt='crit';else if(ef>=2)dt='super';else if(ef>0&&ef<1)dt='weak';spawnDmg('ally',dmg,dt);if(crit)spawnEff(t('combat.eff.enemy_crit'),'crit');logMsg(t('log.enemy_attacks',{name:e.name,dmg})+(crit?t('log.enemy_crit'):'')+(ef>=2?t('log.super'):ef===0?t('log.no_effect'):ef<1?t('log.weak'):''),'log-bad');setTimeout(refreshHP,200);if(a.hp<=0){logMsg(t('log.fainted',{name:a.name}),'log-bad');const al=getAliveTeam();if(al.length===0){G.player.hp=Math.max(0,G.player.hp-10);refresh();logMsg(t('log.zombie_attack'),'log-bad');if(G.player.hp<=0){gameOver(t('gameover.reason.devoured'));return}setTimeout(()=>endCombat('defeat'),1000);return}G.active=G.team.findIndex(p=>p.hp>0);setTimeout(()=>{logMsg(t('log.next',{name:getActive().name}),'log-event');showCombatScreen();G.combat.turn='player';G.combat.locked=false},800);return}G.combat.turn='player';G.combat.locked=false}
+function endCombat(r){const wasIntro=G.combat?.enemy?.introBoss;G.combat=null;$('overlay').style.display='none';if(wasIntro&&r==='victory'){G.flags.introDone=true;completeObjective('q_awakening','fight_chen');const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false;const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:t('chen.post1')},{speaker:G.player.name,portrait:ps,text:t('chen.post2')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.post3')},{speaker:G.player.name,portrait:ps,text:t('chen.post4')}],()=>{startQuest('q_journey');logMsg(t('log.night_door'),'log-event');drawMap();refresh();renderControls();autoSave()});return}G.mode='exploring';if(r==='victory'){logMsg(t('log.zombie_slain'),'log-good');if(Math.random()<0.3){const x=Math.random();if(x<0.5){G.inv.food++;logMsg(t('log.loot_drop.food'),'log-good')}else if(x<0.8){G.inv.medkit++;logMsg(t('log.loot_drop.medkit'),'log-good')}else{G.inv.vaccine++;logMsg(t('log.loot_drop.vaccine'),'log-event')}}}else if(r==='defeat')logMsg(t('log.pushed'),'log-bad');refresh();drawMap();renderControls();autoSave()}
+function gameOver(reason){G.mode='gameover';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2 style="color:#d04040">${t('gameover.title')}</h2><p class="lore">${t('gameover.body',{reason})}</p><p>${t('gameover.days',{d:G.day})}</p><button class="danger" onclick="resetGame()" style="margin-top:12px;width:100%;padding:12px">${t('gameover.restart')}</button></div>`;try{localStorage.removeItem('pokedead_save')}catch(e){}}
 window.resetGame=function(){location.reload()};
-window.openInventory=function(){if(G.mode!=='exploring')return;G.mode='menu';const a=getActive(),ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>SAC</h2><div class="inv-grid"><div class="inv-item"><div class="iname">Ration</div><div class="icount">${G.inv.food}</div><div class="idesc">+30 faim</div><button onclick="useItem('food')" ${G.inv.food>0&&G.player.hunger<G.player.mhunger?'':'disabled'} style="margin-top:6px;width:100%">Manger</button></div><div class="inv-item"><div class="iname">Medkit</div><div class="icount">${G.inv.medkit}</div><div class="idesc">+25 PV joueur</div><button onclick="useItem('medkit')" ${G.inv.medkit>0&&G.player.hp<G.player.mhp?'':'disabled'} style="margin-top:6px;width:100%">Soigner</button></div><div class="inv-item"><div class="iname">Vaccin</div><div class="icount">${G.inv.vaccine}</div><div class="idesc">Capture en combat</div></div><div class="inv-item"><div class="iname">Soins Pokémon</div><div class="icount">-</div><div class="idesc">Utilise un medkit (+15 PV)</div><button onclick="usePokemonHeal()" ${G.inv.medkit>0&&a&&a.hp<a.mhp?'':'disabled'} style="margin-top:6px;width:100%">Soigner ${a?a.name:'-'}</button></div></div><button onclick="closeOverlay()" style="margin-top:8px;width:100%">FERMER</button></div>`};
-window.useItem=function(type){if(type==='food'){if(G.inv.food<=0||G.player.hunger>=G.player.mhunger)return;G.inv.food--;G.player.hunger=Math.min(G.player.mhunger,G.player.hunger+30);logMsg('Tu manges. +30 faim.','log-good')}else if(type==='medkit'){if(G.inv.medkit<=0||G.player.hp>=G.player.mhp)return;G.inv.medkit--;G.player.hp=Math.min(G.player.mhp,G.player.hp+25);logMsg('Tu te soignes. +25 PV.','log-good')}refresh();openInventory();autoSave()};
-window.usePokemonHeal=function(){if(G.inv.medkit<=0)return;const a=getActive();if(!a||a.hp>=a.mhp)return;G.inv.medkit--;const h=Math.min(a.mhp-a.hp,15);a.hp+=h;logMsg(a.name+' soigné (+'+h+' PV).','log-good');refresh();openInventory();autoSave()};
-window.openTeam=function(){if(G.mode!=='exploring')return;G.mode='menu';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>ÉQUIPE</h2><div class="team-list">${G.team.map((p,i)=>`<div class="team-row ${i===G.active?'active':''} ${p.hp<=0?'fainted':''}"><canvas id="tcv-${i}" width="40" height="40"></canvas><div class="tinfo"><div class="tname">${p.name}${p.cured?' ★':''}</div><div class="ttype">${p.type} · ATK ${p.atk}</div><div style="margin-top:3px"><div class="hpbar" style="max-width:120px"><div style="width:${(p.hp/p.mhp)*100}%;background:${p.hp<=0?'#666':'#6abe6a'}"></div></div><span style="font-size:9px">${p.hp}/${p.mhp}</span></div></div>${i!==G.active&&p.hp>0?`<button onclick="setActive(${i})">Activer</button>`:''}</div>`).join('')}</div><button onclick="closeOverlay()" style="margin-top:8px;width:100%">FERMER</button></div>`;setTimeout(()=>{G.team.forEach((p,i)=>{const cv=$('tcv-'+i);if(cv){const cc=cv.getContext('2d');cc.imageSmoothingEnabled=false;cc.fillStyle='#0a0a08';cc.fillRect(0,0,40,40);drawSprite(cc,p.sprite,4,4,2,p.isZombie&&!p.cured)}})},10)};
-window.setActive=function(i){G.active=i;logMsg(G.team[i].name+' est en tête.','log-line');openTeam();autoSave()};
+window.openInventory=function(){if(G.mode!=='exploring')return;G.mode='menu';const a=getActive(),ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>${t('inv.title')}</h2><div class="inv-grid"><div class="inv-item"><div class="iname">${t('inv.food')}</div><div class="icount">${G.inv.food}</div><div class="idesc">${t('inv.food_desc')}</div><button onclick="useItem('food')" ${G.inv.food>0&&G.player.hunger<G.player.mhunger?'':'disabled'} style="margin-top:6px;width:100%">${t('inv.food_btn')}</button></div><div class="inv-item"><div class="iname">${t('inv.medkit')}</div><div class="icount">${G.inv.medkit}</div><div class="idesc">${t('inv.medkit_desc')}</div><button onclick="useItem('medkit')" ${G.inv.medkit>0&&G.player.hp<G.player.mhp?'':'disabled'} style="margin-top:6px;width:100%">${t('inv.medkit_btn')}</button></div><div class="inv-item"><div class="iname">${t('inv.vaccine')}</div><div class="icount">${G.inv.vaccine}</div><div class="idesc">${t('inv.vaccine_desc')}</div></div><div class="inv-item"><div class="iname">${t('inv.pkm_heal')}</div><div class="icount">-</div><div class="idesc">${t('inv.pkm_heal_desc')}</div><button onclick="usePokemonHeal()" ${G.inv.medkit>0&&a&&a.hp<a.mhp?'':'disabled'} style="margin-top:6px;width:100%">${t('inv.pkm_heal_btn',{name:a?a.name:'-'})}</button></div></div><button onclick="closeOverlay()" style="margin-top:8px;width:100%">${t('inv.close')}</button></div>`};
+window.useItem=function(type){if(type==='food'){if(G.inv.food<=0||G.player.hunger>=G.player.mhunger)return;G.inv.food--;G.player.hunger=Math.min(G.player.mhunger,G.player.hunger+30);logMsg(t('log.player_eat'),'log-good')}else if(type==='medkit'){if(G.inv.medkit<=0||G.player.hp>=G.player.mhp)return;G.inv.medkit--;G.player.hp=Math.min(G.player.mhp,G.player.hp+25);logMsg(t('log.player_heal'),'log-good')}refresh();openInventory();autoSave()};
+window.usePokemonHeal=function(){if(G.inv.medkit<=0)return;const a=getActive();if(!a||a.hp>=a.mhp)return;G.inv.medkit--;const h=Math.min(a.mhp-a.hp,15);a.hp+=h;logMsg(t('log.pkm_heal',{name:a.name,hp:h}),'log-good');refresh();openInventory();autoSave()};
+window.openTeam=function(){if(G.mode!=='exploring')return;G.mode='menu';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>${t('team.title')}</h2><div class="team-list">${G.team.map((p,i)=>`<div class="team-row ${i===G.active?'active':''} ${p.hp<=0?'fainted':''}"><canvas id="tcv-${i}" width="40" height="40"></canvas><div class="tinfo"><div class="tname">${p.name}${p.cured?' ★':''}</div><div class="ttype">${p.type} · ATK ${p.atk}</div><div style="margin-top:3px"><div class="hpbar" style="max-width:120px"><div style="width:${(p.hp/p.mhp)*100}%;background:${p.hp<=0?'#666':'#6abe6a'}"></div></div><span style="font-size:9px">${p.hp}/${p.mhp}</span></div></div>${i!==G.active&&p.hp>0?`<button onclick="setActive(${i})">${t('team.activate')}</button>`:''}</div>`).join('')}</div><button onclick="closeOverlay()" style="margin-top:8px;width:100%">${t('team.close')}</button></div>`;setTimeout(()=>{G.team.forEach((p,i)=>{const cv=$('tcv-'+i);if(cv){const cc=cv.getContext('2d');cc.imageSmoothingEnabled=false;cc.fillStyle='#0a0a08';cc.fillRect(0,0,40,40);drawSprite(cc,p.sprite,4,4,2,p.isZombie&&!p.cured)}})},10)};
+window.setActive=function(i){G.active=i;logMsg(t('log.set_active',{name:G.team[i].name}),'log-line');openTeam();autoSave()};
 window.closeOverlay=function(){G.mode='exploring';$('overlay').style.display='none';drawMap();renderControls()};
-window.openMenu=function(){if(G.mode!=='exploring')return;G.mode='menu';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>MENU</h2><div class="event-choices"><button onclick="exportSave()">💾 Sauvegarder dans un fichier</button><button onclick="restRecover()">🌙 Se reposer</button><button onclick="quitToMenu()" class="danger">⚠ Retour au menu principal</button><button onclick="closeOverlay()">↩ Fermer</button></div></div>`};
+window.openMenu=function(){if(G.mode!=='exploring')return;G.mode='menu';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>${t('menu.title_modal')}</h2><div class="event-choices"><button onclick="exportSave()">${t('menu.save_file')}</button><button onclick="restRecover()">${t('menu.rest_btn')}</button><button onclick="quitToMenu()" class="danger">${t('menu.quit')}</button><button onclick="closeOverlay()">${t('menu.close')}</button></div></div>`};
 window.quitToMenu=function(){autoSave();location.reload()};
-window.restRecover=function(){$('overlay').style.display='none';G.mode='exploring';if(G.player.hunger<20){logMsg('Trop faim pour dormir.','log-bad');return}G.player.hunger-=20;const h=Math.floor(G.player.mhp*0.25);G.player.hp=Math.min(G.player.mhp,G.player.hp+h);G.team.forEach(p=>{if(p.hp>0)p.hp=Math.min(p.mhp,p.hp+Math.floor(p.mhp*0.25))});G.day++;logMsg('Tu te reposes. PV récup, +1 jour, -20 faim.','log-good');refresh();if(Math.random()<0.35&&G.flags.introDone){logMsg('Un zombie attaque pendant la nuit !','log-bad');setTimeout(()=>triggerEncounter(),500)}else drawMap();autoSave()};
-function renderControls(){const c=$('controls');if(G.mode==='exploring'){const z=getZone(),t=TILES[z.map[G.player.y][G.player.x]];c.innerHTML=`<div class="tile-info">Sur : <span class="tname">${t?t.name:'?'}</span></div><div class="actions"><button onclick="openInventory()">🎒 Sac</button><button onclick="openTeam()">👥 Équipe (${G.team.filter(p=>p.hp>0).length}/${G.team.length})</button><button onclick="openMenu()">☰ Menu</button><button onclick="restRecover()">🌙 Repos</button></div><div class="dpad"><button class="up" onclick="move(0,-1)">▲</button><button class="left" onclick="move(-1,0)">◀</button><button class="ctr" onclick="actionInteract()">A</button><button class="right" onclick="move(1,0)">▶</button><button class="down" onclick="move(0,1)">▼</button></div>`}else c.innerHTML=''}
+window.restRecover=function(){$('overlay').style.display='none';G.mode='exploring';if(G.player.hunger<20){logMsg(t('log.rest_hungry'),'log-bad');return}G.player.hunger-=20;const h=Math.floor(G.player.mhp*0.25);G.player.hp=Math.min(G.player.mhp,G.player.hp+h);G.team.forEach(p=>{if(p.hp>0)p.hp=Math.min(p.mhp,p.hp+Math.floor(p.mhp*0.25))});G.day++;logMsg(t('log.rest'),'log-good');refresh();if(Math.random()<0.35&&G.flags.introDone){logMsg(t('log.rest_attack'),'log-bad');setTimeout(()=>triggerEncounter(),500)}else drawMap();autoSave()};
+function renderControls(){const c=$('controls');if(G.mode==='exploring'){const z=getZone(),ch=z.map[G.player.y][G.player.x],ti=TILES[ch];const tileName=ti?t('tile.'+ti.tkey):'?';c.innerHTML=`<div class="tile-info">${t('btn.tile')}<span class="tname">${tileName}</span></div><div class="actions"><button onclick="openInventory()">${t('btn.bag')}</button><button onclick="openTeam()">${t('btn.team',{alive:G.team.filter(p=>p.hp>0).length,total:G.team.length})}</button><button onclick="openMenu()">${t('btn.menu')}</button><button onclick="restRecover()">${t('btn.rest')}</button></div><div class="dpad"><button class="up" onclick="move(0,-1)">▲</button><button class="left" onclick="move(-1,0)">◀</button><button class="ctr" onclick="actionInteract()">A</button><button class="right" onclick="move(1,0)">▶</button><button class="down" onclick="move(0,1)">▼</button></div>`}else c.innerHTML=''}
 window.move=move;window.actionInteract=function(){if(G.mode!=='exploring')return;const dirs=[[0,-1],[1,0],[0,1],[-1,0]];for(const[dx,dy] of dirs){const nx=G.player.x+dx,ny=G.player.y+dy,npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}}};
 window.addEventListener('keydown',e=>{if(G.mode==='dialog'){if(e.key==='Enter'||e.key===' '){e.preventDefault();nextDialogLine()}return}if(G.mode!=='exploring')return;if(e.key==='ArrowUp'||e.key==='w'){e.preventDefault();move(0,-1)}else if(e.key==='ArrowDown'||e.key==='s'){e.preventDefault();move(0,1)}else if(e.key==='ArrowLeft'||e.key==='a'){e.preventDefault();move(-1,0)}else if(e.key==='ArrowRight'||e.key==='d'){e.preventDefault();move(1,0)}else if(e.key==='i')openInventory();else if(e.key==='t')openTeam();else if(e.key==='Escape')openMenu();else if(e.key===' '||e.key==='Enter')actionInteract()});
 const SAVE_KEY='pokedead_save';
@@ -364,16 +513,16 @@ function autoSave(){if(!G.player.name)return;try{localStorage.setItem(SAVE_KEY,J
 function hasContinue(){try{return localStorage.getItem(SAVE_KEY)!==null}catch(e){return false}}
 function loadFromLS(){try{return JSON.parse(localStorage.getItem(SAVE_KEY))}catch(e){return null}}
 function applySaveData(d){Object.keys(G).forEach(k=>delete G[k]);Object.assign(G,d);if(!G.npcs||!G.npcs.bourg_palette)initNPCs();if(G.flags.introDone){const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false}}
-window.exportSave=function(){if(!G.player.name)return;const blob=new Blob([JSON.stringify(G)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokedead_'+G.player.name+'_jour'+G.day+'.save';a.click();URL.revokeObjectURL(url);showToast('Sauvegarde téléchargée');closeOverlay()};
-function bootLauncher(){if(hasContinue())$('btn-continue').disabled=false;setTimeout(()=>{const cb=$('cc-boy').querySelector('canvas'),cg=$('cc-girl').querySelector('canvas');if(cb){const c=cb.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_boy',8,8,4)}if(cg){const c=cg.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_girl',8,8,4)}},50)}
+window.exportSave=function(){if(!G.player.name)return;const blob=new Blob([JSON.stringify(G)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokedead_'+G.player.name+'_day'+G.day+'.save';a.click();URL.revokeObjectURL(url);showToast(t('toast.save_done'));closeOverlay()};
+function bootLauncher(){if(hasContinue())$('btn-continue').disabled=false;renderLangUI();setTimeout(()=>{const cb=$('cc-boy').querySelector('canvas'),cg=$('cc-girl').querySelector('canvas');if(cb){const c=cb.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_boy',8,8,4)}if(cg){const c=cg.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_girl',8,8,4)}},50)}
 $('btn-new').onclick=()=>{$('launcher').style.display='none';$('char-creation').classList.add('show');$('cc-name').focus()};
-$('btn-continue').onclick=()=>{const d=loadFromLS();if(!d){showToast('Pas de sauvegarde valide');return}applySaveData(d);startGameFromState(false)};
+$('btn-continue').onclick=()=>{const d=loadFromLS();if(!d){showToast(t('toast.no_save'));return}applySaveData(d);startGameFromState(false)};
 $('btn-import').onclick=()=>$('import-file').click();
-$('import-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.player)throw new Error();applySaveData(d);autoSave();startGameFromState(false);showToast('Sauvegarde chargée')}catch(err){showToast('Fichier invalide')}};r.readAsText(f)};
+$('import-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.player)throw new Error();applySaveData(d);autoSave();startGameFromState(false);showToast(t('toast.save_loaded'))}catch(err){showToast(t('toast.invalid'))}};r.readAsText(f)};
 document.querySelectorAll('.cc-gender').forEach(el=>{el.onclick=()=>{document.querySelectorAll('.cc-gender').forEach(e=>e.classList.remove('selected'));el.classList.add('selected')}});
 $('cc-back').onclick=()=>{$('char-creation').classList.remove('show');$('launcher').style.display='flex'};
-$('cc-start').onclick=()=>{const n=$('cc-name').value.trim();if(!n){showToast('Choisis un prénom');return}const g=document.querySelector('.cc-gender.selected').dataset.g;G.player.name=n;G.player.gender=g;initNPCs();startGameFromState(true)};
-function startGameFromState(showOpen){$('launcher').style.display='none';$('char-creation').classList.remove('show');$('layout').classList.add('show');G.mode='exploring';drawMap();refresh();renderControls();startAnimLoop();if(showOpen){setTimeout(()=>{const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:'???',portrait:ps,text:'*Ta vision se trouble. Une voix t\'appelle dans la pénombre.*'},{speaker:'Pr. Chen',portrait:'chen',text:G.player.name+'... '+G.player.name+', tu m\'entends ?'},{speaker:G.player.name,portrait:ps,text:'*Tu ouvres les yeux. Tu es allongé sur un canapé. Le Pr. Chen est penché sur toi. Tout sent l\'antiseptique et le sang.*'}],()=>showToast('Marche vers le ! orange (Pr. Chen)'))},400)}autoSave()}
+$('cc-start').onclick=()=>{const n=$('cc-name').value.trim();if(!n){showToast(t('toast.name_required'));return}const g=document.querySelector('.cc-gender.selected').dataset.g;G.player.name=n;G.player.gender=g;initNPCs();startGameFromState(true)};
+function startGameFromState(showOpen){$('launcher').style.display='none';$('char-creation').classList.remove('show');$('layout').classList.add('show');G.mode='exploring';drawMap();refresh();renderControls();startAnimLoop();if(showOpen){setTimeout(()=>{const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:'???',portrait:ps,text:t('open.blur')},{speaker:'Pr. Chen',portrait:'chen',text:t('open.call',{name:G.player.name})},{speaker:G.player.name,portrait:ps,text:t('open.lying')}],()=>showToast(t('open.hint')))},400)}autoSave()}
 let animLoopRunning=false;
 function startAnimLoop(){if(animLoopRunning)return;animLoopRunning=true;let lastDraw=0;function loop(t){if(G.mode==='exploring'&&t-lastDraw>100){drawMap();lastDraw=t}requestAnimationFrame(loop)}requestAnimationFrame(loop)}
 bootLauncher();
