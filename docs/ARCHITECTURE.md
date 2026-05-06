@@ -1,216 +1,300 @@
 # POKÉDEAD — Code Architecture
 
-How the single `pokedead.html` is organized internally. This is a map of where to look for what.
+Complete reference for `pokedead.html` internals. Use this to find exactly where to make any change.
 
-## File structure
+---
+
+## File layout
 
 ```
 pokedead.html
 ├── <head>
-│   └── <style>           CSS (~10 KB) — all styling
+│   └── <style>         CSS (~12 KB)
 └── <body>
-    ├── #launcher         Launcher screen markup
-    ├── #char-creation    Character creation screen markup
-    ├── #toast            Floating notification
-    ├── #layout           Main game layout
-    │   ├── #game         The game console
-    │   │   ├── #header   Title bar + zone label
-    │   │   ├── #stats    HP / Hunger / Vaccines / Day
-    │   │   ├── #main     Canvas + overlays
-    │   │   │   ├── #canvas        Game world rendering
-    │   │   │   ├── #overlay       Modals (combat, menu, etc.)
-    │   │   │   └── #dialog-box    NPC dialog
-    │   │   ├── #log      Action log
+    ├── #launcher        Launcher screen
+    ├── #char-creation   Character creation
+    ├── #toast           Floating notification
+    ├── #layout          Main game (flex: #game + #quest-panel)
+    │   ├── #game
+    │   │   ├── #header  Title + zone label
+    │   │   ├── #stats   HP / Hunger / Vaccines / Day
+    │   │   ├── #main    Canvas + overlays
+    │   │   │   ├── #canvas        Game world
+    │   │   │   ├── #overlay       Combat / inventory / modals
+    │   │   │   └── #dialog-box    NPC dialog (portrait + typewriter)
+    │   │   ├── #log     Action log (last ~10 lines)
     │   │   └── #controls Action buttons + d-pad
-    │   └── #quest-panel  Right-side quest tracker
-    └── <script>          ~60 KB game engine
+    │   └── #quest-panel  Right sidebar
+    └── <script>         ~97 KB game engine
 ```
 
-## CSS sections (in order)
+---
 
-1. **Reset & body** — base typography
-2. **Launcher** — title art, ASCII Pokéball, menu buttons, language toggle
-3. **Char creation** — gender selector, name input
-4. **Layout** — flex container for game + quest panel, responsive breakpoints
-5. **Header / Stats / Main / Log / Controls** — game console internals
-6. **D-pad** — directional control grid
-7. **Horde alert** — pulsing top banner
-8. **Quest panel** — sidebar styling
-9. **Overlays & modals** — combat, inventory, team modals
-10. **Dialog box** — portrait + text + typewriter cursor
-11. **Combat stage** — animations (hit flash, screen shake, dmg numbers)
-12. **Damage numbers / banners** — floating animations
-13. **Team / Inventory grids** — modal layouts
-14. **Toast** — global notification
-15. **Media queries** — mobile breakpoints (1080px / 480px)
+## All tile characters
 
-## JS sections (in order, denoted by `// ============ X ============` headers)
+### Exterior tiles (used in overworld zone maps)
 
-| Section | Purpose | Key entries |
-|---|---|---|
-| **TRANSLATIONS** | Language tables + `t()` helper | `T_EN`, `T_FR`, `LANG`, `t(key, params)`, `setLanguage()` |
-| **TILES & ZONES** | Map data | `TILE_SIZE`, `TILES`, `ZONES` (each zone has `name`, `width`, `height`, `map`) |
-| **SPRITES** | Pixel-art sprite strings | `SPRITES` (Pokémon), `HUMANS` (people) |
-| **POKEMON DATA** | Stats and metadata | `STARTERS`, `ZOMBIES`, `CURED`, `TYPECHART`, `effectiveness()` |
-| **QUESTS** | Quest definitions | `QUEST_DEFS` (id → type + objectives) |
-| **STATE** | Runtime game state | `G` global object — see below |
-| **UTIL** | Helpers | `$()`, `showToast()`, `logMsg()` |
-| **SPRITE / DRAWING** | Pixel rendering | `drawSprite()`, `drawPortrait()` |
-| **MAP RENDERING** | Tiles, hordes, NPCs | `drawMap()`, `drawTileDetail()`, `drawHouseSpecial()`, `drawLabSpecial()`, `drawZzZ()`, `drawHordeOnMap()`, `drawQuestMark()` |
-| **STATS / QUEST UI** | Right panel + top bar | `refresh()`, `refreshQuests()`, `startQuest()`, `completeObjective()` |
-| **DIALOG** | Cutscenes | `showDialog()`, `nextDialogLine()`, `typeText()`, `closeDialog()` |
-| **HORDES** (v0.3) | Detection + chase | `updateHordes()`, `tryHide()`, `triggerHordeCombat()` |
-| **MOVEMENT** | Tile-by-tile + interactions | `move(dx, dy)`, `handleGate()`, `handleHouseDoor()`, `handleHouseExit()`, `handleBed()`, `tryLoot()` |
-| **NPC INTERACTIONS** | Dialog branching | `interactNPC(npc)` |
-| **STARTER SELECT** | Choose starter modal | `showStarterSelect()`, `pickStarter()`, `startChenFight()` |
-| **ENCOUNTERS** | Random combat trigger | `triggerEncounter()` |
-| **COMBAT** | Battle screen + actions | `startCombat()`, `showCombatScreen()`, `combatAttack()`, `combatVaccinate()`, `combatItem()`, `combatRun()`, `combatSwitch()`, `enemyTurn()`, `endCombat()`, `capture()`, `spawnDmgNumber()`, `spawnEffBanner()`, `shakeCombat()`, `refreshCombatHP()` |
-| **MENUS** | Inventory / team / settings | `openInventory()`, `openTeam()`, `openMenu()`, `useItem()`, `usePokemonHeal()`, `setActive()`, `closeOverlay()`, `showHelp()`, `restRecover()` (v0.2) / `doSleep()` (v0.3) |
-| **CONTROLS** | Render action buttons | `renderControls()`, `actionInteract()` |
-| **KEYBOARD** | Key event listener | `window.addEventListener('keydown', ...)` |
-| **SAVE / LOAD** | Persistence | `autoSave()`, `hasContinue()`, `loadFromLocalStorage()`, `applySaveData()`, `exportSave()` |
-| **BOOT** | Launcher → game flow | `bootLauncher()`, char creation handlers, `startGameFromState()`, `startAnimLoop()` |
+| Char | Name | pass | Special |
+|---|---|---|---|
+| `.` | grass | ✅ | enc=0.18 |
+| `F` | forest | ✅ | enc=0.32, hide during horde chase |
+| `R` | road | ✅ | enc=0.05 |
+| `C` | city | ✅ | enc=0.40, loot=city |
+| `H` | hospital | ✅ | enc=0.20, loot=hospital |
+| `X` | store | ✅ | enc=0.08, loot=store |
+| `L` | lab | ❌ | interact → `handleHouseDoor()` |
+| `h` | house | ❌ | interact → `handleHouseDoor()` |
+| `P` | PokéCenter | ❌ | interact → `handleHouseDoor()` |
+| `Q` | PokéMart | ❌ | interact → `handleHouseDoor()` |
+| `A` | apartment | ❌ | interact → `handleHouseDoor()` |
+| `M` | mountain | ❌ | blocked |
+| `W` | water | ❌ | blocked |
+| `G` | gate | ✅ | interact → `handleGate()` |
 
-## Global state object (`G`)
+### Interior tiles (used in house/lab zone maps)
+
+| Char | Name | pass | Special |
+|---|---|---|---|
+| `f` | floor | ✅ | — |
+| `d` | door (exit) | ✅ | interact → `handleHouseExit()` |
+| `b` | bed | ✅ | interact → `handleBed()` |
+| `t` | stairs up | ✅ | interact → `handleStairs()` |
+| `s` | shelf | ❌ | loot=house (bump to loot) |
+| `S` | lab shelf | ❌ | loot=lab_shelf (bump to loot) |
+| `w` | wall | ❌ | blocked |
+| `e` | equipment | ❌ | blocked (decorative) |
+
+**Loot tables:**
+
+| Type | Drops |
+|---|---|
+| `house` | food (55%) or medkit (45%) |
+| `lab_shelf` | vaccine (45%), medkit (35%), food (20%) |
+| `hospital` | medkit (60%), vaccine (25%), food (15%) |
+| `store` | food (65%), medkit (35%) |
+| `city` | food (50%), medkit (30%), vaccine (20%) |
+
+---
+
+## Global state object `G`
 
 ```js
-const G = {
+G = {
   mode: 'launcher' | 'starter' | 'exploring' | 'dialog' | 'combat' | 'menu' | 'gameover',
-  
+
   player: {
     name, gender,
-    x, y,                    // current zone coords
-    hp, mhp,
-    hunger, mhunger,
-    prevZone, prevX, prevY   // for house interior return
+    x, y,                     // current tile position
+    hp, mhp,                  // health
+    hunger, mhunger,          // hunger (0→starvation)
+    prevZone, prevX, prevY    // saved before entering interior (restored on exit)
   },
-  
-  zone: 'bourg_palette' | 'kanto' | 'house_kanto_1' | ...,
-  
+
+  zone: string,               // current zone ID (e.g. 'bourg_palette', 'h_player')
+
   inv: { food, medkit, vaccine, antibite },
-  
-  team: [
-    { key, name, type, mhp, hp, atk, sprite,
-      isZombie, cured, bites, zombified }
-  ],
-  active: 0,  // index of active Pokémon
-  
-  combat: { enemy, turn, locked } | null,
-  
-  day, steps,
-  
-  looted: { zoneId: { 'x,y': 1 } },
-  flags: { introStarted, introDone, motherSaved, ... },
+
+  team: [{
+    key, name, type, mhp, hp, atk, sprite,
+    isZombie, cured,          // isZombie=caught as zombie; cured=successfully vaccinated
+    bites,                    // 0–3; at 3 → zombified=true
+    zombified                 // loses control in combat
+  }],
+  active: 0,                  // index of active Pokémon
+
+  combat: {
+    enemy: { key, name, type, mhp, hp, atk, sprite, isZombie, isHuman, boss, introBoss },
+    turn: 'player' | 'enemy',
+    locked: bool              // true during animations — MUST be reset or combat softlocks
+  } | null,
+
+  day: number,
+  steps: number,
+
+  looted: { zoneId: { 'x,y': 1 } },   // looted shelves and tiles
+  flags: {
+    introStarted, introDone,
+    motherSaved,              // unlocks player house, triggers win condition
+    // ...other story flags
+  },
   quests: { qid: { active, completed, objDone: { oid: bool } } },
   log: [{ text, cls }],
-  
+
   npcs: { zoneId: [{ id, x, y, sprite, visible }] },
   hordes: { zoneId: [{ id, x, y, enraged, defeated }] },
   hordeChase: { hordeId, zoneId, hideTurnsLeft } | null,
-  houses: { houseId: { clean, hasZombie, hasBody, lootTaken } }
-};
+  houses: { houseId: { cleared, lootTaken: {} } }
+}
 ```
+
+---
+
+## Key functions
+
+### Movement & navigation
+
+| Function | Trigger | What it does |
+|---|---|---|
+| `move(dx, dy)` | arrow keys / d-pad | Main movement logic — gates, doors, encounters, hunger |
+| `handleGate(nx, ny)` | stepping on `G` tile | Switches zone via `zone.gates[key]` |
+| `handleHouseDoor(nx, ny)` | bumping `h/L/P/Q/A` tile | Saves prevZone, switches to interior zone; triggers Chen lab / Cinnabar lab auto-dialogs |
+| `handleHouseExit()` | stepping on `d` tile | If zone has `parent` → go to parent zone. Else → restore prevZone. |
+| `handleStairs(nx, ny)` | stepping on `t` tile | Looks up `zone.stairs[key]`, switches to target zone |
+| `handleBed()` | stepping on `b` tile | `doSleep()` — heals HP, advances day |
+| `tryLoot(type, key)` | bumping `s/S` or city tile | Rolls loot table, adds to `G.inv` |
+
+### Combat
+
+| Function | What it does |
+|---|---|
+| `startCombat(enemy)` | Sets `G.mode='combat'`, initializes `G.combat`, calls `showCombatScreen()` |
+| `showCombatScreen()` | Renders combat HTML in `#overlay` — enemy + ally sprites, HP bars, bite marks, action buttons |
+| `combatAttack()` | Player attack → damage calc → `enemyTurn()` after timeout |
+| `combatVaccinate()` | Cures zombified ally OR captures enemy (blocked if `isHuman`) |
+| `combatItem()` | Uses medkit (+25 HP to active Pokémon) |
+| `combatRun()` | 60% flee chance (blocked if `boss` or `introBoss`) |
+| `combatZombieAttack()` | Uncontrolled attack when active Pokémon is zombified |
+| `enemyTurn()` | Enemy attacks, applies bite mark, checks faint, clears `locked` |
+| `endCombat(result)` | Cleans up `G.combat`, handles introBoss post-dialog, loot drops |
+| `capture()` | Converts enemy to cured Pokémon and adds to team |
+
+### House system
+
+```
+handleHouseDoor(nx, ny)
+  └── looks up zone.houses['nx,ny']
+      ├── if id === 'h_bourg_player' && !G.flags.motherSaved → blocked
+      ├── saves prevZone/prevX/prevY
+      └── switches to interior zone
+
+handleHouseExit()
+  ├── if current zone has .parent → go to parent zone (upper → lower floor)
+  └── else → restore prevZone (house → overworld)
+
+handleStairs(nx, ny)
+  └── looks up zone.stairs['nx,ny'] → switches to target zone
+```
+
+### Multi-floor building pattern
+
+```js
+// Ground floor zone definition:
+h_immeuble_g: {
+  width: 10, height: 8, entry: [4, 6],
+  stairs: { '3,3': { zone: 'h_immeuble_1', entry: [3, 6] } },
+  map: [...]
+}
+
+// Upper floor zone definition:
+h_immeuble_1: {
+  width: 10, height: 8,
+  parent: 'h_immeuble_g',    // ← exit goes here
+  entry: [3, 6],
+  entry_parent: [3, 3],      // ← where player lands on parent floor
+  map: [...]
+}
+```
+
+---
 
 ## Sprite system
 
-Sprites are 16×16 pixel grids encoded as strings, one per row. Each character maps to a color in the per-sprite palette.
+Sprites are 16×16 grids as string arrays. Each char maps to a color in the per-sprite palette.
 
 ```js
 SPRITES.bulbasaur = {
-  p: ["................",       // row 0: all transparent
-      "....11....11....",        // row 1: '1' = dark green ear
-      "...1331..1331...",        // ...
-      ...
-      ],
-  pal:  { 1:'#3a4d2e', 2:'#222', 3:'#7fb069', 5:'#5a8a45', 'a':'#fff' },
-  zpal: { 1:'#1f2a18', 2:'#c00',  3:'#5a6d4a', 5:'#3a5a30', 'a':'#8a1010' }
-};
+  p: ["................", ...],    // 16 rows of exactly 16 chars; '.' = transparent
+  pal:  { '1': '#3a4d2e', ... },   // normal palette
+  zpal: { '1': '#1f2a18', ... }    // zombie palette (used when isZombie=true)
+}
 ```
 
-`pal` is the normal palette, `zpal` is the zombie variant (drawn when `isZombie` flag is true). Use `'.'` for transparent pixels.
+`HUMANS` object: same structure, for human characters (`player_boy`, `player_girl`, `chen`, `chen_zombie`, `bertrand`, `mother_zombie`, `z_human`).
 
-Each row **must** be exactly 16 characters. There's a check script in `CLAUDE.md` for verifying.
+`drawSprite(ctx, key, ox, oy, scale, isZombie)` — looks up key in `SPRITES` then `HUMANS`.
+
+**Rule:** every row must be exactly 16 chars. Validate before commit.
+
+---
+
+## Translation system
+
+```js
+t('key')                          // simple lookup
+t('key', { name: 'Alice' })      // interpolation (%name% in string)
+t('tile.' + tileKey)              // tile names
+t('quest.q_id.obj_id')           // quest objectives
+```
+
+**Key namespace convention:**
+
+```
+menu.*       launcher
+cc.*         character creation
+hd.*         header
+stat.*       stats bar
+qp.*         quest panel
+btn.*        buttons
+tile.*       tile names
+item.*       items
+combat.*     combat strings
+log.*        log messages
+help.*       help modal
+gameover.*   game over
+type.*       type names
+pkm.*        Pokémon names
+quest.*      quest texts
+chen.*       Chen's lines
+bertrand.*   Bertrand's lines
+open.*       opening cinematic
+pl.*         player thoughts
+horde.*      horde alerts
+house.*      interior messages
+mom.*        Mom-related
+starter.*    starter selection
+win.*        victory screen
+```
+
+---
 
 ## Zone map encoding
 
-Each zone is a string array. Each character represents a tile:
-
 ```js
-ZONES.bourg_palette = {
-  name: { en: 'Pallet Town', fr: 'Bourg Palette' },
-  width: 12, height: 10,
-  map: [
-    "MMMMMGMMMMMM",   // M=mountain, G=gate
-    "MFF......FFM",   // F=forest, .=grass
-    "MF.......L.M",   // L=lab
+ZONES.jadielle = {
+  name: 'Jadielle',       // display name (string or {en,fr})
+  width: 14,              // chars per row
+  height: 10,             // number of rows
+  map: [                  // array of exactly `height` strings, each `width` chars
+    "MMMMGMMMMMMMMM",
     ...
-  ]
-};
+  ],
+  gates: {                // 'x,y' → { zone: id, x, y } (destination coords)
+    '4,0': { zone: 'route_2', x: 4, y: 6 }
+  },
+  houses: {               // 'x,y' → { zone: id, id: houseId }
+    '11,2': { zone: 'h_pcenter_dmg', id: 'h_jad_pc' }
+  },
+  encounters: ['z_rattata', 'z_pidgey']   // weighted random pool
+}
 ```
 
-Each row must be exactly `width` characters. Tile chars are defined in `TILES`.
+Interior zones additionally have:
+- `entry: [x, y]` — where player spawns on entry
+- `stairs: { 'x,y': { zone, entry } }` — stair destinations (optional)
+- `parent: 'zone_id'` — upper floors only; exit returns here
+- `entry_parent: [x, y]` — where player lands on parent after exit (optional)
 
-## Animation loop
-
-A single `requestAnimationFrame` loop runs while `G.mode === 'exploring'`, redrawing the map every ~100 ms. This is what animates:
-- Bouncing quest markers (`!` / `?`)
-- Pulsing horde borders (enraged)
-- Floating "ZzZ" above beds
-
-Combat animations are pure CSS keyframes triggered by adding/removing classes — no JS animation.
-
-## Translation key naming convention
-
-```
-menu.*           Launcher menu
-cc.*             Character creation
-hd.*             Header
-stat.*           Stat labels
-qp.*             Quest panel
-btn.*            Buttons (generic)
-tile.*           Tile names
-item.*           Items (incl. .desc)
-combat.*         Combat strings
-log.*            Log messages
-help.*           Help modal
-gameover.*       Game over screen
-type.*           Type names
-pkm.*            Pokémon names
-quest.{id}.*     Quest texts (.title, .desc, {oid} for objectives)
-chen.*           Chen's dialogue
-bertrand.*       Bertrand's dialogue
-open.*           Opening cinematic
-pl.*             Player thoughts
-horde.*          Horde messages
-house.*          House interior messages
-mom.*            Mom-related strings
-starter.*        Starter selection
-win.*            Victory
-```
-
-Use `t('key', { name: G.player.name })` to interpolate variables (`%name%` in the string).
-
-## Save format
-
-The save file is a JSON serialization of `G`. To load, parse and `Object.assign(G, data)`. Note: NPCs and hordes have to be re-initialized from defaults if missing in a save — see `applySaveData()` for the upgrade logic.
+---
 
 ## Adding a new feature — checklist
 
-1. Identify which section of the JS the feature belongs to (e.g. a new combat action goes in COMBAT).
-2. Identify any new state — add fields to `G` and update `applySaveData()` for backward compatibility.
-3. Identify any new strings — add to `T_EN` and `T_FR`.
-4. Identify any new tiles / sprites — add to respective dictionaries.
-5. Wire up to existing handlers (movement, combat actions, render functions).
-6. Test syntax (the snippet in CLAUDE.md).
-7. Play-test in browser.
-8. Commit.
-
-## Things that are easy to break
-
-- **Sprite row width** — must be 16 chars exactly.
-- **Map row width** — must be `zone.width` chars exactly.
-- **Tile char registration** — every char used in a zone map must exist in `TILES`.
-- **Translation keys** — typos silently fall through to the key itself. Search `t('` to audit.
-- **Save backward compat** — if you add fields to `G`, existing saves won't have them. Use `?? defaultValue` patterns and update `applySaveData()`.
-- **Nested overlays** — `G.mode` must be reset to 'exploring' when closing overlays, otherwise input is dead.
-- **Combat locked flag** — `G.combat.locked = true` during animation, must be cleared in `enemyTurn()` or after action. If not cleared, combat softlocks.
+1. Identify JS section (TILES & ZONES / COMBAT / MOVEMENT / etc.)
+2. Add any new state fields to `G` → update `applySaveData()` for backward compat
+3. Add new strings to `T_EN` and `T_FR`
+4. Add new tiles to `TILES` + `drawTileDetail()` case
+5. Add new sprites to `SPRITES` or `HUMANS` (validate 16×16 rows)
+6. Wire to handlers in `move()` / `combatVaccinate()` / etc.
+7. **Validate syntax** with node command
+8. **Validate zone widths** if any map was changed
+9. Play-test in browser
+10. Commit
