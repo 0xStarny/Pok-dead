@@ -293,7 +293,13 @@ const T_EN={
 'bertrand.ask':'Hey, kid. Got any food?','bertrand.deal':'Give me two rations and I\'ll give you my three vaccines.',
 'bertrand.thanks':'Ah, you brought food! Bless you.','bertrand.trade':'Here, three vaccines as promised.',
 'bertrand.wait':'Come back when you have food.','bertrand.tip':'Watch out for the Haunters in labs.',
-'gameover.reason.starved':'Died of hunger','gameover.reason.devoured':'Devoured'
+'gameover.reason.starved':'Died of hunger','gameover.reason.devoured':'Devoured',
+'zone.bourg_palette':'Pallet Town','zone.route_1':'Route 1','zone.jadielle':'Viridian City',
+'zone.route_2':'Viridian Forest','zone.argenta':'Pewter City','zone.mt_moon':'Mt. Moon',
+'zone.route_3':'Route 3','zone.azuria':'Cerulean City',
+'log.enter_zone':'You enter %zone%.','log.reach_jadielle':'Viridian City. Find Chen\'s lab.',
+'sophie.notstarted':'I don\'t know what you\'re looking for...','sophie.formula1':'You\'re looking for Chen\'s notes? I found them in the east wing. Behind the aquarium.',
+'sophie.formula2':'Chen was brilliant. I hope his formula works... for all our sakes.','sophie.after':'The formula... I hope it helps your mother.'
 };
 const T_FR={
 'menu.subtitle':'— ÉDITION APOCALYPSE —','menu.lore':'L\'épidémie a tout ravagé. Quelques Pokémon ont été épargnés. Tu es l\'un des derniers survivants.',
@@ -352,7 +358,13 @@ const T_FR={
 'bertrand.ask':'Eh, gamin. T\'aurais pas un peu de bouffe ?','bertrand.deal':'File-moi deux rations et je te donne mes trois vaccins.',
 'bertrand.thanks':'Ah, t\'as ramené à manger ! Bénis sois-tu.','bertrand.trade':'Tiens, trois vaccins comme promis.',
 'bertrand.wait':'Reviens quand t\'auras de la bouffe.','bertrand.tip':'Méfie-toi des Spectrum dans les labos.',
-'gameover.reason.starved':'Mort de faim','gameover.reason.devoured':'Dévoré'
+'gameover.reason.starved':'Mort de faim','gameover.reason.devoured':'Dévoré',
+'zone.bourg_palette':'Bourg Palette','zone.route_1':'Route 1','zone.jadielle':'Jadielle',
+'zone.route_2':'Forêt de Jade','zone.argenta':'Argenta','zone.mt_moon':'Mont Sélénite',
+'zone.route_3':'Route 3','zone.azuria':'Azuria',
+'log.enter_zone':'Tu entres dans %zone%.','log.reach_jadielle':'Jadielle. Trouve le labo de Chen.',
+'sophie.notstarted':'Je sais pas ce que tu cherches...','sophie.formula1':'Tu cherches les notes de Chen ? Je les ai trouvées dans l\'aile est. Derrière l\'aquarium.',
+'sophie.formula2':'Chen était brillant. J\'espère que sa formule fonctionne... pour nous tous.','sophie.after':'La formule... J\'espère que ça aidera ta mère.'
 };
 let LANG=(()=>{try{return localStorage.getItem('pokedead_lang')||'en'}catch(e){return 'en'}})();
 function t(key,p){const T=LANG==='fr'?T_FR:T_EN;let s=T[key]||T_EN[key]||key;if(p)Object.keys(p).forEach(k=>{s=s.replace(new RegExp('%'+k+'%','g'),p[k])});return s}
@@ -392,8 +404,39 @@ const TILES={
   'G':{tkey:'gate',c1:'#3a3530',c2:'#5a5045',pass:1,interact:'gate'}
 };
 const ZONES={
-  bourg_palette:{name:'Bourg Palette',width:12,height:10,map:["MMMMMGMMMMMM","MFF......FFM","MF.......L.M","MF........FM","MF........FM","M..........M","M..h.......M","MF.........M","MFFFFFFFFFFM","MMMMMMMMMMMM"]},
-  kanto:{name:'Kanto (post-épidémie)',width:16,height:12,map:["MMMMMMMMMMMMMMMM","MFFF.RRRRRRR..LM","MFFF.R..C.R..R.M","M.F..R.CCC.R.RHM","M.RRRR..C..RRRMM","M.R..F....X.RR.M","M.R..FFF.....R.M","M.R..FFF.HH..R.M","MWR..F....H..R.M","MWRR..MM.....RFM","MWW...MMM..F.FFM","MMMMMGMMMMMMMMMM"]}
+  bourg_palette:{name:'Bourg Palette',width:12,height:10,
+    map:["MMMMMGMMMMMM","MFF......FFM","MF.......L.M","MF........FM","MF........FM","M..........M","M..h.......M","MF.........M","MFFFFFFFFFFM","MMMMMMMMMMMM"],
+    gates:{'5,0':{zone:'route_1',x:4,y:6}},
+    encounters:['z_rattata','z_pidgey']},
+  route_1:{name:'Route 1',width:10,height:8,
+    map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],
+    gates:{'4,0':{zone:'jadielle',x:4,y:8},'4,7':{zone:'bourg_palette',x:5,y:1}},
+    encounters:['z_rattata','z_pidgey','z_rattata']},
+  jadielle:{name:'Jadielle',width:14,height:10,
+    map:["MMMMGMMMMMMMMM","MCC.R.....CCCM","ML..R......H.M","MCC.R......C.M","M..h.......h.M","M............M","MCC.R.....CCCM","MCX.......XCCM","MCC.R.....CCCM","MMMMGMMMMMMMMM"],
+    gates:{'4,0':{zone:'route_2',x:4,y:6},'4,9':{zone:'route_1',x:4,y:1}},
+    encounters:['z_rattata','z_pidgey','z_zubat']},
+  route_2:{name:'Viridian Forest',width:10,height:8,
+    map:["MMMMGMMMMM","MFFF.FFFFM","MFF..FFFFM","MF...FFFHM","M....F...M","MFF..FFFFM","MFFF.FFFFM","MMMMGMMMMM"],
+    gates:{'4,0':{zone:'argenta',x:5,y:8},'4,7':{zone:'jadielle',x:4,y:1}},
+    encounters:['z_pidgey','z_zubat','z_geodude']},
+  argenta:{name:'Argenta',width:12,height:10,
+    map:["MMMMMGMMMMMM","MCC..R...CCM","MC..CR...CCM","M..hCR...h.M","M...CR....CM","M....R.....M","MCCX.R.XCCCM","M..H.R...H.M","MCC..R...CCM","MMMMMGMMMMMM"],
+    gates:{'5,0':{zone:'mt_moon',x:4,y:8},'5,9':{zone:'route_2',x:4,y:1}},
+    encounters:['z_geodude','z_zubat','z_grimer']},
+  mt_moon:{name:'Mt. Moon',width:10,height:10,
+    map:["MMMMGMMMMM","MMFF.MFFMM","MFF..MMMFM","MF...M.FFM","M....M..FM","MF...M..FM","MFF..MMMFM","MMFF.FFFFM","MFFF.MMFFM","MMMMGMMMMM"],
+    gates:{'4,0':{zone:'route_3',x:4,y:6},'4,9':{zone:'argenta',x:5,y:1}},
+    encounters:['z_zubat','z_geodude','z_grimer','z_zubat']},
+  route_3:{name:'Route 3',width:10,height:8,
+    map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],
+    gates:{'4,0':{zone:'azuria',x:4,y:8},'4,7':{zone:'mt_moon',x:4,y:1}},
+    encounters:['z_pidgey','z_geodude','z_grimer']},
+  azuria:{name:'Azuria',width:14,height:10,
+    map:["MMMMMMMMWWWWWM","MCCCCR...WWWWM","MCC..R...WWWWM","M..h.R....CCCM","M....R.....CCM","MCCXCR.X..CCCM","MCCCCR....CCCM","M..H.R...H.CCM","MCC..R.....CCM","MMMMGMMMMMMMMM"],
+    gates:{'4,9':{zone:'route_3',x:4,y:1}},
+    encounters:['z_grimer','z_haunter','z_zubat','z_haunter']},
+  kanto:{name:'Kanto',width:4,height:4,map:["MMMM","MMMM","MMMM","MMMM"],gates:{},encounters:[]}
 };
 function S(a){return a}
 const SPRITES={
@@ -428,7 +471,17 @@ function qTitle(qid){return t('quest.'+qid+'.title')}
 function qDesc(qid){return t('quest.'+qid+'.desc')}
 function qObj(qid,oid){return t('quest.'+qid+'.'+oid)}
 const G={mode:'launcher',player:{name:'',gender:'boy',x:6,y:6,hp:50,mhp:50,hunger:100,mhunger:100},zone:'bourg_palette',inv:{food:3,medkit:2,vaccine:1},team:[],active:0,combat:null,day:1,steps:0,looted:{},flags:{},quests:{},log:[],npcs:{}};
-function initNPCs(){G.npcs={bourg_palette:[{id:'chen',x:9,y:2,sprite:'chen',visible:true},{id:'bertrand',x:7,y:5,sprite:'bertrand',visible:true}],kanto:[]}}
+function initNPCs(){G.npcs={
+  bourg_palette:[{id:'chen',x:9,y:2,sprite:'chen',visible:true},{id:'bertrand',x:7,y:5,sprite:'bertrand',visible:true}],
+  route_1:[],
+  jadielle:[{id:'sophie',x:2,y:3,sprite:'bertrand',visible:true}],
+  route_2:[],
+  argenta:[],
+  mt_moon:[],
+  route_3:[],
+  azuria:[],
+  kanto:[]
+}}
 function $(id){return document.getElementById(id)}
 function showToast(m,d){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),d||2200)}
 function logMsg(text,cls){cls=cls||'log-line';G.log.push({text,cls});if(G.log.length>30)G.log.shift();const el=$('log');if(!el)return;el.innerHTML=G.log.slice(-15).map(l=>`<div class="${l.cls}">${l.text}</div>`).join('');el.scrollTop=el.scrollHeight}
@@ -450,13 +503,13 @@ else if(ch==='G'){ctx.fillStyle='#7fb069';ctx.fillRect(px+2,py+4,20,16);ctx.fill
 function drawHouseSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#15100a';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#3a2520';ctx.fillRect(px+2,py+8,20,14);ctx.fillStyle='#5a2818';ctx.beginPath();ctx.moveTo(px,py+8);ctx.lineTo(px+12,py+1);ctx.lineTo(px+24,py+8);ctx.fill();ctx.fillStyle='#15100a';ctx.fillRect(px+5,py+11,6,5);ctx.fillRect(px+13,py+11,6,5);ctx.strokeStyle='#5a2018';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px+5,py+13);ctx.lineTo(px+11,py+15);ctx.moveTo(px+13,py+11);ctx.lineTo(px+19,py+16);ctx.stroke();ctx.fillStyle='#1a0a05';ctx.fillRect(px+10,py+17,4,5);ctx.fillStyle='#5a0808';ctx.fillRect(px+15,py+18,1,4);ctx.fillRect(px+9,py+19,1,3);ctx.restore()}
 function drawLabSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#1a1025';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#352040';ctx.fillRect(px+1,py+4,22,18);ctx.fillStyle='#a040d0';ctx.fillRect(px+11,py-2,2,8);ctx.fillRect(px+9,py-1,6,2);ctx.fillStyle='#7fb0d0';ctx.fillRect(px+5,py+8,5,5);ctx.fillRect(px+14,py+8,5,5);ctx.fillStyle='#5a3a30';ctx.fillRect(px+10,py+15,4,7);ctx.fillStyle='#e0c050';ctx.fillRect(px+9,py+5,6,1);ctx.restore()}
 function drawQuestMark(x,y,type){const c=type==='main'?'#e08020':type==='progress'?'#7a7868':'#e0c050';const b=Math.sin(Date.now()/250)*1.5;ctx.fillStyle='#000';ctx.fillRect(x-3,y-2+b,8,12);ctx.fillStyle=c;ctx.fillRect(x-1,y+b,4,7);ctx.fillRect(x-1,y+b+8,4,2)}
-function getNpcQuestMark(npc){if(npc.id==='chen'){if(G.flags.introDone)return null;return 'main'}if(npc.id==='bertrand'){if(G.quests.q_bertrand?.completed)return null;if(G.quests.q_bertrand?.active&&G.inv.food>=2)return 'progress';if(G.quests.q_bertrand?.active)return null;return 'side'}return null}
+function getNpcQuestMark(npc){if(npc.id==='chen'){if(G.flags.introDone)return null;return 'main'}if(npc.id==='bertrand'){if(G.quests.q_bertrand?.completed)return null;if(G.quests.q_bertrand?.active&&G.inv.food>=2)return 'progress';if(G.quests.q_bertrand?.active)return null;return 'side'}if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq||jq.objDone?.find_formula)return null;if(jq.active)return 'main';return null}return null}
 function drawMap(){const z=getZone();canvas.width=z.width*TILE_SIZE;canvas.height=z.height*TILE_SIZE;ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);for(let y=0;y<z.height;y++){for(let x=0;x<z.width;x++){const ch=z.map[y][x],t=TILES[ch];if(!t)continue;ctx.fillStyle=t.c1;ctx.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);ctx.fillStyle=t.c2;drawTileDetail(ch,x,y)}}
 const lk=G.zone;if(G.looted[lk]){for(const k of Object.keys(G.looted[lk])){const[x,y]=k.split(',').map(Number);ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);ctx.fillStyle='#5a5a55';ctx.fillRect(x*TILE_SIZE+9,y*TILE_SIZE+9,6,1);ctx.fillRect(x*TILE_SIZE+9,y*TILE_SIZE+12,6,1)}}
 if(G.zone==='bourg_palette'){drawHouseSpecial(3,6);drawLabSpecial(9,2);if(!G.flags.motherSaved)drawSprite(ctx,'mother_zombie',3*TILE_SIZE,6*TILE_SIZE,2)}
 const npcs=G.npcs[G.zone]||[];for(const n of npcs){if(!n.visible)continue;drawSprite(ctx,n.sprite,n.x*TILE_SIZE,n.y*TILE_SIZE,2);const qm=getNpcQuestMark(n);if(qm)drawQuestMark(n.x*TILE_SIZE+16,n.y*TILE_SIZE-10,qm)}
 const ps=G.player.gender==='girl'?'player_girl':'player_boy';drawSprite(ctx,ps,G.player.x*TILE_SIZE,G.player.y*TILE_SIZE,2);ctx.strokeStyle='rgba(208,64,64,0.6)';ctx.lineWidth=1;ctx.strokeRect(G.player.x*TILE_SIZE+0.5,G.player.y*TILE_SIZE+0.5,TILE_SIZE-1,TILE_SIZE-1)}
-function refresh(){$('hp-fill').style.width=(G.player.hp/G.player.mhp)*100+'%';$('hp-text').textContent=G.player.hp+'/'+G.player.mhp;$('hg-fill').style.width=(G.player.hunger/G.player.mhunger)*100+'%';$('hg-text').textContent=G.player.hunger+'/'+G.player.mhunger;$('vc-text').textContent=G.inv.vaccine;$('dy-text').textContent=G.day;$('zone-name').textContent=getZone().name;refreshQuests()}
+function refresh(){$('hp-fill').style.width=(G.player.hp/G.player.mhp)*100+'%';$('hp-text').textContent=G.player.hp+'/'+G.player.mhp;$('hg-fill').style.width=(G.player.hunger/G.player.mhunger)*100+'%';$('hg-text').textContent=G.player.hunger+'/'+G.player.mhunger;$('vc-text').textContent=G.inv.vaccine;$('dy-text').textContent=G.day;$('zone-name').textContent=t('zone.'+G.zone)||getZone().name||G.zone;refreshQuests()}
 function refreshQuests(){const list=$('quest-list');const active=Object.keys(G.quests).filter(k=>G.quests[k].active&&!G.quests[k].completed);if(active.length===0){list.innerHTML='<div class="no-quests">'+t('qp.none')+'</div>';return}active.sort((a,b)=>(QUEST_DEFS[a].type==='main'?0:1)-(QUEST_DEFS[b].type==='main'?0:1));list.innerHTML=active.map(qid=>{const def=QUEST_DEFS[qid],s=G.quests[qid],cls=def.type==='main'?'main':'',ic=def.type==='main'?'!':'?';return `<div class="quest-card ${cls}"><div class="qt"><span class="qicon">${ic}</span>${qTitle(qid)}</div><div class="qd">${qDesc(qid)}</div>${def.objectives.map(oid=>{const d=s.objDone[oid];return `<div class="qobj ${d?'done':''}"><span style="width:10px;flex-shrink:0">${d?'✓':'○'}</span>${qObj(qid,oid)}</div>`}).join('')}</div>`}).join('')}
 function startQuest(qid){if(G.quests[qid])return;G.quests[qid]={active:true,completed:false,objDone:{}};refreshQuests();showToast(t('toast.new_quest',{title:qTitle(qid)}));logMsg('📜 '+t('toast.new_quest',{title:qTitle(qid)}),'log-event');autoSave()}
 function completeObjective(qid,oid){const q=G.quests[qid];if(!q||q.completed||q.objDone[oid])return;q.objDone[oid]=true;const def=QUEST_DEFS[qid],objTxt=qObj(qid,oid);showToast(t('toast.obj_done',{text:objTxt}));logMsg('✓ '+objTxt,'log-good');if(def.objectives.every(o=>q.objDone[o])){q.completed=true;showToast(t('toast.quest_done',{title:qTitle(qid)}));logMsg('🏆 '+t('toast.quest_done',{title:qTitle(qid)}),'log-event')}refreshQuests();autoSave()}
@@ -469,14 +522,19 @@ $('dialog-box').addEventListener('click',nextDialogLine);
 function move(dx,dy){if(G.mode!=='exploring')return;const nx=G.player.x+dx,ny=G.player.y+dy,z=getZone();if(nx<0||nx>=z.width||ny<0||ny>=z.height)return;const npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}const ch=z.map[ny][nx],ti=TILES[ch];if(!ti.pass){if(ti.interact==='home_locked'&&G.zone==='bourg_palette'){logMsg(t('log.locked_house'),'log-bad');showToast(t('toast.mom'))}else if(ti.interact==='lab'){logMsg(t('log.lab_barricaded'),'log-line')}else logMsg(t('log.no_pass',{name:t('tile.'+ti.tkey)}),'log-line');return}if(ch==='G'){handleGate(nx,ny);return}G.player.x=nx;G.player.y=ny;G.steps++;
 if(G.steps%3===0){G.player.hunger=Math.max(0,G.player.hunger-1);if(G.player.hunger===0){G.player.hp=Math.max(0,G.player.hp-2);logMsg(t('log.hungry'),'log-bad');if(G.player.hp<=0){gameOver(t('gameover.reason.starved'));return}}}
 if(G.steps%30===0){G.day++;logMsg(t('log.day',{d:G.day}),'log-event')}drawMap();refresh();const lk=G.zone;G.looted[lk]=G.looted[lk]||{};const lk2=nx+','+ny;if(ti.loot&&!G.looted[lk][lk2]){if(Math.random()<0.65){tryLoot(ti.loot,lk2);autoSave();return}}if(G.flags.introDone&&Math.random()<ti.enc){triggerEncounter();return}renderControls();autoSave()}
-function handleGate(){if(!G.flags.introDone){logMsg(t('log.no_chen'),'log-event');showToast(t('toast.chen_first'));return}if(G.zone==='bourg_palette'){G.zone='kanto';G.player.x=5;G.player.y=11;completeObjective('q_journey','leave_palette');logMsg(t('log.leave_palette'),'log-event')}else if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1;logMsg(t('log.return_palette'),'log-line')}drawMap();refresh();renderControls();autoSave()}
+function handleGate(nx,ny){if(!G.flags.introDone){logMsg(t('log.no_chen'),'log-event');showToast(t('toast.chen_first'));return}const zone=getZone(),gateKey=nx+','+ny,gate=zone.gates&&zone.gates[gateKey];if(!gate)return;const prev=G.zone;G.zone=gate.zone;G.player.x=gate.x;G.player.y=gate.y;
+if(prev==='bourg_palette'){completeObjective('q_journey','leave_palette');logMsg(t('log.leave_palette'),'log-event')}
+else if(G.zone==='jadielle'&&G.quests.q_journey&&!G.quests.q_journey.objDone.reach_lab){completeObjective('q_journey','reach_lab');logMsg(t('log.reach_jadielle'),'log-event')}
+else{logMsg(t('log.enter_zone',{zone:t('zone.'+G.zone)}),'log-event')}
+if(!G.npcs[G.zone])G.npcs[G.zone]=[];drawMap();refresh();renderControls();autoSave()}
 function tryLoot(type,key){G.looted[G.zone][key]=1;let item,qty;if(type==='hospital'){const r=Math.random();if(r<0.5){item='medkit';qty=1+Math.floor(Math.random()*2)}else if(r<0.85){item='vaccine';qty=1}else{item='food';qty=1}}else if(type==='store'){item='food';qty=2+Math.floor(Math.random()*3)}else if(type==='city'){const r=Math.random();if(r<0.6){item='food';qty=1}else if(r<0.9){item='medkit';qty=1}else{item='vaccine';qty=1}}G.inv[item]=(G.inv[item]||0)+qty;logMsg(t('log.loot.'+item,{qty}),'log-good');refresh();drawMap();renderControls()}
 function interactNPC(npc){if(npc.id==='chen'){const n=G.player.name;if(!G.flags.introStarted){G.flags.introStarted=true;startQuest('q_awakening');showDialog([{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro1',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro2')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro3')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro4',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro5')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro6')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro7')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro8')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro9'),shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro10')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro11',{name:n})}],()=>{completeObjective('q_awakening','talk_chen');showStarterSelect()})}else if(!G.flags.introDone){showDialog([{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.remind',{name:n}),shake:true}],()=>{if(G.team.length>0)startChenFight()})}}
-else if(npc.id==='bertrand'){if(!G.quests.q_bertrand){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.ask')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.deal')}],()=>startQuest('q_bertrand'))}else if(!G.quests.q_bertrand.completed&&G.inv.food>=2){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.thanks')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.trade')}],()=>{G.inv.food-=2;G.inv.vaccine+=3;completeObjective('q_bertrand','bring_food');refresh();drawMap()})}else if(!G.quests.q_bertrand.completed){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.wait')}])}else{showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.tip')}])}}}
+else if(npc.id==='bertrand'){if(!G.quests.q_bertrand){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.ask')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.deal')}],()=>startQuest('q_bertrand'))}else if(!G.quests.q_bertrand.completed&&G.inv.food>=2){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.thanks')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.trade')}],()=>{G.inv.food-=2;G.inv.vaccine+=3;completeObjective('q_bertrand','bring_food');refresh();drawMap()})}else if(!G.quests.q_bertrand.completed){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.wait')}])}else{showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.tip')}])}}
+else if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.notstarted')}])}else if(!jq.objDone.find_formula){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula1')},{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula2')}],()=>completeObjective('q_journey','find_formula'))}else{showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.after')}])}}}
 function showStarterSelect(){G.mode='starter';const ov=$('overlay');ov.style.display='flex';ov.innerHTML=`<div class="modal"><h2>${t('starter.title')}</h2><p class="lore">${t('starter.lore')}</p><div class="starters">${Object.keys(STARTERS).map(k=>`<div class="starter" onclick="pickStarter('${k}')"><canvas id="sc-${k}" width="64" height="64"></canvas><h3>${STARTERS[k].name}</h3><div class="stype">${STARTERS[k].type}</div><p>${STARTERS[k].desc}</p><p style="color:#7fb069">HP ${STARTERS[k].mhp} · ATK ${STARTERS[k].atk}</p></div>`).join('')}</div></div>`;setTimeout(()=>{Object.keys(STARTERS).forEach(k=>{const cv=$('sc-'+k);if(cv){const cc=cv.getContext('2d');cc.imageSmoothingEnabled=false;cc.fillStyle='#0a0a08';cc.fillRect(0,0,cv.width,cv.height);drawSprite(cc,STARTERS[k].sprite,0,0,4,false)}})},10)}
 window.pickStarter=function(k){const s=STARTERS[k];G.team.push({key:k,name:s.name,type:s.type,mhp:s.mhp,hp:s.mhp,atk:s.atk,sprite:s.sprite,isZombie:false,cured:false});$('overlay').style.display='none';completeObjective('q_awakening','choose_starter');const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:t('pl.thanks')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'HRRRGGHHH...',shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:'AAAARRRGHHH—',shake:true}],()=>startChenFight())};
 function startChenFight(){const z=ZOMBIES.z_chen_bulbi;startCombat({key:'z_chen_bulbi',name:'Bulbi de Chen (infecté)',type:z.type,mhp:z.mhp,hp:z.mhp,atk:z.atk,sprite:z.sprite,isZombie:true,base:z.base,introBoss:1})}
-function triggerEncounter(){const tier=Math.min(3,1+Math.floor(G.steps/25));const cands=Object.keys(ZOMBIES).filter(k=>{const z=ZOMBIES[k];return !z.boss&&!z.introBoss&&z.tier>0&&z.tier<=tier});const zk=cands[Math.floor(Math.random()*cands.length)];const z=ZOMBIES[zk];startCombat({key:zk,name:z.name,type:z.type,mhp:z.mhp,hp:z.mhp,atk:z.atk,sprite:z.sprite,isZombie:true,base:z.base,boss:z.boss})}
+function triggerEncounter(){const zone=getZone();let pool;if(zone.encounters&&zone.encounters.length){pool=zone.encounters}else{const tier=Math.min(3,1+Math.floor(G.steps/25));pool=Object.keys(ZOMBIES).filter(k=>{const zd=ZOMBIES[k];return!zd.boss&&!zd.introBoss&&zd.tier>0&&zd.tier<=tier})}const zk=pool[Math.floor(Math.random()*pool.length)];const zd=ZOMBIES[zk];if(!zd)return;startCombat({key:zk,name:zd.name,type:zd.type,mhp:zd.mhp,hp:zd.mhp,atk:zd.atk,sprite:zd.sprite,isZombie:true,base:zd.base,boss:zd.boss})}
 function getActive(){return G.team[G.active]}function getAliveTeam(){return G.team.filter(p=>p.hp>0)}
 function startCombat(e){if(getAliveTeam().length===0){gameOver(t('log.no_team'));return}if(getActive()&&getActive().hp<=0)G.active=G.team.findIndex(p=>p.hp>0);G.mode='combat';G.combat={enemy:e,turn:'player',locked:false};logMsg('Un '+e.name+' surgit !','log-bad');showCombatScreen()}
 function showCombatScreen(){const ov=$('overlay');ov.style.display='flex';const a=getActive(),e=G.combat.enemy,iIntro=e.introBoss,tc=e.boss?'#d04040':iIntro?'#e08020':'#c92a2a',tt=e.boss?t('combat.title.boss'):iIntro?t('combat.title.intro'):t('combat.title.normal');
@@ -512,7 +570,7 @@ const SAVE_KEY='pokedead_save';
 function autoSave(){if(!G.player.name)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify(G))}catch(e){}}
 function hasContinue(){try{return localStorage.getItem(SAVE_KEY)!==null}catch(e){return false}}
 function loadFromLS(){try{return JSON.parse(localStorage.getItem(SAVE_KEY))}catch(e){return null}}
-function applySaveData(d){Object.keys(G).forEach(k=>delete G[k]);Object.assign(G,d);if(!G.npcs||!G.npcs.bourg_palette)initNPCs();if(G.flags.introDone){const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false}}
+function applySaveData(d){Object.keys(G).forEach(k=>delete G[k]);Object.assign(G,d);if(!G.npcs||!G.npcs.bourg_palette)initNPCs();if(!G.npcs.jadielle)G.npcs.jadielle=[{id:'sophie',x:2,y:3,sprite:'bertrand',visible:true}];['route_1','route_2','argenta','mt_moon','route_3','azuria'].forEach(z=>{if(!G.npcs[z])G.npcs[z]=[]});if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1}if(!ZONES[G.zone])G.zone='bourg_palette';if(G.flags.introDone){const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false}}
 window.exportSave=function(){if(!G.player.name)return;const blob=new Blob([JSON.stringify(G)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokedead_'+G.player.name+'_day'+G.day+'.save';a.click();URL.revokeObjectURL(url);showToast(t('toast.save_done'));closeOverlay()};
 function bootLauncher(){if(hasContinue())$('btn-continue').disabled=false;renderLangUI();setTimeout(()=>{const cb=$('cc-boy').querySelector('canvas'),cg=$('cc-girl').querySelector('canvas');if(cb){const c=cb.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_boy',8,8,4)}if(cg){const c=cg.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_girl',8,8,4)}},50)}
 $('btn-new').onclick=()=>{$('launcher').style.display='none';$('char-creation').classList.add('show');$('cc-name').focus()};
