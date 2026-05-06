@@ -321,7 +321,18 @@ const T_EN={
 'combat.uncontrollable':'Incontrôlable !',
 'horde.detected':'⚠ Horde détectée ! Fuyez ou cachez-vous dans la forêt !',
 'horde.caught':'La horde vous rattrape !','horde.hidden':'Vous vous cachez dans la forêt... la horde perd votre trace. (3 tours)',
-'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%'
+'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%',
+'house.enter':'You step inside carefully...','house.exit':'You step outside.','house.locked':'The door is locked.',
+'house.sleep':'You rest for a few hours. (+%hp% HP, +%hg% hunger)','house.sleep_no_clear':'The house isn\'t safe yet!',
+'house.shelf_empty':'Nothing left to take.',
+'house.lab_enter':'You enter the laboratory...','house.lab_formula':'Research notes! Chen\'s vaccine formula... incomplete, but useful.',
+'house.lab_formula_taken':'You already took the notes.',
+'mom.bedside1':'Mom... you\'re still here. Still fighting.','mom.bedside2':'Hold on. I\'ll find the cure. I promise.',
+'mom.saved':'She opens her eyes. The vaccine worked.',
+'chen_lab.notes1':'Chen\'s notebooks are still here. Formulas, diagrams...','chen_lab.notes2':'He nearly had it. The final synthesis is at Cinnabar Island.',
+'cinnabar_lab.synth':'The equipment is intact! With Chen\'s formula... you can synthesize the vaccine!',
+'cinnabar_lab.done':'VACCINE SYNTHESIZED. You have everything needed to save your mother.',
+'tile.floor':'floor','tile.door_exit':'exit','tile.bed':'bed','tile.shelf':'shelf','tile.wall_in':'wall','tile.equip':'equipment'
 };
 const T_FR={
 'menu.subtitle':'— ÉDITION APOCALYPSE —','menu.lore':'L\'épidémie a tout ravagé. Quelques Pokémon ont été épargnés. Tu es l\'un des derniers survivants.',
@@ -400,7 +411,18 @@ const T_FR={
 'combat.uncontrollable':'Incontrôlable !',
 'horde.detected':'⚠ Horde détectée ! Fuyez ou cachez-vous dans la forêt !',
 'horde.caught':'La horde vous rattrape !','horde.hidden':'Vous vous cachez dans la forêt... la horde perd votre trace. (3 tours)',
-'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%'
+'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%',
+'house.enter':'Tu entres avec précaution...','house.exit':'Tu sors.','house.locked':'La porte est fermée à clé.',
+'house.sleep':'Tu dors quelques heures. (+%hp% PV, +%hg% faim)','house.sleep_no_clear':'La maison n\'est pas sécurisée !',
+'house.shelf_empty':'Il n\'y a plus rien à prendre.',
+'house.lab_enter':'Tu entres dans le laboratoire...','house.lab_formula':'Des notes de recherche ! La formule du vaccin... incomplète, mais utile.',
+'house.lab_formula_taken':'Tu as déjà pris les notes.',
+'mom.bedside1':'Maman... tu es là. Tu te bats encore.','mom.bedside2':'Tiens bon. Je vais trouver le remède. Je te le jure.',
+'mom.saved':'Elle ouvre les yeux. Le vaccin a fonctionné.',
+'chen_lab.notes1':'Les cahiers de Chen sont encore là. Des formules, des schémas...','chen_lab.notes2':'Il avait presque trouvé le vaccin universel. La synthèse finale est à Cinnabar.',
+'cinnabar_lab.synth':'Les équipements sont intacts ! Avec la formule de Chen... tu peux synthétiser le vaccin !',
+'cinnabar_lab.done':'VACCIN SYNTHÉTISÉ. Tu as tout ce qu\'il faut pour sauver ta mère.',
+'tile.floor':'sol','tile.door_exit':'sortie','tile.bed':'lit','tile.shelf':'étagère','tile.wall_in':'mur','tile.equip':'équipement'
 };
 let LANG=(()=>{try{return localStorage.getItem('pokedead_lang')||'en'}catch(e){return 'en'}})();
 function t(key,p){const T=LANG==='fr'?T_FR:T_EN;let s=T[key]||T_EN[key]||key;if(p)Object.keys(p).forEach(k=>{s=s.replace(new RegExp('%'+k+'%','g'),p[k])});return s}
@@ -437,12 +459,20 @@ const TILES={
   'M':{tkey:'mountain',c1:'#0a0808',c2:'#1a1815',pass:0},
   'W':{tkey:'water',c1:'#0c1a25',c2:'#1a2a3a',pass:0},
   'h':{tkey:'house',c1:'#15100a',c2:'#251810',pass:0,interact:'home_locked'},
-  'G':{tkey:'gate',c1:'#3a3530',c2:'#5a5045',pass:1,interact:'gate'}
+  'G':{tkey:'gate',c1:'#3a3530',c2:'#5a5045',pass:1,interact:'gate'},
+  'f':{tkey:'floor',c1:'#2a1e0e',c2:'#3a2e1a',pass:1,enc:0},
+  'd':{tkey:'door_exit',c1:'#4a3010',c2:'#6a5020',pass:1,enc:0},
+  'b':{tkey:'bed',c1:'#1e1430',c2:'#2e2448',pass:1,enc:0},
+  's':{tkey:'shelf',c1:'#2a1a08',c2:'#4a3018',pass:0,loot:'house'},
+  'S':{tkey:'shelf_lab',c1:'#152030',c2:'#253550',pass:0,loot:'lab_shelf'},
+  'w':{tkey:'wall_in',c1:'#120e08',c2:'#1e1810',pass:0},
+  'e':{tkey:'equip',c1:'#0e1420',c2:'#1e2838',pass:0}
 };
 const ZONES={
   bourg_palette:{name:'Bourg Palette',width:12,height:10,
-    map:["MMMMMGMMMMMM","MFF......FFM","MF.......L.M","MF........FM","MF........FM","M..........M","M..h.......M","MF.........M","MFFFFFFFFFFM","MMMMMGMMMMMM"],
+    map:["MMMMMGMMMMMM","MFF......FFM","MF.......L.M","MF........FM","MF........FM","M..........M","M..h....h..M","MF.........M","MFFFFFFFFFFM","MMMMMGMMMMMM"],
     gates:{'5,0':{zone:'route_1',x:4,y:6},'5,9':{zone:'route_21',x:4,y:6}},
+    houses:{'3,6':{zone:'h_player',id:'h_bourg_player'},'9,2':{zone:'h_chen_lab',id:'h_bourg_lab'},'8,6':{zone:'h_bertrand',id:'h_bourg_bertrand'}},
     encounters:['z_rattata','z_pidgey']},
   route_1:{name:'Route 1',width:10,height:8,
     map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],
@@ -451,6 +481,7 @@ const ZONES={
   jadielle:{name:'Jadielle',width:14,height:10,
     map:["MMMMGMMMMMMMMM","MCC.R.....CCCM","ML..R......H.M","MCC.R......C.M","M..h.......h.M","M............M","MCC.R.....CCCM","MCX.......XCCM","MCC.R.....CCCM","MMMMGMMMMMMMMM"],
     gates:{'4,0':{zone:'route_2',x:4,y:6},'4,9':{zone:'route_1',x:4,y:1}},
+    houses:{'3,4':{zone:'h_small',id:'h_jad_1'},'11,4':{zone:'h_small',id:'h_jad_2'},'1,2':{zone:'h_lab',id:'h_jad_lab'}},
     encounters:['z_rattata','z_pidgey','z_zubat']},
   route_2:{name:'Viridian Forest',width:10,height:8,
     map:["MMMMGMMMMM","MFFF.FFFFM","MFF..FFFFM","MF...FFFHM","M....F...M","MFF..FFFFM","MFFF.FFFFM","MMMMGMMMMM"],
@@ -459,6 +490,7 @@ const ZONES={
   argenta:{name:'Argenta',width:12,height:10,
     map:["MMMMMGMMMMMM","MCC..R...CCM","MC..CR...CCM","M..hCR...h.M","M...CR....CM","M....R.....M","MCCX.R.XCCCM","M..H.R...H.M","MCC..R...CCM","MMMMMGMMMMMM"],
     gates:{'5,0':{zone:'mt_moon',x:4,y:8},'5,9':{zone:'route_2',x:4,y:1}},
+    houses:{'3,3':{zone:'h_medium',id:'h_arg_1'},'9,3':{zone:'h_small',id:'h_arg_2'}},
     encounters:['z_geodude','z_zubat','z_grimer']},
   mt_moon:{name:'Mt. Moon',width:10,height:10,
     map:["MMMMGMMMMM","MMFF.MFFMM","MFF..MMMFM","MF...M.FFM","M....M..FM","MF...M..FM","MFF..MMMFM","MMFF.FFFFM","MFFF.MMFFM","MMMMGMMMMM"],
@@ -471,16 +503,24 @@ const ZONES={
   azuria:{name:'Azuria',width:14,height:10,
     map:["MMMMGMMMWWWWWM","MCCCCR...WWWWM","MCC..R...WWWWM","M..h.R....CCCM","M....R.....CCM","MCCXCR.X..CCCM","MCCCCR....CCCM","M..H.R...H.CCM","MCC..R.....CCM","MMMMGMMMMMMMMM"],
     gates:{'4,0':{zone:'route_4',x:4,y:7},'4,9':{zone:'route_3',x:4,y:1}},
+    houses:{'3,3':{zone:'h_medium',id:'h_az_1'}},
     encounters:['z_grimer','z_haunter','z_zubat','z_haunter']},
   route_4:{width:10,height:8,map:["MMMMGMMMMM","MMFF.MMFFM","MFF..FFFMM","MF...FFFHM","M....MFMFM","MFF..FFFMM","MFFF.FFFFM","MMMMGMMMMM"],gates:{'4,0':{zone:'lavandia',x:5,y:8},'4,7':{zone:'azuria',x:4,y:1}},encounters:['z_pidgey','z_zubat','z_grimer','z_haunter']},
-  lavandia:{width:12,height:10,map:["MMMMMGMMMMMM","MCCC.R...CCM","MLCC.R...CCM","MCC..R....CM","MhC..R.h..CM","M....R.....M","MCCH.R...HCM","MCC..R....CM","MCCC.R...CCM","MMMMMGMMMMMM"],gates:{'5,0':{zone:'route_8',x:4,y:7},'5,9':{zone:'route_4',x:4,y:1}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_zubat']},
+  lavandia:{width:12,height:10,map:["MMMMMGMMMMMM","MCCC.R...CCM","MLCC.R...CCM","MCC..R....CM","MhC..R.h..CM","M....R.....M","MCCH.R...HCM","MCC..R....CM","MCCC.R...CCM","MMMMMGMMMMMM"],gates:{'5,0':{zone:'route_8',x:4,y:7},'5,9':{zone:'route_4',x:4,y:1}},houses:{'1,4':{zone:'h_small',id:'h_lav_1'},'7,4':{zone:'h_small',id:'h_lav_2'},'1,2':{zone:'h_lab',id:'h_lav_lab'}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_zubat']},
   route_8:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..H.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'celadopole',x:5,y:8},'4,7':{zone:'lavandia',x:5,y:1}},encounters:['z_haunter','z_haunter_feral','z_grimer','z_geodude']},
-  celadopole:{width:14,height:10,map:["MMMMMGMMMMMMMM","MCCC.R....CCCM","MCC.CR....CCCM","MCC.CR....CCCM","M...CR.....CCM","M....R.....CCM","MCXCXR.X.XCCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,0':{zone:'route_7',x:4,y:7},'5,9':{zone:'route_8',x:4,y:1}},encounters:['z_haunter_feral','z_tauros_roam','z_grimer','z_haunter']},
+  celadopole:{width:14,height:10,map:["MMMMMGMMMMMMMM","MCCC.R....CCCM","MCChCR...hCCCM","MCC.CR....CCCM","M...CR.....CCM","M....R.....CCM","MCXCXR.X.XCCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,0':{zone:'route_7',x:4,y:7},'5,9':{zone:'route_8',x:4,y:1}},houses:{'3,2':{zone:'h_medium',id:'h_cel_1'},'9,2':{zone:'h_small',id:'h_cel_2'}},encounters:['z_haunter_feral','z_tauros_roam','z_grimer','z_haunter']},
   route_7:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R..C.M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'safrania',x:5,y:8},'4,7':{zone:'celadopole',x:5,y:1}},encounters:['z_tauros_roam','z_haunter_feral','z_grimer']},
-  safrania:{width:14,height:10,map:["MMMMMMMMMMMMMM","MCCCCR....CCCM","MLCCCR....CCCM","MCCCCR....CCCM","M....R.....CCM","M....R.....CCM","MCCX.R.X..CCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,9':{zone:'route_21',x:4,y:1}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam','z_grimer']},
+  safrania:{width:14,height:10,map:["MMMMMMMMMMMMMM","MCCCCR....CCCM","MLCCCR....CCCM","MCCChR...hCCCM","M....R.....CCM","M....R.....CCM","MCCX.R.X..CCCM","M..H.R...H.CCM","MCCC.R....CCCM","MMMMMGMMMMMMMM"],gates:{'5,9':{zone:'route_21',x:4,y:1}},houses:{'4,3':{zone:'h_medium',id:'h_saf_1'},'9,3':{zone:'h_small',id:'h_saf_2'},'1,2':{zone:'h_lab',id:'h_saf_lab'}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam','z_grimer']},
   route_21:{width:10,height:8,map:["MMMMGMMMMM","MFF.R..FFM","MF..R...FM","M...R....M","M..F.....M","MFF.R..FFM","MF..R...FM","MMMMGMMMMM"],gates:{'4,0':{zone:'cinnabar',x:4,y:7},'4,7':{zone:'safrania',x:5,y:8}},encounters:['z_tauros_roam','z_haunter_feral','z_tauros_roam']},
-  cinnabar:{width:10,height:8,map:["MMMMMMMMMM","MCCCC.CCCM","ML.CC.CCCM","MCCCC.CCCM","M...H.CCCM","M...X.CCCM","MCCCC....M","MMMMGMMMMM"],gates:{'4,7':{zone:'route_21',x:4,y:1}},encounters:[]},
-  kanto:{name:'Kanto',width:4,height:4,map:["MMMM","MMMM","MMMM","MMMM"],gates:{},encounters:[]}
+  cinnabar:{width:10,height:8,map:["MMMMMMMMMM","MCCCC.CCCM","ML.CC.CCCM","MCCCC.CCCM","M...H.CCCM","M...X.CCCM","MCCCC....M","MMMMGMMMMM"],gates:{'4,7':{zone:'route_21',x:4,y:1}},houses:{'1,2':{zone:'h_cinnabar_lab',id:'h_cin_lab'}},encounters:[]},
+  kanto:{name:'Kanto',width:4,height:4,map:["MMMM","MMMM","MMMM","MMMM"],gates:{},encounters:[]},
+  h_player:{width:8,height:8,entry:[3,6],map:["wwwwwwww","wffffffw","wfbffffw","wffffffw","weeefffw","wffffffw","wffsfffw","wwwdwwww"],gates:{},encounters:[]},
+  h_chen_lab:{width:10,height:10,entry:[5,8],map:["wwwwwwwwww","weeeeeeeew","wffffssffw","wffffffffw","wffeeeeffw","wffffffffw","wfwwwwfffw","wfffffeffw","wffffffffw","wwwwwdwwww"],gates:{},encounters:[]},
+  h_bertrand:{width:8,height:6,entry:[3,4],map:["wwwwwwww","wffffffw","wfbffsfw","wffffffw","wffffffw","wwwdwwww"],gates:{},encounters:[]},
+  h_small:{width:8,height:6,entry:[3,4],map:["wwwwwwww","wffffffw","wfbffffw","wffffffw","wffsfffw","wwwdwwww"],gates:{},encounters:[]},
+  h_medium:{width:10,height:8,entry:[4,6],map:["wwwwwwwwww","wffffffffw","wfbffffsfw","wffffffffw","wffwwwfffw","wfffffssfw","wffffffffw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_lab:{width:10,height:8,entry:[4,6],map:["wwwwwwwwww","weeeeeeeew","wffffffffw","wffeeeeffw","wffffffffw","wffwwwfffw","wffffffSfw","wwwwdwwwww"],gates:{},encounters:[]},
+  h_cinnabar_lab:{width:12,height:10,entry:[6,8],map:["wwwwwwwwwwww","weeeeeeeeeew","wffffffffffw","wffeeeeeeffw","wffffffffffw","wfwwwwfffffw","wffSSSSffffw","wffffffffffw","wffffffeeefw","wwwwwwdwwwww"],gates:{},encounters:[]}
 };
 function S(a){return a}
 const SPRITES={
@@ -515,7 +555,7 @@ const QUEST_DEFS={
 function qTitle(qid){return t('quest.'+qid+'.title')}
 function qDesc(qid){return t('quest.'+qid+'.desc')}
 function qObj(qid,oid){return t('quest.'+qid+'.'+oid)}
-const G={mode:'launcher',player:{name:'',gender:'boy',x:6,y:6,hp:50,mhp:50,hunger:100,mhunger:100},zone:'bourg_palette',inv:{food:3,medkit:2,vaccine:1},team:[],active:0,combat:null,day:1,steps:0,looted:{},flags:{},quests:{},log:[],npcs:{}};
+const G={mode:'launcher',player:{name:'',gender:'boy',x:6,y:6,hp:50,mhp:50,hunger:100,mhunger:100,prevZone:null,prevX:0,prevY:0},zone:'bourg_palette',inv:{food:3,medkit:2,vaccine:1},team:[],active:0,combat:null,day:1,steps:0,looted:{},flags:{},quests:{},log:[],npcs:{},houses:{}};
 function initNPCs(){G.npcs={
   bourg_palette:[{id:'chen',x:9,y:2,sprite:'chen',visible:true},{id:'bertrand',x:7,y:5,sprite:'bertrand',visible:true}],
   route_1:[],
@@ -574,7 +614,15 @@ else if(ch==='L'){ctx.fillRect(px+4,py+8,16,12);ctx.fillStyle='#a040d0';ctx.fill
 else if(ch==='X'){ctx.fillRect(px+3,py+5,18,14);ctx.fillStyle='#e0c050';ctx.fillRect(px+5,py+8,14,3)}
 else if(ch==='M'){ctx.beginPath();ctx.moveTo(px+2,py+22);ctx.lineTo(px+12,py+4);ctx.lineTo(px+22,py+22);ctx.fill()}
 else if(ch==='W'){ctx.fillRect(px+2,py+8,6,1);ctx.fillRect(px+12,py+14,8,1);ctx.fillRect(px+4,py+18,6,1)}
-else if(ch==='G'){ctx.fillStyle='#7fb069';ctx.fillRect(px+2,py+4,20,16);ctx.fillStyle='#0a0a08';ctx.fillRect(px+8,py+10,8,10);ctx.fillStyle='#fff';ctx.fillRect(px+11,py+6,2,2)}ctx.restore()}
+else if(ch==='G'){ctx.fillStyle='#7fb069';ctx.fillRect(px+2,py+4,20,16);ctx.fillStyle='#0a0a08';ctx.fillRect(px+8,py+10,8,10);ctx.fillStyle='#fff';ctx.fillRect(px+11,py+6,2,2)}
+else if(ch==='f'){ctx.fillStyle='#2a1e0e';ctx.fillRect(px,py+11,24,1);ctx.fillRect(px+6,py,1,24);ctx.fillRect(px+18,py,1,24)}
+else if(ch==='d'){ctx.fillStyle='#6a5020';ctx.fillRect(px+4,py+2,16,20);ctx.fillStyle='#2a1a06';ctx.fillRect(px+10,py+10,4,8);ctx.fillStyle='#e0c050';ctx.fillRect(px+14,py+11,2,2)}
+else if(ch==='b'){ctx.fillStyle='#2e2448';ctx.fillRect(px+3,py+5,18,14);ctx.fillStyle='#4a3a68';ctx.fillRect(px+3,py+5,18,5);ctx.fillStyle='#e8d8c0';ctx.fillRect(px+4,py+5,8,5)}
+else if(ch==='s'){ctx.fillStyle='#4a3018';ctx.fillRect(px+2,py+6,20,12);ctx.fillStyle='#2a1a08';ctx.fillRect(px+2,py+12,20,1);ctx.fillRect(px+4,py+7,4,4);ctx.fillRect(px+10,py+7,4,4);ctx.fillRect(px+16,py+7,4,4)}
+else if(ch==='S'){ctx.fillStyle='#253550';ctx.fillRect(px+2,py+6,20,12);ctx.fillStyle='#152030';ctx.fillRect(px+2,py+12,20,1);ctx.fillStyle='#40c0a0';ctx.fillRect(px+4,py+7,4,4);ctx.fillRect(px+10,py+7,4,4);ctx.fillRect(px+16,py+7,4,4)}
+else if(ch==='w'){ctx.fillStyle='#1e1810';ctx.fillRect(px+2,py+2,20,20);ctx.fillStyle='#120e08';ctx.fillRect(px+2,py+8,20,1);ctx.fillRect(px+2,py+15,20,1)}
+else if(ch==='e'){ctx.fillStyle='#1e2838';ctx.fillRect(px+2,py+4,20,16);ctx.fillStyle='#204060';ctx.fillRect(px+4,py+6,6,5);ctx.fillRect(px+14,py+6,6,5);ctx.fillStyle='#40e060';ctx.fillRect(px+5,py+7,2,2);ctx.fillStyle='#e04040';ctx.fillRect(px+15,py+7,2,2)}
+ctx.restore()}
 function drawHouseSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#15100a';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#3a2520';ctx.fillRect(px+2,py+8,20,14);ctx.fillStyle='#5a2818';ctx.beginPath();ctx.moveTo(px,py+8);ctx.lineTo(px+12,py+1);ctx.lineTo(px+24,py+8);ctx.fill();ctx.fillStyle='#15100a';ctx.fillRect(px+5,py+11,6,5);ctx.fillRect(px+13,py+11,6,5);ctx.strokeStyle='#5a2018';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px+5,py+13);ctx.lineTo(px+11,py+15);ctx.moveTo(px+13,py+11);ctx.lineTo(px+19,py+16);ctx.stroke();ctx.fillStyle='#1a0a05';ctx.fillRect(px+10,py+17,4,5);ctx.fillStyle='#5a0808';ctx.fillRect(px+15,py+18,1,4);ctx.fillRect(px+9,py+19,1,3);ctx.restore()}
 function drawLabSpecial(gx,gy){ctx.save();ctx.translate(gx*TILE_SIZE,gy*TILE_SIZE);ctx.scale(TILE_SIZE/24,TILE_SIZE/24);const px=0,py=0;ctx.fillStyle='#1a1025';ctx.fillRect(px-2,py-2,28,28);ctx.fillStyle='#352040';ctx.fillRect(px+1,py+4,22,18);ctx.fillStyle='#a040d0';ctx.fillRect(px+11,py-2,2,8);ctx.fillRect(px+9,py-1,6,2);ctx.fillStyle='#7fb0d0';ctx.fillRect(px+5,py+8,5,5);ctx.fillRect(px+14,py+8,5,5);ctx.fillStyle='#5a3a30';ctx.fillRect(px+10,py+15,4,7);ctx.fillStyle='#e0c050';ctx.fillRect(px+9,py+5,6,1);ctx.restore()}
 function drawHordesOnMap(){
@@ -600,7 +648,8 @@ function drawQuestMark(x,y,type){const c=type==='main'?'#e08020':type==='progres
 function getNpcQuestMark(npc){if(npc.id==='chen'){if(G.flags.introDone)return null;return 'main'}if(npc.id==='bertrand'){if(G.quests.q_bertrand?.completed)return null;if(G.quests.q_bertrand?.active&&G.inv.food>=2)return 'progress';if(G.quests.q_bertrand?.active)return null;return 'side'}if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq||jq.objDone?.find_formula)return null;if(jq.active)return 'main';return null}if(npc.id==='marc'){if(G.quests.q_mortimer?.completed)return null;if(G.quests.q_mortimer?.active&&!G.quests.q_mortimer.objDone.talk_marc)return 'progress';if(G.quests.q_mortimer?.active)return null;return 'side'}return null}
 function drawMap(){const z=getZone();canvas.width=z.width*TILE_SIZE;canvas.height=z.height*TILE_SIZE;ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);for(let y=0;y<z.height;y++){for(let x=0;x<z.width;x++){const ch=z.map[y][x],t=TILES[ch];if(!t)continue;ctx.fillStyle=t.c1;ctx.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);ctx.fillStyle=t.c2;drawTileDetail(ch,x,y)}}
 const lk=G.zone;if(G.looted[lk]){for(const k of Object.keys(G.looted[lk])){const[x,y]=k.split(',').map(Number);ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);ctx.fillStyle='#5a5a55';ctx.fillRect(x*TILE_SIZE+9,y*TILE_SIZE+9,6,1);ctx.fillRect(x*TILE_SIZE+9,y*TILE_SIZE+12,6,1)}}
-if(G.zone==='bourg_palette'){drawHouseSpecial(3,6);drawLabSpecial(9,2);if(!G.flags.motherSaved)drawSprite(ctx,'mother_zombie',3*TILE_SIZE,6*TILE_SIZE,2)}
+if(G.zone==='bourg_palette'){drawHouseSpecial(3,6);drawHouseSpecial(8,6);drawLabSpecial(9,2);if(!G.flags.motherSaved)drawSprite(ctx,'mother_zombie',3*TILE_SIZE,6*TILE_SIZE,2)}
+if(G.zone==='h_player'&&!G.flags.motherSaved){drawSprite(ctx,'mother_zombie',2*TILE_SIZE,2*TILE_SIZE,2)}
 const npcs=G.npcs[G.zone]||[];for(const n of npcs){if(!n.visible)continue;drawSprite(ctx,n.sprite,n.x*TILE_SIZE,n.y*TILE_SIZE,2);const qm=getNpcQuestMark(n);if(qm)drawQuestMark(n.x*TILE_SIZE+16,n.y*TILE_SIZE-10,qm)}
 drawHordesOnMap();
 const ps=G.player.gender==='girl'?'player_girl':'player_boy';drawSprite(ctx,ps,G.player.x*TILE_SIZE,G.player.y*TILE_SIZE,2);ctx.strokeStyle='rgba(208,64,64,0.6)';ctx.lineWidth=1;ctx.strokeRect(G.player.x*TILE_SIZE+0.5,G.player.y*TILE_SIZE+0.5,TILE_SIZE-1,TILE_SIZE-1)}
@@ -614,10 +663,36 @@ function nextDialogLine(){if(dialogTyping){if(dialogFinishCurrent)dialogFinishCu
 function typeText(text,el){dialogTyping=true;el.textContent='';let i=0;const iv=setInterval(()=>{el.textContent=text.substring(0,++i);if(i>=text.length){clearInterval(iv);dialogTyping=false;dialogFinishCurrent=null}},22);dialogFinishCurrent=()=>{clearInterval(iv);el.textContent=text;dialogTyping=false;dialogFinishCurrent=null}}
 function closeDialog(){$('dialog-box').classList.remove('show');G.mode='exploring';const cb=dialogCallback;dialogCallback=null;if(cb)cb();renderControls()}
 $('dialog-box').addEventListener('click',nextDialogLine);
+function handleHouseDoor(nx,ny){
+  const zone=getZone();const key=nx+','+ny;const house=zone.houses&&zone.houses[key];
+  if(!house){logMsg(t('log.lab_barricaded'),'log-line');return}
+  if(house.id==='h_bourg_player'&&!G.flags.introDone){logMsg(t('log.locked_house'),'log-bad');showToast(t('toast.mom'));return}
+  G.player.prevZone=G.zone;G.player.prevX=G.player.x;G.player.prevY=G.player.y;
+  if(!G.houses[house.id])G.houses[house.id]={cleared:false,lootTaken:{}};
+  const interior=ZONES[house.zone];if(!interior)return;
+  G.zone=house.zone;G.player.x=interior.entry[0];G.player.y=interior.entry[1];
+  G.hordeChase=null;updateHordeAlert();
+  logMsg(t(house.zone==='h_lab'||house.zone.includes('lab')?'house.lab_enter':'house.enter'),'log-line');
+  if(house.zone==='h_chen_lab')setTimeout(()=>{const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:t('chen_lab.notes1')},{speaker:G.player.name,portrait:ps,text:t('chen_lab.notes2')}])},300);
+  if(house.id==='h_cin_lab')setTimeout(()=>{const ps=G.player.gender==='girl'?'player_girl':'player_boy';showDialog([{speaker:G.player.name,portrait:ps,text:t('cinnabar_lab.synth')}],()=>{G.inv.vaccine+=5;logMsg(t('cinnabar_lab.done'),'log-good');showToast(t('cinnabar_lab.done'));refresh()})},300);
+  drawMap();refresh();renderControls();autoSave()}
+function handleHouseExit(){
+  if(!G.player.prevZone){G.zone='bourg_palette';G.player.x=5;G.player.y=1;logMsg(t('house.exit'),'log-line');drawMap();refresh();renderControls();return}
+  G.zone=G.player.prevZone;G.player.x=G.player.prevX;G.player.y=G.player.prevY;
+  G.player.prevZone=null;logMsg(t('house.exit'),'log-line');drawMap();refresh();renderControls();autoSave()}
+function handleBed(){
+  const houseId=getHouseId();
+  if(G.zone!=='h_player'&&houseId&&G.houses[houseId]&&!G.houses[houseId].cleared){logMsg(t('house.sleep_no_clear'),'log-bad');return}
+  const hpG=Math.min(G.player.mhp-G.player.hp,20),hgG=Math.min(G.player.mhunger-G.player.hunger,30);
+  G.player.hp+=hpG;G.player.hunger+=hgG;G.day++;
+  logMsg(t('house.sleep',{hp:hpG,hg:hgG}),'log-good');refresh();
+  if(G.zone==='h_player'&&!G.flags.motherSaved){const ps=G.player.gender==='girl'?'player_girl':'player_boy';setTimeout(()=>showDialog([{speaker:G.player.name,portrait:ps,text:t('mom.bedside1')},{speaker:G.player.name,portrait:ps,text:t('mom.bedside2')}]),200)}
+  autoSave()}
+function getHouseId(){const z=ZONES[G.zone];if(!z)return null;for(const[k,v] of Object.entries(G.player.prevZone?ZONES[G.player.prevZone]?.houses||{}:{})){if(v.zone===G.zone)return v.id}return null}
 function updateHordeAlert(){const el=$('horde-alert');if(!el)return;const chase=G.hordeChase;const active=chase&&chase.zoneId===G.zone&&chase.hideTurnsLeft===0;el.style.display=active?'block':'none';if(active){const h=(G.hordes[G.zone]||[]).find(h=>h.id===chase.hordeId);el.className=h&&h.enraged?'enraged':''}}
 function triggerHordeCombat(h){h.defeated=true;G.hordeChase=null;updateHordeAlert();logMsg(t('horde.caught'),'log-bad');const zone=getZone();const pool=zone.encounters&&zone.encounters.length?zone.encounters:['z_rattata'];const zk=pool[Math.floor(Math.random()*pool.length)];const zd=ZOMBIES[zk];if(!zd)return;const e={key:zk,name:t('horde.enemy',{name:zd.name}),type:zd.type,mhp:Math.floor(zd.mhp*1.2),hp:0,atk:Math.floor(zd.atk*1.1),sprite:zd.sprite,isZombie:true,base:zd.base};e.hp=e.mhp;startCombat(e)}
 function updateHordes(px,py){if(!G.hordes)return;const hordes=G.hordes[G.zone]||[];const chase=G.hordeChase;if(chase&&chase.zoneId===G.zone){const h=hordes.find(h=>h.id===chase.hordeId&&!h.defeated);if(!h){G.hordeChase=null;updateHordeAlert();return}if(chase.hideTurnsLeft>0){chase.hideTurnsLeft--;if(chase.hideTurnsLeft===0){logMsg(t('horde.found_again'),'log-bad');showToast(t('horde.found_again'))}updateHordeAlert();return}if(!h.enraged&&Math.random()<0.2)h.enraged=true;const steps=h.enraged&&Math.random()<0.4?2:1;for(let s=0;s<steps;s++){const dx=px-h.x,dy=py-h.y;if(dx===0&&dy===0)break;if(Math.abs(dx)>=Math.abs(dy)){h.x+=dx>0?1:-1}else{h.y+=dy>0?1:-1}}if(h.x===px&&h.y===py){triggerHordeCombat(h);return}updateHordeAlert();return}let closest=null,closestDist=999;for(const h of hordes){if(h.defeated)continue;const dist=Math.abs(px-h.x)+Math.abs(py-h.y);if(dist<=5&&dist<closestDist){closest=h;closestDist=dist}}if(closest){G.hordeChase={hordeId:closest.id,zoneId:G.zone,hideTurnsLeft:0};logMsg(t('horde.detected'),'log-bad');showToast(t('horde.detected'));updateHordeAlert()}}
-function move(dx,dy){if(G.mode!=='exploring')return;const nx=G.player.x+dx,ny=G.player.y+dy,z=getZone();if(nx<0||nx>=z.width||ny<0||ny>=z.height)return;const npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}const ch=z.map[ny][nx],ti=TILES[ch];if(!ti.pass){if(ti.interact==='home_locked'&&G.zone==='bourg_palette'){logMsg(t('log.locked_house'),'log-bad');showToast(t('toast.mom'))}else if(ti.interact==='lab'){logMsg(t('log.lab_barricaded'),'log-line')}else logMsg(t('log.no_pass',{name:t('tile.'+ti.tkey)}),'log-line');return}if(ch==='G'){handleGate(nx,ny);return}G.player.x=nx;G.player.y=ny;G.steps++;
+function move(dx,dy){if(G.mode!=='exploring')return;const nx=G.player.x+dx,ny=G.player.y+dy,z=getZone();if(nx<0||nx>=z.width||ny<0||ny>=z.height)return;const npcs=G.npcs[G.zone]||[],npc=npcs.find(n=>n.visible&&n.x===nx&&n.y===ny);if(npc){interactNPC(npc);return}const ch=z.map[ny][nx],ti=TILES[ch];if(!ti.pass){if(ch==='h'||ch==='L'){handleHouseDoor(nx,ny);return}if(ch==='s'||ch==='S'){G.looted[G.zone]=G.looted[G.zone]||{};const lk2=nx+','+ny;if(!G.looted[G.zone][lk2]){tryLoot(ti.loot||'house',lk2)}else logMsg(t('house.shelf_empty'),'log-line');return}logMsg(t('log.no_pass',{name:t('tile.'+ti.tkey)}),'log-line');return}if(ch==='G'){handleGate(nx,ny);return}G.player.x=nx;G.player.y=ny;G.steps++;if(ch==='d'){handleHouseExit();return}if(ch==='b'){handleBed();return}
 if(G.steps%3===0){G.player.hunger=Math.max(0,G.player.hunger-1);if(G.player.hunger===0){G.player.hp=Math.max(0,G.player.hp-2);logMsg(t('log.hungry'),'log-bad');if(G.player.hp<=0){gameOver(t('gameover.reason.starved'));return}}}
 if(G.steps%30===0){G.day++;logMsg(t('log.day',{d:G.day}),'log-event')}drawMap();refresh();const lk=G.zone;G.looted[lk]=G.looted[lk]||{};const lk2=nx+','+ny;if(ti.loot&&!G.looted[lk][lk2]){if(Math.random()<0.65){tryLoot(ti.loot,lk2);autoSave();return}}if(G.hordeChase&&G.hordeChase.zoneId===G.zone&&G.hordeChase.hideTurnsLeft===0&&ch==='F'){G.hordeChase.hideTurnsLeft=3;logMsg(t('horde.hidden'),'log-event');showToast(t('horde.hidden'));updateHordeAlert();drawMap();refresh();renderControls();autoSave();return}updateHordes(nx,ny);if(G.mode!=='exploring')return;if(G.flags.introDone&&Math.random()<ti.enc){triggerEncounter();return}renderControls();autoSave()}
 function handleGate(nx,ny){if(!G.flags.introDone){logMsg(t('log.no_chen'),'log-event');showToast(t('toast.chen_first'));return}const zone=getZone(),gateKey=nx+','+ny,gate=zone.gates&&zone.gates[gateKey];if(!gate)return;const prev=G.zone;G.zone=gate.zone;G.player.x=gate.x;G.player.y=gate.y;
@@ -625,7 +700,7 @@ if(prev==='bourg_palette'){completeObjective('q_journey','leave_palette');logMsg
 else if(G.zone==='jadielle'&&G.quests.q_journey&&!G.quests.q_journey.objDone.reach_lab){completeObjective('q_journey','reach_lab');logMsg(t('log.reach_jadielle'),'log-event')}
 else{logMsg(t('log.enter_zone',{zone:t('zone.'+G.zone)}),'log-event')}
 if(!G.npcs[G.zone])G.npcs[G.zone]=[];G.hordeChase=null;updateHordeAlert();drawMap();refresh();renderControls();autoSave()}
-function tryLoot(type,key){G.looted[G.zone][key]=1;let item,qty;if(type==='hospital'){const r=Math.random();if(r<0.5){item='medkit';qty=1+Math.floor(Math.random()*2)}else if(r<0.85){item='vaccine';qty=1}else{item='food';qty=1}}else if(type==='store'){item='food';qty=2+Math.floor(Math.random()*3)}else if(type==='city'){const r=Math.random();if(r<0.6){item='food';qty=1}else if(r<0.9){item='medkit';qty=1}else{item='vaccine';qty=1}}G.inv[item]=(G.inv[item]||0)+qty;logMsg(t('log.loot.'+item,{qty}),'log-good');refresh();drawMap();renderControls()}
+function tryLoot(type,key){G.looted[G.zone][key]=1;let item,qty;if(type==='hospital'){const r=Math.random();if(r<0.5){item='medkit';qty=1+Math.floor(Math.random()*2)}else if(r<0.85){item='vaccine';qty=1}else{item='food';qty=1}}else if(type==='store'){item='food';qty=2+Math.floor(Math.random()*3)}else if(type==='city'){const r=Math.random();if(r<0.6){item='food';qty=1}else if(r<0.9){item='medkit';qty=1}else{item='vaccine';qty=1}}else if(type==='house'){const r=Math.random();if(r<0.55){item='food';qty=1}else{item='medkit';qty=1}}else if(type==='lab_shelf'){const r=Math.random();if(r<0.45){item='vaccine';qty=1}else if(r<0.8){item='medkit';qty=1}else{item='food';qty=1}}if(!item){return}G.inv[item]=(G.inv[item]||0)+qty;logMsg(t('log.loot.'+item,{qty}),'log-good');refresh();drawMap();renderControls()}
 function interactNPC(npc){if(npc.id==='chen'){const n=G.player.name;if(!G.flags.introStarted){G.flags.introStarted=true;startQuest('q_awakening');showDialog([{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro1',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro2')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro3')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro4',{name:n})},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro5')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro6')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro7')},{speaker:'Pr. Chen',portrait:'chen',text:t('chen.intro8')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro9'),shake:true},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro10')},{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.intro11',{name:n})}],()=>{completeObjective('q_awakening','talk_chen');showStarterSelect()})}else if(!G.flags.introDone){showDialog([{speaker:'Pr. Chen',portrait:'chen_zombie',text:t('chen.remind',{name:n}),shake:true}],()=>{if(G.team.length>0)startChenFight()})}}
 else if(npc.id==='bertrand'){if(!G.quests.q_bertrand){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.ask')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.deal')}],()=>startQuest('q_bertrand'))}else if(!G.quests.q_bertrand.completed&&G.inv.food>=2){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.thanks')},{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.trade')}],()=>{G.inv.food-=2;G.inv.vaccine+=3;completeObjective('q_bertrand','bring_food');refresh();drawMap()})}else if(!G.quests.q_bertrand.completed){showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.wait')}])}else{showDialog([{speaker:'Bertrand',portrait:'bertrand',text:t('bertrand.tip')}])}}
 else if(npc.id==='sophie'){const jq=G.quests.q_journey;if(!jq){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.notstarted')}])}else if(!jq.objDone.find_formula){showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula1')},{speaker:'Sophie',portrait:'bertrand',text:t('sophie.formula2')}],()=>completeObjective('q_journey','find_formula'))}else{showDialog([{speaker:'Sophie',portrait:'bertrand',text:t('sophie.after')}])}}
@@ -670,7 +745,7 @@ const SAVE_KEY='pokedead_save';
 function autoSave(){if(!G.player.name)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify(G))}catch(e){}}
 function hasContinue(){try{return localStorage.getItem(SAVE_KEY)!==null}catch(e){return false}}
 function loadFromLS(){try{return JSON.parse(localStorage.getItem(SAVE_KEY))}catch(e){return null}}
-function applySaveData(d){Object.keys(G).forEach(k=>delete G[k]);Object.assign(G,d);if(!G.npcs||!G.npcs.bourg_palette)initNPCs();if(!G.npcs.jadielle)G.npcs.jadielle=[{id:'sophie',x:2,y:3,sprite:'bertrand',visible:true}];if(!G.npcs.lavandia)G.npcs.lavandia=[{id:'marc',x:2,y:4,sprite:'bertrand',visible:true}];['route_1','route_2','argenta','mt_moon','route_3','azuria','route_4','route_8','celadopole','route_7','safrania','route_21','cinnabar'].forEach(z=>{if(!G.npcs[z])G.npcs[z]=[]});if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1}if(!ZONES[G.zone])G.zone='bourg_palette';if(!G.hordes)initHordes();if(!G.hordeChase&&G.hordeChase!==null)G.hordeChase=null;if(G.flags.introDone){const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false}}
+function applySaveData(d){Object.keys(G).forEach(k=>delete G[k]);Object.assign(G,d);if(!G.npcs||!G.npcs.bourg_palette)initNPCs();if(!G.npcs.jadielle)G.npcs.jadielle=[{id:'sophie',x:2,y:3,sprite:'bertrand',visible:true}];if(!G.npcs.lavandia)G.npcs.lavandia=[{id:'marc',x:2,y:4,sprite:'bertrand',visible:true}];['route_1','route_2','argenta','mt_moon','route_3','azuria','route_4','route_8','celadopole','route_7','safrania','route_21','cinnabar'].forEach(z=>{if(!G.npcs[z])G.npcs[z]=[]});if(G.zone==='kanto'){G.zone='bourg_palette';G.player.x=5;G.player.y=1}if(!ZONES[G.zone])G.zone='bourg_palette';if(!G.houses)G.houses={};if(!G.player.prevZone&&G.player.prevZone!==null)G.player.prevZone=null;if(!G.hordes)initHordes();if(!G.hordeChase&&G.hordeChase!==null)G.hordeChase=null;if(G.flags.introDone){const c=G.npcs.bourg_palette.find(n=>n.id==='chen');if(c)c.visible=false}}
 window.exportSave=function(){if(!G.player.name)return;const blob=new Blob([JSON.stringify(G)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokedead_'+G.player.name+'_day'+G.day+'.save';a.click();URL.revokeObjectURL(url);showToast(t('toast.save_done'));closeOverlay()};
 function bootLauncher(){if(hasContinue())$('btn-continue').disabled=false;renderLangUI();setTimeout(()=>{const cb=$('cc-boy').querySelector('canvas'),cg=$('cc-girl').querySelector('canvas');if(cb){const c=cb.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_boy',8,8,4)}if(cg){const c=cg.getContext('2d');c.imageSmoothingEnabled=false;c.fillStyle='#0a0a08';c.fillRect(0,0,80,80);drawSprite(c,'player_girl',8,8,4)}},50)}
 $('btn-new').onclick=()=>{$('launcher').style.display='none';$('char-creation').classList.add('show');$('cc-name').focus()};
