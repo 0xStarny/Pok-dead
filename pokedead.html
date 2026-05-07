@@ -369,7 +369,7 @@ const T_EN={
 'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%','horde.next':'Another zombie from the horde lunges at you!',
 'house.mom_locked':'The door is barricaded. Your mother is inside. You have to find a cure first.','house.mom_locked_short':'Barricaded. Mom is inside.',
 'house.enter':'You step inside carefully...','house.exit':'You step outside.','house.locked':'The door is locked.','house.stairs_up':'You climb the stairs...','house.stairs_down':'You head back down.',
-'house.sleep':'You rest for a few hours. (+%hp% HP, +%hg% hunger)','house.sleep_no_clear':'The house isn\'t safe yet!','house.danger.1':'Something moves in the shadows...','house.danger.2':'Two zombies lunge at you!','house.danger.3':'Three zombies! This place is crawling!','house.another':'Another zombie comes out of the shadows!','house.cleared':'The house is now safe.',
+'house.sleep':'You rest for a few hours. (+%hp% HP, +%hg% hunger)','house.sleep_no_clear':'The house isn\'t safe yet!','house.sleep_bites':'%n% Pokémon recovered from a bite during sleep.','house.danger.1':'Something moves in the shadows...','house.danger.2':'Two zombies lunge at you!','house.danger.3':'Three zombies! This place is crawling!','house.another':'Another zombie comes out of the shadows!','house.cleared':'The house is now safe.',
 'house.shelf_empty':'Nothing left to take.',
 'house.lab_enter':'You enter the laboratory...','house.lab_formula':'Research notes! Chen\'s vaccine formula... incomplete, but useful.',
 'house.lab_formula_taken':'You already took the notes.',
@@ -461,7 +461,7 @@ const T_FR={
 'horde.found_again':'La horde vous a retrouvé !','horde.enemy':'Horde — %name%','horde.next':'Un autre zombie de la horde se jette sur toi !',
 'house.mom_locked':'La porte est barricadée. Ta mère est à l\'intérieur. Trouve le remède d\'abord.','house.mom_locked_short':'Barricadée. Maman est dedans.',
 'house.enter':'Tu entres avec précaution...','house.exit':'Tu sors.','house.locked':'La porte est fermée à clé.','house.stairs_up':'Tu montes les escaliers...','house.stairs_down':'Tu redescends.',
-'house.sleep':'Tu dors quelques heures. (+%hp% PV, +%hg% faim)','house.sleep_no_clear':'La maison n\'est pas sécurisée !','house.danger.1':'Quelque chose bouge dans l\'ombre...','house.danger.2':'Deux zombies se jettent sur toi !','house.danger.3':'Trois zombies ! L\'endroit grouille !','house.another':'Un autre zombie sort de l\'ombre !','house.cleared':'La maison est sécurisée.',
+'house.sleep':'Tu dors quelques heures. (+%hp% PV, +%hg% faim)','house.sleep_no_clear':'La maison n\'est pas sécurisée !','house.sleep_bites':'%n% Pokémon récupère(nt) d\'une morsure pendant le sommeil.','house.danger.1':'Quelque chose bouge dans l\'ombre...','house.danger.2':'Deux zombies se jettent sur toi !','house.danger.3':'Trois zombies ! L\'endroit grouille !','house.another':'Un autre zombie sort de l\'ombre !','house.cleared':'La maison est sécurisée.',
 'house.shelf_empty':'Il n\'y a plus rien à prendre.',
 'house.lab_enter':'Tu entres dans le laboratoire...','house.lab_formula':'Des notes de recherche ! La formule du vaccin... incomplète, mais utile.',
 'house.lab_formula_taken':'Tu as déjà pris les notes.',
@@ -732,7 +732,7 @@ else if(ch==='H'){ctx.fillRect(px+4,py+4,16,16);ctx.fillStyle='#d04040';ctx.fill
 else if(ch==='L'){ctx.fillRect(px+4,py+8,16,12);ctx.fillStyle='#a040d0';ctx.fillRect(px+11,py+2,2,8);ctx.fillRect(px+9,py+12,6,4)}
 else if(ch==='X'){ctx.fillRect(px+3,py+5,18,14);ctx.fillStyle='#e0c050';ctx.fillRect(px+5,py+8,14,3)}
 else if(ch==='M'){ctx.beginPath();ctx.moveTo(px+2,py+22);ctx.lineTo(px+12,py+4);ctx.lineTo(px+22,py+22);ctx.fill()}
-else if(ch==='W'){ctx.fillRect(px+2,py+8,6,1);ctx.fillRect(px+12,py+14,8,1);ctx.fillRect(px+4,py+18,6,1)}
+else if(ch==='W'){const wave=Math.floor(Date.now()/600)%3;const ox=wave===1?1:wave===2?-1:0;ctx.fillRect(px+2+ox,py+5,6,1);ctx.fillRect(px+12-ox,py+10,8,1);ctx.fillRect(px+4+ox,py+15,6,1);ctx.fillRect(px+14-ox,py+19,6,1);ctx.fillStyle='#3a6090';ctx.fillRect(px+10,py+7,3,1);ctx.fillRect(px+18,py+12,3,1);ctx.fillRect(px+1,py+13,3,1);ctx.fillStyle='#5080c0';ctx.fillRect(px+8+ox,py+8,2,1);ctx.fillRect(px+16-ox,py+17,2,1)}
 else if(ch==='G'){ctx.fillStyle='#7fb069';ctx.fillRect(px+2,py+4,20,16);ctx.fillStyle='#0a0a08';ctx.fillRect(px+8,py+10,8,10);ctx.fillStyle='#fff';ctx.fillRect(px+11,py+6,2,2)}
 else if(ch==='f'){ctx.fillStyle='#2a1e0e';ctx.fillRect(px,py+11,24,1);ctx.fillRect(px+6,py,1,24);ctx.fillRect(px+18,py,1,24)}
 else if(ch==='d'){ctx.fillStyle='#6a5020';ctx.fillRect(px+4,py+2,16,20);ctx.fillStyle='#2a1a06';ctx.fillRect(px+10,py+10,4,8);ctx.fillStyle='#e0c050';ctx.fillRect(px+14,py+11,2,2)}
@@ -787,7 +787,7 @@ if(G.zone==='h_player'&&!G.flags.motherSaved){drawSprite(ctx,'mother_zombie',5*T
 if(G.zone==='h_chen_lab'&&G.flags.introDone){drawSprite(ctx,'chen_corpse',2*TILE_SIZE,2*TILE_SIZE,2)}
 const npcs=G.npcs[G.zone]||[];for(const n of npcs){if(!n.visible)continue;if(n.x<x0-1||n.x>=x1||n.y<y0-1||n.y>=y1)continue;drawSprite(ctx,n.sprite,n.x*TILE_SIZE,n.y*TILE_SIZE,2);const qm=getNpcQuestMark(n);if(qm)drawQuestMark(n.x*TILE_SIZE+16,n.y*TILE_SIZE-10,qm)}{const curHid=getHouseId();const curHs=curHid&&G.houses[curHid];if(curHs&&curHs.zombieNpcs){const pulse=0.55+Math.abs(Math.sin(Date.now()/300))*0.45;curHs.zombieNpcs.forEach(zn=>{if(zn.x<x0-1||zn.x>=x1||zn.y<y0-1||zn.y>=y1)return;drawSprite(ctx,'z_human',zn.x*TILE_SIZE,zn.y*TILE_SIZE,2);ctx.save();ctx.globalAlpha=pulse;ctx.strokeStyle='#d04040';ctx.lineWidth=1;ctx.strokeRect(zn.x*TILE_SIZE+0.5,zn.y*TILE_SIZE+0.5,TILE_SIZE-1,TILE_SIZE-1);ctx.restore()})}}
 drawHordesOnMap();
-const ps=G.player.gender==='girl'?'player_girl':'player_boy';drawSprite(ctx,ps,G.player.x*TILE_SIZE,G.player.y*TILE_SIZE,2);ctx.strokeStyle='rgba(208,64,64,0.6)';ctx.lineWidth=1;ctx.strokeRect(G.player.x*TILE_SIZE+0.5,G.player.y*TILE_SIZE+0.5,TILE_SIZE-1,TILE_SIZE-1);ctx.restore()}
+{ctx.save();ctx.fillStyle='rgba(0,0,0,0.4)';ctx.beginPath();ctx.ellipse(G.player.x*TILE_SIZE+TILE_SIZE/2,G.player.y*TILE_SIZE+TILE_SIZE-4,TILE_SIZE/3,3,0,0,Math.PI*2);ctx.fill();ctx.restore()}const ps=G.player.gender==='girl'?'player_girl':'player_boy';drawSprite(ctx,ps,G.player.x*TILE_SIZE,G.player.y*TILE_SIZE,2);ctx.strokeStyle='rgba(208,64,64,0.6)';ctx.lineWidth=1;ctx.strokeRect(G.player.x*TILE_SIZE+0.5,G.player.y*TILE_SIZE+0.5,TILE_SIZE-1,TILE_SIZE-1);ctx.restore()}
 function getBourgLabPos(){const z=ZONES.bourg_palette;if(!z||!z.houses)return{x:9,y:2};for(const[k,v] of Object.entries(z.houses))if(v.id==='h_bourg_lab'){const[x,y]=k.split(',').map(Number);return{x,y}}return{x:9,y:2}}
 function getBourgPlayerPos(){const z=ZONES.bourg_palette;if(!z||!z.houses)return{x:3,y:6};for(const[k,v] of Object.entries(z.houses))if(v.id==='h_bourg_player'){const[x,y]=k.split(',').map(Number);return{x,y}}return{x:3,y:6}}
 function refresh(){$('hp-fill').style.width=(G.player.hp/G.player.mhp)*100+'%';$('hp-text').textContent=G.player.hp+'/'+G.player.mhp;$('hg-fill').style.width=(G.player.hunger/G.player.mhunger)*100+'%';$('hg-text').textContent=G.player.hunger+'/'+G.player.mhunger;$('vc-text').textContent=G.inv.vaccine;$('dy-text').textContent=G.day;{const z=getZone();const tk='zone.'+G.zone;const tr=t(tk);$('zone-name').textContent=(tr!==tk?tr:(z.name||G.zone))}refreshQuests();renderTeamStrip()}
@@ -848,6 +848,8 @@ function handleBed(){
   if(houseId&&G.houses[houseId]&&!G.houses[houseId].cleared){logMsg(t('house.sleep_no_clear'),'log-bad');return}
   const hpG=Math.min(G.player.mhp-G.player.hp,20),hgG=Math.min(G.player.mhunger-G.player.hunger,30);
   G.player.hp+=hpG;G.player.hunger+=hgG;G.day++;
+  let bitesHealed=0;G.team.forEach(p=>{if(p.bites>0){p.bites=Math.max(0,p.bites-1);bitesHealed++}if(p.zombified&&p.bites<3)p.zombified=false;if(p.hp>0)p.hp=Math.min(p.mhp,p.hp+Math.floor(p.mhp*0.3));if(p.moves)p.moves.forEach(m=>{m.pp=Math.min(m.maxPp,m.pp+5)})});
+  if(bitesHealed>0)logMsg(t('house.sleep_bites',{n:bitesHealed}),'log-good');
   logMsg(t('house.sleep',{hp:hpG,hg:hgG}),'log-good');refresh();
   if(G.zone==='h_player'&&!G.flags.motherSaved){const ps=G.player.gender==='girl'?'player_girl':'player_boy';setTimeout(()=>showDialog([{speaker:G.player.name,portrait:ps,text:t('mom.bedside1')},{speaker:G.player.name,portrait:ps,text:t('mom.bedside2')}]),200)}
   autoSave()}
