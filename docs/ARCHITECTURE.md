@@ -50,6 +50,12 @@ pokedead.html
 | `M` | mountain | ❌ | blocked |
 | `W` | water | ❌ | blocked |
 | `G` | gate | ✅ | interact → `handleGate()` |
+| `J` | ledge | ❌ | jumpable south only (dy=1 hops 2 tiles) |
+| `p` | path | ✅ | enc=0.04, dirt path |
+| `n` | sand | ✅ | enc=0.06, beach/volcanic |
+| `l` | flowers | ✅ | enc=0.18, decorative |
+| `o` | boulder | ❌ | rock obstacle |
+| `i` | sign | ❌ | interact (planned) |
 
 ### Interior tiles (used in house/lab zone maps)
 
