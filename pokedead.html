@@ -112,8 +112,12 @@ button.warn{background:#3a2010;border-color:#8a5020;color:#e0a060}
 #quest-panel .qph{background:#1f1d18;padding:10px 14px;border-bottom:2px solid #3a382f;display:flex;align-items:center;gap:8px}
 #quest-panel .qph h3{font-size:16px;letter-spacing:2px;color:#d4d0c8}
 #quest-panel .qpl{padding:10px;overflow-y:auto;flex:1;min-height:240px}
-.quest-card{background:#1a1813;border-left:3px solid #e0c050;padding:10px 12px;margin-bottom:10px;border-radius:0 3px 3px 0}
-.quest-card.main{border-left-color:#e08020}
+.quest-card{background:linear-gradient(90deg,#1f1d18 0%,#15140f 100%);border-left:3px solid #e0c050;padding:10px 12px;margin-bottom:10px;border-radius:0 4px 4px 0;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.quest-card:hover{transform:translateX(2px);box-shadow:-2px 2px 6px rgba(0,0,0,.5)}
+.quest-card.main{border-left-color:#e08020;background:linear-gradient(90deg,#251a10 0%,#15140f 100%)}
+.quest-card .qprog{height:3px;background:#2a2823;border-radius:1px;margin:6px 0 4px;overflow:hidden}
+.quest-card .qprog>div{height:100%;background:#e0c050;transition:width .3s}
+.quest-card.main .qprog>div{background:#e08020}
 .quest-card .qt{font-size:14px;color:#d4d0c8;font-weight:bold;margin-bottom:5px;display:flex;align-items:center;gap:6px;letter-spacing:1px}
 .quest-card .qt .qicon{font-size:17px;font-weight:bold;color:#e0c050}
 .quest-card.main .qt .qicon{color:#e08020}
@@ -148,8 +152,10 @@ button.warn{background:#3a2010;border-color:#8a5020;color:#e0a060}
 @keyframes bshake{0%,100%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,-1px)}}
 .combat-stage{height:240px;background:linear-gradient(180deg,#1a1310 0%,#0a0808 70%,#000 100%);position:relative;border:1px solid #3a382f;margin-bottom:8px;overflow:hidden;border-radius:2px}
 .combat-stage canvas{position:absolute;background:transparent;image-rendering:pixelated}
-.cs-enemy{top:16px;right:48px}
-.cs-ally{bottom:16px;left:48px;transform:scaleX(-1)}
+.cs-enemy{top:16px;right:48px;animation:enemy-in .55s ease-out}
+.cs-ally{bottom:16px;left:48px;transform:scaleX(-1);animation:ally-in .55s ease-out .15s both}
+@keyframes enemy-in{0%{transform:translateX(140px) scale(.7);opacity:0}60%{transform:translateX(-8px) scale(1.05);opacity:1}100%{transform:translateX(0) scale(1);opacity:1}}
+@keyframes ally-in{0%{transform:translateX(-140px) scaleX(-1) scale(.7);opacity:0}60%{transform:translateX(8px) scaleX(-1) scale(1.05);opacity:1}100%{transform:translateX(0) scaleX(-1) scale(1);opacity:1}}
 .combat-stage.shake{animation:cshake .3s}
 .combat-stage.shake-heavy{animation:cshake-heavy .45s}
 .combat-stage.crit-flash::after{content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(255,220,80,.7) 0%,transparent 70%);animation:crit-fade .5s ease-out forwards;pointer-events:none;z-index:8}
@@ -207,7 +213,8 @@ button.warn{background:#3a2010;border-color:#8a5020;color:#e0a060}
 .event-choices button{padding:12px;font-size:13px;text-align:left;letter-spacing:0;text-transform:none}
 .tile-info{font-size:13px;color:#7a7868;text-align:center;padding:5px;background:#0a0a08;border-radius:2px;margin-bottom:8px}
 .tile-info .tname{color:#d4d0c8;font-weight:bold}
-#toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1f1d18;border:1px solid #c92a2a;padding:12px 24px;border-radius:3px;font-size:14px;color:#d4d0c8;z-index:2000;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5);max-width:90vw;text-align:center;letter-spacing:1px}
+#toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#2a1818 0%,#1a1410 100%);border:1px solid #c92a2a;border-left:3px solid #c92a2a;padding:12px 24px;border-radius:4px;font-size:14px;color:#d4d0c8;z-index:2000;display:none;box-shadow:0 6px 20px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.05);max-width:90vw;text-align:center;letter-spacing:1px;animation:toast-pop .35s ease-out}
+@keyframes toast-pop{0%{opacity:0;transform:translate(-50%,-12px)}100%{opacity:1;transform:translate(-50%,0)}}
 #toast.show{display:block;animation:toast-in .3s}
 @keyframes toast-in{0%{opacity:0;transform:translate(-50%,-10px)}100%{opacity:1;transform:translate(-50%,0)}}
 </style>
@@ -819,7 +826,7 @@ function renderTeamStrip(){const el=$('team-strip');if(!el)return;if(!G.team.len
 window.quickHeal=function(i){if(G.mode==='combat')return;const p=G.team[i];if(!p||p.hp>=p.mhp||G.inv.medkit<=0)return;G.inv.medkit--;const h=Math.min(p.mhp-p.hp,15);p.hp+=h;logMsg(t('log.pkm_heal',{name:p.name,hp:h}),'log-good');refresh();autoSave()};
 window.quickVaccinate=function(i){if(G.mode==='combat')return;const p=G.team[i];if(!p||!p.zombified||G.inv.vaccine<=0)return;G.inv.vaccine--;p.bites=0;p.zombified=false;logMsg(t('log.bite_cured',{name:p.name}),'log-good');refresh();autoSave()};
 window.setActive=function(i){if(G.mode==='combat')return;if(!G.team[i]||G.team[i].hp<=0)return;G.active=i;refresh();autoSave()};
-function refreshQuests(){const list=$('quest-list');const active=Object.keys(G.quests).filter(k=>G.quests[k].active&&!G.quests[k].completed);if(active.length===0){list.innerHTML='<div class="no-quests">'+t('qp.none')+'</div>';return}active.sort((a,b)=>(QUEST_DEFS[a].type==='main'?0:1)-(QUEST_DEFS[b].type==='main'?0:1));list.innerHTML=active.map(qid=>{const def=QUEST_DEFS[qid],s=G.quests[qid],cls=def.type==='main'?'main':'',ic=def.type==='main'?'!':'?';return `<div class="quest-card ${cls}"><div class="qt"><span class="qicon">${ic}</span>${qTitle(qid)}</div><div class="qd">${qDesc(qid)}</div>${def.objectives.map(oid=>{const d=s.objDone[oid];return `<div class="qobj ${d?'done':''}"><span style="width:10px;flex-shrink:0">${d?'✓':'○'}</span>${qObj(qid,oid)}</div>`}).join('')}</div>`}).join('')}
+function refreshQuests(){const list=$('quest-list');const active=Object.keys(G.quests).filter(k=>G.quests[k].active&&!G.quests[k].completed);if(active.length===0){list.innerHTML='<div class="no-quests">'+t('qp.none')+'</div>';return}active.sort((a,b)=>(QUEST_DEFS[a].type==='main'?0:1)-(QUEST_DEFS[b].type==='main'?0:1));list.innerHTML=active.map(qid=>{const def=QUEST_DEFS[qid],s=G.quests[qid],cls=def.type==='main'?'main':'',ic=def.type==='main'?'!':'?';const total=def.objectives.length;const done=def.objectives.filter(o=>s.objDone[o]).length;const pct=total?Math.round((done/total)*100):0;return `<div class="quest-card ${cls}"><div class="qt"><span class="qicon">${ic}</span>${qTitle(qid)}<span style="margin-left:auto;color:#7a7868;font-size:11px;font-weight:normal">${done}/${total}</span></div><div class="qprog"><div style="width:${pct}%"></div></div><div class="qd">${qDesc(qid)}</div>${def.objectives.map(oid=>{const d=s.objDone[oid];return `<div class="qobj ${d?'done':''}"><span style="width:10px;flex-shrink:0">${d?'✓':'○'}</span>${qObj(qid,oid)}</div>`}).join('')}</div>`}).join('')}
 function startQuest(qid){if(G.quests[qid])return;G.quests[qid]={active:true,completed:false,objDone:{}};refreshQuests();showToast(t('toast.new_quest',{title:qTitle(qid)}));logMsg('📜 '+t('toast.new_quest',{title:qTitle(qid)}),'log-event');autoSave()}
 function completeObjective(qid,oid){const q=G.quests[qid];if(!q||q.completed||q.objDone[oid])return;q.objDone[oid]=true;const def=QUEST_DEFS[qid],objTxt=qObj(qid,oid);showToast(t('toast.obj_done',{text:objTxt}));logMsg('✓ '+objTxt,'log-good');if(def.objectives.every(o=>q.objDone[o])){q.completed=true;questCelebrate(qTitle(qid));logMsg('🏆 '+t('toast.quest_done',{title:qTitle(qid)}),'log-event')}refreshQuests();autoSave()}
 let dialogQueue=[],dialogCallback=null,dialogTyping=false,dialogFinishCurrent=null;
